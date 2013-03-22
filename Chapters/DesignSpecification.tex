@@ -1,3 +1,33 @@
 \chapter{Design \& Specification}
 
-\section{Section Heading}
+\section{The Lispish language}
+
+\subsection{Grammar rules}
+
+let: (let [binding] (expression)) \\
+if: (if (test-form) true-form false-form) \\
+defn: (defn name [args*] (expression)) \\
+fn: (fn [arg] (expression)) \\
+cond: (cond (test-form) true-form (test-form2) true-form2) \\
+
+
+\subsection{Inference rules}
+
+\inference[let]{expr \ $$\Downarrow$$ \ v}
+{(let \ {[a \ (expr)]} \ (expr2)) \ $$\Downarrow$$ \ expr2 {[}a \ $$\mapsto$$ \ v{]} }
+
+\inference[if true]{a \ $$\Downarrow$$ \ true}
+{(if \ (a) \ b \ c) \ $$\Downarrow$$ \ b) }
+
+\inference[if false]{b \ $$\Downarrow$$ \ false}
+{(if \ (a) \ b \ c) \ $$\Downarrow$$ \ c) }
+
+\inference[cond]{a \ $$\Downarrow$$ \ false & c \ $$\Downarrow$$ \ true}
+{(cond \ (a) \ b \ (c) \ d) \ $$\Downarrow$$ \ c) }
+
+
+\inference[defn]{ {expr \ [x]} \ $$\Downarrow$$ \ v}
+{(defn \ name \ {[x]} \ (expr)) \ $$\Downarrow$$ \ name \ $$\mapsto$$ \ v }
+
+\inference[fn]{ {expr \ [x]} \ $$\Downarrow$$ \ v}
+{(fn \ {[args]}  \ (expr) \ $$\Downarrow$$ \ v }

@@ -1,4 +1,89 @@
 \chapter{Background}
 The background should set the project into context by motivating the subject matter and relating it to existing published work. The background will include a critical evaluation of the existing literature in the area in which your project work is based and should lead the reader to understand how your work is motivated by and related to existing work.
 
+This section provides a throghout background research of the domain of functional programming, Lisp and JavaScript that lead me to the rational behind my design decisions.
+
+\subsection{Functional programming}
+Functional programming is a programming paradigm that differs from imperative programming in a way that it focuses solely on evaluating functions, where one input always results in the same output for a given input (referential transparency). To make this abstraction possible, pure functional languages try to avoid using state and mutability, by ensuring that side effects that could introduce state changes are not possible thus guaranteeing referential transparency.
+
+An example of state is preserving results in variables for later access by other parts of the program. A side effect may result from many different operations such as variable assignments,input/output operations and anything that allows to parts of the program to access the same resource at the same time.
+
+Due to the increase of the demand for parallelisation, as more and more processing cores are added to modern CPUs it is therefore essential that the software we write can be parallelised easily and without the risk of errors that could be caused by race conditions or deadlocks - which are all caused by mutability.
+
+The notion of pure functions may sound very impractical for a general purpose programming language, therefore functional languages of practicioneers such as Clojure allow state, but lexicaly scoped to its own function (atoms), but they cannot be de-referenced or mutated by other part of the program, as each operation would essentially create its own copy of the value.
+
+The property of immutability is also preserved for data structures, as each time a structure is modified, a new copy of such structure is retained therefore leaving the old one in tact. This allows for much better parallelisation, as one part of the program may never modify the same data as the other part of the program.
+
+\subsection{Lisp}
+Lisp is amongst one of the worlds oldest programming languages, in fact most reliable sources specify that Lisp was the second programming language after Fortran. Lisp differs from other programming languages in its few original aspects, notably treating code as data, s-expressions, Polish notation (prefix) and lambda expressions.
+
+The exact expansion of the Lisp acronym is List Processing which has its practical reasons - Lisp source code is written as lists, formally called S-Expressions [reference here]
+
+To illustrate how a valid s-expression would look like compared to an equivalent C expression, here is an example:
+
+\begin{lstlisting}
+1 == (1 * 1)
+\end{lstlisting}
+in C is equivalent to
+
+\begin{lstlisting}
+(= 1 (* 1 1))
+\end{lstlisting}
+in Lisp's s-expression based prefix notation.
+
+
+\subsubsection{Compiling Lisp using a Lisp}
+There is a large advantage of using Lisp to compile Lisp.
+The nature of Lisp and it's s-expressions allows us to build efficient recursive descent parsers that can take the advantage of the already present operations in our Lisp language.
+For example, any s-expression can be essentially evaluated and type-checked using inbuit functions, such as "symbol?" (in the case of Clojure) or "list?".
+This allows us to take out some of the complexities that we can see when trying to implement a Lisp compiler using a non-lisp imperative language such as C, where essentially the input has to be broken down into its atomic form of tokens and each has to be checked whether it matches a pre-defined token in our grammar and even more complex problems, such as taking care of the garbage collection. These challenges are tackled by the target language compiler, when it is finally compiled to machine code on the target machine.
+
+Lisp languages are mostly compiled to C source code that can be then run on a variety of machines, as a C compiler ships with most of the moden systems.
+
+\subsection{JavaScript as a target language}
+JavaScript offers a great opportunity as a target language of our small Lisp compiler primarily due to two reasons - it's portability, extensibility and performance.
+
+\subsubsection{Extensibility}
+JavaScript is prototype based objected-oriented language that due to its great flexibility and support for lambda expressions can also be perceived as a functional language.
+
+\begin{lstlisting}
+// Attach event listener to the argument
+var assign-event-listener = function(x) {
+  x.addEventListener("load", function() { 
+  	alert("All done"); 
+   }, false)
+};
+\end{lstlisting}
+
+Above example illustrates a stored function that takes a window as an argument and attaches an event listener to it. The listener that takes two arguments, a string descripting the event - here "load" and the callback function - here an anonymous function that displays an alert "All done" that gets displayed after an event listener successfully attached to the window.
+To now show the similary between how the same expression could look like in Lisp, take for instance:
+
+\begin{lstlisting}
+(defn assign-event-listener [window]
+  "Attach event listener to the argument"
+  (window (addEventListener 
+  	   	  "load" 
+		  (fn [x] (alert "All done")))))
+\end{lstlisting}
+
+Both of the expressions make use of nested functions and thus take the advantage of the lambda calculus. This abstraction can be also one-to-one mapped when peforming the compilation from a Lisp to JavaScript and thus simplyfing the compiler.
+
+\subsubsection{JavaScript performance}
+The invention of the V8 Google JavaScript Engine made JavaScript stand out from other dynamic languages by making it faster than other dynamically types languages such as for e.g. Python [reference required].
+
+
+\subsubsection{Portability}
+JavaScript interpreters are present on majority of consumer devices and are present in all of the modern web browsers. It is the basis of Rich Internet Applications and is now not only present on the front end of the web browser, but also servers as a language of choice for back ends.
+Most notable examples include Microsoft's cloud platform Windows Azure that operates using JavaScript both on the front end and as well as the back end, making use of the Node.Js framework for producing highly asynchronous web applications. [reference required]
+
+\subsection{Existing Lisp to JS compilers}
+There already exists a number of similar projects, that each tries to solve the problem in a slightly different way, although there exists only one mature compilar that can actually generate an executable JavaScript code and it's called ClojureScript.
+
+\subsubsection{ClojureScript}
+ClojureScript is a Clojure to JavaScript compiler that can already generate code that can be executed in the browser and although there are examples of companies using ClojureScript for their production applications, it is difficult to operate as it requires to execute a chain of operations, including starting a JavaScript program before the Clojure code can be compiled.
+ClojureScript also takes the idea further and utilises Google Closure compiler to optimise the code to remove code that can be reduced, thus making it run faster, but this approach also sufers from the fact that the Closure optimising compiler very often breaks the JavaScript code that was compiled from Clojure.
+
+\subsubsection{clojurejs}
+Yet another implementation of the same concept as ClojureScript, although does not support tail recursion and lazy evaluation essentially making it a lot less appealing to the community.
+
 \section{Section Heading}
