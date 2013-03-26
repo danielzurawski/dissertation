@@ -1,9 +1,9 @@
 \chapter{Background}
 The background should set the project into context by motivating the subject matter and relating it to existing published work. The background will include a critical evaluation of the existing literature in the area in which your project work is based and should lead the reader to understand how your work is motivated by and related to existing work.
 
-This section provides a throghout background research of the domain of functional programming, Lisp and JavaScript that lead me to the rational behind my design decisions.
+This section provides a throghout background research of the domain of functional programming, Lisp and JavaScript that lead me to the rational behind Lispish design decisions.
 
-\subsection{Functional programming}
+\section{Functional programming}
 Functional programming is a programming paradigm that differs from imperative programming in a way that it focuses solely on evaluating functions, where one input always results in the same output for a given input (referential transparency). To make this abstraction possible, pure functional languages try to avoid using state and mutability, by ensuring that side effects that could introduce state changes are not possible thus guaranteeing referential transparency.
 
 An example of state is preserving results in variables for later access by other parts of the program. A side effect may result from many different operations such as variable assignments,input/output operations and anything that allows two parts of the program to access the same resource at the same time.
@@ -15,7 +15,7 @@ When state is absolutely necessary in order to improve the performance of an app
 
 The property of immutability is also preserved for data structures, as each time a data structure is modified, a new copy of such structure is retained therefore leaving the old one in tact. This allows for much better parallelisation, as one part of the program may never modify the same data as the other part of the program, which would lead to inconsistent state.
 
-\subsection{Lisp}
+\section{Lisp}
 Lisp is amongst one of the worlds oldest family of programming languages, that has developed several dialects since the original Lisp was published in 1958-1960 by John McCarthy. [citation here]
 Lisp languages differ from other programming languages in its few original concepts, notably treating code as data, s-expressions, parenthesized Polish prefix notation and lambda expressions.
 
@@ -34,7 +34,7 @@ in C is equivalent to
 in Lisp's s-expression based prefix notation.
 
 
-\subsubsection{Compiling Lispish using a dialect of Lisp}
+\subsection{Compiling Lispish using a dialect of Lisp}
 The decision to use Clojure to write a compiler for my Lisp language comes from the fact that there are large advantages of using Lisp to compile Lisp.
 The nature of Lisp and it's s-expressions allows us to build efficient recursive descent parsers that can take the advantage of the already present functions in our implementation language, Clojure.
 
@@ -46,7 +46,7 @@ For example, any s-expression can be essentially evaluated and type-checked usin
 Modern dialects of Lisp, such as Clojure, target the Java Virtual Machine making them very portable and pluggable into an existing Java applications.
 Other Lisp languages are very often compiled to another target language, such as C or JavaScript that can be then run on a variety of machines. 
 
-\subsection{JavaScript as a target language for the Lispish language}
+\section{JavaScript as a target language for the Lispish language}
 The rationale behind selecting JavaScript as the target language is the fact that JavaScript can be executed on almost all of the Internet enabled devices, as long as they have a web browser. Percentage of JS enabled devices as of date: [insert reference here].
 
 Our small dialect of Lisp (Lispish) language will allow generating pluggable JavaScript code. 
@@ -55,7 +55,7 @@ In theory our language could even be used as a Domain Specific Language (DSL) fo
 
 JavaScript offers a great opportunity as a target language for any high-level programming language primarily due to two reasons - it's portability and performance. 
 
-\subsubsection{Similarities}
+\subsection{Similarities}
 JavaScript is a prototype based, objected-oriented language that due to its great flexibility and full support for lambda expressions can also be classified as a functional language.
 
 \begin{lstlisting}
@@ -80,21 +80,24 @@ To now show the similary between how the same expression could look like in Lisp
 
 Both of the expressions make use of nested functions and thus take the advantage of the lambda calculus. This abstraction can be also one-to-one mapped when peforming the compilation from a Lisp to JavaScript and thus simplyfing the compiler.
 
-\subsubsection{JavaScript performance}
+\subsection{JavaScript performance}
 The invention of the V8 Google JavaScript Engine made JavaScript stand out from other dynamic languages by making it faster than other dynamically types languages such as for e.g. Python [reference required].
 
 Due to the fact that Lispish compiles to JavaScript, the generated code can be treated with various optimisation techniques, including the Google Closure compiler that minimises and optimises the code, by compiling the readable, yet verbose version of the JavaScript code, to a less readable but highly optimised JS code. 
 
-\subsubsection{Portability}
+\subsection{Portability}
 JavaScript interpreters are present on majority of consumer devices and are present in all of the modern web browsers. It is the basis of Rich Internet Applications and is now not only present on the front end of the web browser, but also servers as a language of choice for back ends.
 Most notable examples include Microsoft's cloud platform Windows Azure that operates using JavaScript both on the front end and as well as the back end, making use of the Node.Js framework for producing highly asynchronous web applications. [reference required]
 
-\subsection{Existing Lisp to JS compilers}
+\section{Existing Lisp to JS compilers}
 There already exists a number of similar projects, that each tries to solve the problem in a slightly different way, although there exists only one mature compilar that can actually generate an executable JavaScript code and it's called ClojureScript.
 
-\subsubsection{ClojureScript}
+\subsection{ClojureScript}
 ClojureScript is a Clojure to JavaScript compiler that can already generate code that can be executed in the browser and although there are examples of companies using ClojureScript for their production applications, it is difficult to operate as it requires to execute a chain of operations, including starting a JavaScript program before the Clojure code can be compiled.
 ClojureScript also takes the idea further and utilises Google Closure compiler to optimise the code to remove code that can be reduced, thus making it run faster, but this approach also sufers from the fact that the Closure optimising compiler very often breaks the JavaScript code that was compiled from Clojure.
 
-\subsubsection{clojurejs}
+\subsection{LiScript}
+FILL IN TEXT HERE
+
+\subsection{clojurejs}
 Yet another implementation of the same concept as ClojureScript, although does not support tail recursion and lazy evaluation essentially making it a lot less appealing to the community.
