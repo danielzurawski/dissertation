@@ -3,10 +3,12 @@
 % luke.day@kcl.ac.uk
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[11pt]{informatics-report}
+\usepackage{mathtools}
 \usepackage{color}
 \usepackage[square,sort,comma,numbers]{natbib}
 \usepackage{listings} %References
 \usepackage{semantic}
+\usepackage{fancyvrb}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Front Matter - project title, name, supervisor name and date
@@ -35,18 +37,15 @@
 \chapter{Introduction}
 "This is one of the most important components of the report. It should begin with a clear statement of what the project is about so that the nature and scope of the project can be understood by a lay reader. It should summarise everything that you set out to achieve, provide a clear summary of the project's background and relevance to other work, and give pointers to the remaining sections of the report, which will contain the bulk of the technical material"  .... \\
 Following the invention of high performance JavaScript compilers such as the Google V8 JavaScript Engine, raised the interest in creating programming language interpreters and compilers that target JavaScript. It enables applications written in other languages, very often high-level languages to be run on any modern web browser. \\
+ 
+The main motivation behind this project is to investigate how compilers and interpreters for functional languages work and how a translation from a source Lisp language to a target JavaScript language can be performed. The implementation language I am planning to use is Clojure. This project offers a good opportunity to deepen understanding of functional programming using Lisp and JavaScript and how both can be used to solve complex problems in Computer Science. 
 
-Lisp family of programming languages offers a simplistic and elegant, yet powerful syntax based on parenthesised lists and expressions written in the prefix notation (Polish notation), but they very often require a specific environemnt setup in order for them to run. 
-
-The main motivation behind this project is to investigate how compilers and interpreters for functional languages work and how a translation from a source Lisp language to a target JavaScript language can be performed. The implementation language I am planning to use is Clojure. This project offers a good opportunity to deepen understanding of functional programming and JavaScript and how both can be used to solve complex problems in Computer Science. 
-\\
-I will design a small Lisp based language called Lispish and I will investigate how such language can be translated to an executable JavaScript. The language will implement a subset of Clojure programming language, which is a modern dialect of Lisp running on the JVM. The compiler will also be implemented in Clojure.
-The end result of this project is going to be a small Lisp language (Lispish) and a compiler that can convert the given input string (Lispish program) to a pluggable, executable JavaScript code.
+I will design a small Lisp based language called Lispish and I will investigate how such language can be translated to an executable JavaScript. The language will implement a subset of Clojure programming language, which is a modern dialect of Lisp running on the JVM.
+As there already exists a number of similar projects that target JavaScript, I will investigate how each compares to my Lispish to JavaScript compiler
 
 \section{Report Structure}
 
 \include{Chapters/Background}
-\include{Chapters/Body}
 \include{Chapters/DesignSpecification}
 \include{Chapters/Implementation}
 \include{Chapters/ProfessionalIssues}

@@ -1,3 +1,18 @@
 \chapter{Implementation and Testing}
 
-\section{Section Heading}
+\section{Testing}
+In order to ensure that the compiler is naturally expanded and a sufficient amount of regression tests is performed whenever a new language construct is added, I have decided to use the Test Driven Development methodology. 
+
+\subsection{clojure.test API}
+The tool to support me in the task of TDD I used was the clojure.test API.
+clojure.test API [REFERENCE HERE] is a unit testing framework that provides a set of in-built forms, particularly the "is" macro that allows to perform boolean assertions on arbitrary expressions. 
+
+\begin{quote}
+\begin{verbatim}
+(deftest factorial-example
+  (is (= "function factorial(n) {if(n<2) { return 1 } else { return (n*factorial(((n-1)))) }}"
+         (lisp-to-js (defn factorial [n] (if (< n 2) 1 (* n (factorial (- n 1)))))))))
+\end{verbatim}
+\end{quote}
+
+.Although the compiler is not a very complexy system, it still 

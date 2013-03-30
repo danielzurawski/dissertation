@@ -1,33 +1,82 @@
 \chapter{Design \& Specification}
 
-\section{The Lispish language}
-
-\subsection{Grammar rules}
-
-let: (let [binding] (expression)) \\
-if: (if (test-form) true-form false-form) \\
-defn: (defn name [args*] (expression)) \\
-fn: (fn [arg] (expression)) \\
-cond: (cond (test-form) true-form (test-form2) true-form2) \\
+\section{Development methodology}
 
 
-\subsection{Inference rules}
 
-\inference[let]{expr \ $$\Downarrow$$ \ v}
-{(let \ {[a \ (expr)]} \ (expr2)) \ $$\Downarrow$$ \ expr2 {[}a \ $$\mapsto$$ \ v{]} }
+\subsection{TDD}
 
-\inference[if true]{a \ $$\Downarrow$$ \ true}
-{(if \ (a) \ b \ c) \ $$\Downarrow$$ \ b) }
+\section{Designing the Lispish language}
 
-\inference[if false]{b \ $$\Downarrow$$ \ false}
-{(if \ (a) \ b \ c) \ $$\Downarrow$$ \ c) }
+Lispish is a dynamically typed, functional language that implements a call-by-value strategy just as its superset Clojure.
 
-\inference[cond]{a \ $$\Downarrow$$ \ false & c \ $$\Downarrow$$ \ true}
-{(cond \ (a) \ b \ (c) \ d) \ $$\Downarrow$$ \ c) }
+The formal description of Lispish behaviour will be described using transition systems.
+
+\subsection{Syntax of Lispish}
+
+term $\Coloneqq \ () \ \vert \ n \ \vert \ b \ \vert \ (bop \ t1 \ t2) \ \vert \ (op \ t1 \ t2) \\ $
+
+where \\
+
+op (arithmetic operator) $\Coloneqq \ + \ \vert \ - \ \vert \ * \ \vert \ /$
+\\
+bop (binary operator) $\Coloneqq \ > \vert < \vert =$
+\\
+n $\Coloneqq integer $
+\\
+() $\Coloneqq list $
+\\
+b $\Coloneqq boolean $
+\\ 
+x $\Coloneqq locally scoped variable $
+
+special forms 
+$\Coloneqq \ (let \ [binding] \ (expression)) \\
+| \	(if \ (t0) \ t1 \ t2) \\
+| \	(defn \ name \ [args*] \ (expression)) \\
+| \	(fn \ [arg] \ (expression)) \\ 
+| \	(cond \ (t0) \ t2 \ (t1) \ t3) \\
+$
+
+\subsection{Evaluation relations (Big-Step Semantics)}
+
+\[ 
+\inference[integer]{}
+{n \ $$\Downarrow$$ \ n}
+\]
+\[ 
+\inference[list]{}
+{(n) \ $$\Downarrow$$ \ n}
+\]
+\[
+\inference[let]{t_0 \ $$\Downarrow$$ \ v}
+{(\text{let } \ {[x \ (t_0)]} \ (t_1)) \ $$\Downarrow$$ \ t_1 {[}x \ $$\mapsto$$ \ v{]} }
+\]
+\[
+\inference[if true]{{t_0} \ $$\Downarrow$$ \ \textsc{True} & t_1 \ $$\Downarrow$$ \ v}
+{(if \ (t_0) \ t_1 \ t_2) \ $$\Downarrow$$ \ v) }
+\]
+\[
+\inference[if false]{t_0 \ $$\Downarrow$$ \ \textsc{False} & t2 \ $$\Downarrow$$ \ v}
+{(if \ (t_0) \ t_1 \ t_2) \ $$\Downarrow$$ \ v) }
+\]
+\[
+\inference[cond]{t_0 \ $$\Downarrow$$ \ \textsc{False} & t_1 \ $$\Downarrow$$ \ \textsc{True} & t_3 \ $$\Downarrow$$ \ v}
+{(cond \ (t_0) \ t_2 \ (t_1) \ t_3) \ $$\Downarrow$$ \ v) }
+\]
+\[
+\inference[defn]{ {t_0 \ [x]} \ $$\Downarrow$$ \ v}
+{(defn \ s \ {[x]} \ (t_0)) \ $$\Downarrow$$ \ s \ $$\mapsto$$ \ v }
+\]
+\[
+\inference[fn]{ {t_0 \ [x]} \ $$\Downarrow$$ \ v}
+{(fn \ {[x]}  \ (t_0) \ $$\Downarrow$$ \ v }
+\]
 
 
-\inference[defn]{ {expr \ [x]} \ $$\Downarrow$$ \ v}
-{(defn \ name \ {[x]} \ (expr)) \ $$\Downarrow$$ \ name \ $$\mapsto$$ \ v }
 
-\inference[fn]{ {expr \ [x]} \ $$\Downarrow$$ \ v}
-{(fn \ {[args]}  \ (expr) \ $$\Downarrow$$ \ v }
+\section{Compiling Lispish to JavaScript}
+
+\subsection{Compilation pipeline (use case/state machines?)}
+Macros, treating code as data etc.
+
