@@ -1,39 +1,43 @@
-\contentsline {chapter}{\numberline {1}Introduction}{2}
-\contentsline {section}{\numberline {1.1}Report Structure}{3}
-\contentsline {chapter}{\numberline {2}Background}{4}
-\contentsline {section}{\numberline {2.1}Bridging the gap between functional and imperative programming}{4}
-\contentsline {subsection}{\numberline {2.1.1}Imperative programming}{4}
-\contentsline {subsection}{\numberline {2.1.2}Functional programming}{4}
-\contentsline {section}{\numberline {2.2}Programming languages involved}{5}
-\contentsline {subsection}{\numberline {2.2.1}Clojure}{6}
-\contentsline {subsection}{\numberline {2.2.2}JavaScript}{6}
-\contentsline {subsubsection}{JavaScript performance}{6}
-\contentsline {subsubsection}{Portability}{7}
-\contentsline {subsection}{\numberline {2.2.3}Compiling Lispish using a dialect of Lisp}{7}
-\contentsline {section}{\numberline {2.3}JavaScript as a target language for the Lispish language}{8}
-\contentsline {subsection}{\numberline {2.3.1}Similarities}{8}
-\contentsline {section}{\numberline {2.4}Existing Lisp to JS compilers}{9}
-\contentsline {subsection}{\numberline {2.4.1}ClojureScript}{9}
-\contentsline {subsection}{\numberline {2.4.2}LiScript}{10}
-\contentsline {subsection}{\numberline {2.4.3}clojurejs}{10}
-\contentsline {chapter}{\numberline {3}Design \& Specification}{11}
-\contentsline {section}{\numberline {3.1}Designing the Lispish language}{11}
-\contentsline {subsection}{\numberline {3.1.1}Syntax of Lispish}{11}
-\contentsline {subsection}{\numberline {3.1.2}Evaluation relations (Big-Step Semantics)}{12}
-\contentsline {section}{\numberline {3.2}Compiling Lispish to JavaScript}{12}
-\contentsline {subsection}{\numberline {3.2.1}Compilation pipeline (use case/state machines?)}{12}
-\contentsline {chapter}{\numberline {4}Implementation and Testing}{13}
-\contentsline {section}{\numberline {4.1}Testing}{13}
-\contentsline {subsection}{\numberline {4.1.1}clojure.test API}{13}
-\contentsline {chapter}{\numberline {5}Professional Issues}{14}
-\contentsline {section}{\numberline {5.1}Section Heading}{14}
-\contentsline {chapter}{\numberline {6}Results/Evaluation}{15}
-\contentsline {section}{\numberline {6.1}Section Heading}{15}
-\contentsline {chapter}{\numberline {7}Conclusion and Future Work}{16}
-\contentsline {chapter}{\numberline {A}Extra Information}{17}
-\contentsline {section}{\numberline {A.1}Test coverage of the naive Clojure recursive-descent-parser implementation}{17}
-\contentsline {section}{Bibliography}{17}
-\contentsline {chapter}{\numberline {B}User Guide}{20}
-\contentsline {section}{\numberline {B.1}Instructions}{20}
-\contentsline {chapter}{\numberline {C}Source Code}{21}
-\contentsline {section}{\numberline {C.1}Instructions}{21}
+\contentsline {chapter}{\numberline {1}Introduction}{3}
+\contentsline {section}{\numberline {1.1}Report Structure}{4}
+\contentsline {chapter}{\numberline {2}Background}{6}
+\contentsline {section}{\numberline {2.1}Bridging the gap between functional and imperative paradigm}{6}
+\contentsline {subsection}{\numberline {2.1.1}Functional and imperative paradigms comparison}{6}
+\contentsline {section}{\numberline {2.2}Programming languages involved}{7}
+\contentsline {subsection}{\numberline {2.2.1}Clojure}{8}
+\contentsline {subsection}{\numberline {2.2.2}JavaScript}{8}
+\contentsline {subsubsection}{JavaScript performance}{9}
+\contentsline {subsubsection}{Portability}{9}
+\contentsline {subsection}{\numberline {2.2.3}Compiling Lispish using a dialect of Lisp}{9}
+\contentsline {section}{\numberline {2.3}JavaScript as a target language for the Lispish language}{10}
+\contentsline {subsection}{\numberline {2.3.1}Similarities}{11}
+\contentsline {section}{\numberline {2.4}Existing Lisp to JS compilers}{12}
+\contentsline {subsection}{\numberline {2.4.1}ClojureScript}{12}
+\contentsline {subsection}{\numberline {2.4.2}LiScript}{12}
+\contentsline {subsection}{\numberline {2.4.3}clojurejs}{12}
+\contentsline {chapter}{\numberline {3}Design \& Specification}{13}
+\contentsline {section}{\numberline {3.1}Designing the Lispish language}{13}
+\contentsline {subsection}{\numberline {3.1.1}Grammar of Lispish}{13}
+\contentsline {subsection}{\numberline {3.1.2}Evaluation relations (Big-Step Semantics)}{14}
+\contentsline {section}{\numberline {3.2}Development methodology}{15}
+\contentsline {subsection}{\numberline {3.2.1}Unit tests}{15}
+\contentsline {section}{\numberline {3.3}Compiling Lispish to JavaScript (Compiler design??)}{15}
+\contentsline {subsection}{\numberline {3.3.1}Compilation pipeline (use case/state machines?)}{15}
+\contentsline {chapter}{\numberline {4}Implementation and Testing}{18}
+\contentsline {section}{\numberline {4.1}Translator}{18}
+\contentsline {subsection}{\numberline {4.1.1}Recursive Expansion}{18}
+\contentsline {subsection}{\numberline {4.1.2}Forms with multiple arity (MapReduce)}{18}
+\contentsline {section}{\numberline {4.2}Testing}{19}
+\contentsline {subsection}{\numberline {4.2.1}clojure.test API}{19}
+\contentsline {chapter}{\numberline {5}Professional Issues}{21}
+\contentsline {section}{\numberline {5.1}Section Heading}{21}
+\contentsline {chapter}{\numberline {6}Results/Evaluation}{22}
+\contentsline {section}{\numberline {6.1}Section Heading}{22}
+\contentsline {chapter}{\numberline {7}Conclusion and Future Work}{23}
+\contentsline {chapter}{\numberline {A}Extra Information}{24}
+\contentsline {section}{\numberline {A.1}Test coverage of the naive Clojure recursive-descent-parser implementation}{24}
+\contentsline {section}{Bibliography}{24}
+\contentsline {chapter}{\numberline {B}User Guide}{27}
+\contentsline {section}{\numberline {B.1}Instructions}{27}
+\contentsline {chapter}{\numberline {C}Source Code}{28}
+\contentsline {section}{\numberline {C.1}Instructions}{28}

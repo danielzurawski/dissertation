@@ -4,7 +4,7 @@
 \section{Test coverage of the naive Clojure recursive-descent-parser implementation}
 The appendices contain information that is peripheral to the main body of the report. Information typically included in the Appendix are things like tables, proofs, graphs, test cases or any other material that would break up the theme of the text if it appeared in the body of the report. It is necessary to include your source code listings in an appendix that is separate from the body of your written report (see the information on Program Listings below).
 
-\begin{lstlisting}
+\begin{verbatim}
 (ns lispish.test.core
   (:use [lispish.core])
   (:use [clojure.test]))
@@ -51,4 +51,4 @@ The appendices contain information that is peripheral to the main body of the re
                              (= n 0) (ackermann (- m 1) 1)
                              :else (ackermann (- m 1) (ackermann m (- n 1)))))))))
 
-\end{lstlisting}
+\end{verbatim}

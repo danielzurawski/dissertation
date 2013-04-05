@@ -5,37 +5,41 @@ This section provides a throghout background research of the domain of functiona
 
 \section{Bridging the gap between functional and imperative paradigm}
 
-\subsection{Functional and imperative paradigm comparison}
-Functional programming is a programming paradigm that differs from imperative programming in a way that it focuses solely on evaluating functions, where one input always results in the same output for a given input (referential transparency). In imperative programming, this notion is not always true, as this paradigm focuses a lot more on modyfing the state of the application as it progresses. To enable referential transparency, pure functional languages try to avoid using state and mutability, by ensuring that side effects that could introduce state changes are not possible.
+\subsection{Functional and imperative paradigms comparison}
+Functional programming is a programming paradigm that differs from imperative programming in a way that it focuses solely on evaluating functions, where one input always results in the same output for a given input (referential transparency). In imperative programming, this notion is not always true, as imperative programming focuses a lot more on modyfing the state of the application as it runs. To make referential transparency, pure functional languages try to avoid using state and mutability, by ensuring that side effects that could introduce state changes are not possible.
 
 An example of state is preserving results in variables for later access by other parts of the program. A side effect may result from many different operations such as variable assignments, input or output operations and anything that allows two parts of the program to access the same resource at the same time.
 
-Due to the increase of the demand for parallelisation, as more processing cores are added to modern CPUs it is therefore essential that the software we write can be parallelised easily and without the risk of errors that could be caused by race conditions or deadlocks - which are all caused by the notion of mutability that is present in imperative languages. 
+Due to the increase of the demand for parallelisation, as more processing cores are added to modern CPUs, it is therefore essential that the software we write can be parallelised easily and without the risk of errors that could be caused by race conditions or deadlocks - which are all caused by the notion of mutability that is present in imperative languages.
 
-The notion of pure functions may sound very impractical for a general purpose programming language, therefore functional languages used by practicioneers such as Clojure allow state, but lexicaly scoped to its own function. 
+The notion of pure functions may sound very impractical for a general purpose programming language, therefore functional languages used by practicioneers such as Clojure allow state, but lexicaly scoped to its own function.
 When state is absolutely necessary in order to improve the performance of an application or expose variable to other parts of the program, Clojure allows for so called "atoms", that improve on the classical notion of a variable, as it is still immutable, but instead an atomic swap operation of the content is performed whenever want to override the original state.
 
 The property of immutability is also preserved for data structures, as each time a data structure is modified, a new copy of such structure is retained therefore leaving the old one in tact. This allows for much better parallelisation, as one part of the program may never modify the same data as the other part of the program, which would lead to inconsistent state.
 
 \section{Programming languages involved}
-In order to complete this project, it is necessary not only to understand the two different programming paradigms, but also the specific features of each of the languages involved - Clojure and JavaScript, as Lispish is a subset of Clojure and the compiler itself is also programmed in Clojure. 
+In order to complete this project, it is necessary not only to understand the two different programming paradigms, but also the specific features of each of the languages involved - Clojure and JavaScript, as Lispish is a subset of Clojure and the compiler itself is also programmed in Clojure.
 
 \subsection{Clojure}
 Lisp is amongst one of the worlds oldest family of programming languages, that has developed several dialects since the original Lisp was published in 1958-1960 by John McCarthy. [citation here]
 Lisp languages differ from other programming languages in its few original concepts, notably treating code as data, s-expressions, parenthesized Polish prefix notation and lambda expressions.
 
-The exact expansion of the Lisp acronym is List Processing which has its practical reasons - Lisp source code is written as lists, formally called S-Expressions [reference here]
+The exact expansion of the Lisp acronym is List Processing, which has its practical reasons - Lisp source code is written as lists, formally - S-Expressions [reference here]
 
 To illustrate how a valid s-expression would look like compared to an equivalent C expression, here is an example:
 
-\begin{lstlisting}
+\begin{quote}
+\begin{verbatim}
 1 == (1 * 1)
-\end{lstlisting}
+\end{verbatim}
+\end{quote}
 in C is equivalent to
 
-\begin{lstlisting}
+\begin{quote}
+\begin{verbatim}
 (= 1 (* 1 1))
-\end{lstlisting}
+\end{verbatim}
+\end{quote}
 in Lisp's s-expression based prefix notation.
 
 \subsection{JavaScript}
@@ -44,7 +48,7 @@ JavaScript is an interpreted, dynamically typed, object-oriented programming lan
 \subsubsection{JavaScript performance}
 The invention of the V8 Google JavaScript Engine made JavaScript stand out from other dynamic languages by making it faster than other dynamically types languages such as for e.g. Python [reference required].
 
-Due to the fact that Lispish compiles to JavaScript, the generated code can be treated with various optimisation techniques, including the Google Closure compiler that minimises and optimises the code, by compiling the readable, yet verbose version of the JavaScript code, to a less readable but highly optimised JS code. 
+Due to the fact that Lispish compiles to JavaScript, the generated code can be treated with various optimisation techniques, including the Google Closure compiler that minimises and optimises the code, by compiling the readable, yet verbose version of the JavaScript code, to a less readable but highly optimised JS code.
 
 \subsubsection{Portability}
 JavaScript interpreters are present on majority of consumer devices and are present in all of the modern web browsers. It is the basis of Rich Internet Applications and is now not only present on the front end of the web browser, but also servers as a language of choice for back ends.
@@ -54,22 +58,22 @@ Most notable examples include Microsoft's cloud platform Windows Azure that oper
 The decision to use Clojure to write a compiler for my Lisp language comes from the fact that there are large advantages of using Lisp to compile Lisp.
 The nature of Lisp and it's s-expressions allows us to build efficient recursive descent parsers that can take the advantage of the already present functions in our implementation language, Clojure.
 
-Some of the typical complexities that we would encounter when trying to implement a Lisp compiler using a non-lisp imperative language such as C include having to determine if a given expression is an s-expression (list) or a symbol and then breaking the input down into its atomic form of tokens to then build a Syntax Tree (ST) or an Anotated Syntax Tree (AST).
-In our case, our input s-expressions can be treated as a ST on its own and thanks to the in-built functions, we can greatly simplify the compiler by making it less error prone.
+Some of the typical complexities that we would encounter when trying to implement a Lisp compiler using a non-lisp imperative language such as C include having to determine if a given expression is an s-expression (list) or a symbol and then breaking the input down into its atomic form of tokens to then building a Parse Tree (ST) or an Anotated Syntax Tree (AST).
+In our case, our input s-expressions with their prefix notations can be treated as a parse tree and thanks to the in-built functions, we can greatly simplify the compiler.
 
-For example, any s-expression can be essentially evaluated and type-checked using the inbuit "symbol?" or "list?" to determine if the given s-expression yields to a symbol or a list. If an input is a list, that means we have come across another s-expression and each element in the list has to be separetly evaluated. 
+For example, any s-expression can be essentially type-checked using the inbuit "symbol?" or "list?" to determine if the given s-expression yields to a symbol or a list of expressions. If an input is a list, that means we have come across another s-expression and each element in the list has to be separetly evaluated.
 
 Modern dialects of Lisp, such as Clojure, target the Java Virtual Machine making them very portable and pluggable into an existing Java applications.
-Other Lisp languages are very often compiled to another target language, such as C or JavaScript that can be then run on a variety of machines. 
+Other Lisp languages are very often compiled to another target language, such as C or JavaScript that can be then run on a variety of machines.
 
 \section{JavaScript as a target language for the Lispish language}
 The rationale behind selecting JavaScript as the target language is the fact that JavaScript can be executed on almost all of the Internet enabled devices, as long as they have a web browser. Percentage of JS enabled devices as of date: [insert reference here].
 
-Our small dialect of Lisp (Lispish) language will allow generating pluggable JavaScript code. 
+Our small dialect of Lisp (Lispish) language will allow generating pluggable JavaScript code.
 From this follows the fact that applications written in Lispish can be executed in environments where the JVM or Clojure is not present, as the generated code will be a standard JavaScript.
 In theory our language could even be used as a Domain Specific Language (DSL) for JavaScript applications, as long as the code would be evaluated by our compiler in a Clojure JVM environment.
 
-JavaScript offers a great opportunity as a target language for any high-level programming language primarily due to two reasons - it's portability and performance. 
+JavaScript offers a great opportunity as a target language for any high-level programming language primarily due to two reasons - it's portability and performance.
 
 \subsection{Similarities}
 JavaScript is a prototype based, objected-oriented language that due to its great flexibility and full support for lambda expressions can also be classified as a functional language.
@@ -77,8 +81,8 @@ JavaScript is a prototype based, objected-oriented language that due to its grea
 \begin{verbatim}
 // Attach event listener to the argument
 var assign-event-listener = function(x) {
-  x.addEventListener("load", function() { 
-    alert("All done"); 
+  x.addEventListener("load", function() {
+    alert("All done");
   }, false)
 };
 \end{verbatim}
@@ -92,8 +96,8 @@ To now show the similary between how the same expression could look like in Lisp
 \begin{verbatim}
 (defn assign-event-listener [window]
   "Attach event listener to the argument"
-  (window (addEventListener 
-           "load" 
+  (window (addEventListener
+           "load"
            (fn [x] (alert "All done")))))
 \end{verbatim}
 \end{quote}
