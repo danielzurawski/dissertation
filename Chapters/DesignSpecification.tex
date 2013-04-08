@@ -44,15 +44,32 @@ $b \Coloneqq \ true \ \vert \ false $
 $() \Coloneqq \ List $
 
 \subsection{Evaluation relations (Big-Step Semantics)}
+Operators:
+\[
+\inference[bop]{E_1, s \ $$\Downarrow$$ \ b_1, s' \ E_2, s' \ $$\Downarrow$$ \ b_2, s''}
+{(bop \ E_1 \ E_2) \ $$\Downarrow$$ \ b, s'', if (= b \ (bop \ b_1 \ b_2))}
+\]
+\[
+\inference[op]{E_1, s \ $$\Downarrow$$ \ n_1, s' \ E_2, s' \ $$\Downarrow$$ \ n_2, s''}
+{(op \ E_1 \ E_2) \ $$\Downarrow$$ \ b, s'', if (= b \ (op \ n_1 \ n_2))}
+\]
+
+
+Atomic:
 
 \[
-\inference[integer]{}
+\inference[String]{}
+{s \ $$\Downarrow$$ \ s}
+\]
+\[
+\inference[Integer]{}
 {n \ $$\Downarrow$$ \ n}
 \]
 \[
-\inference[list]{}
-{(n) \ $$\Downarrow$$ \ n}
+\inference[List]{n \ $$\Downarrow$$ \ v}
+{(n) \ $$\Downarrow$$ \ v}
 \]
+Forms (F):
 \[
 \inference[let]{t_0 \ $$\Downarrow$$ \ v}
 {(\text{let } \ {[x \ (t_0)]} \ (t_1)) \ $$\Downarrow$$ \ t_1 {[}x \ $$\mapsto$$ \ v{]} }
@@ -100,4 +117,6 @@ To do this, I will use clojure.test API that provides a set of macros for evalua
 \end{figure}
 
 The compiler in its simplest form will perform a one to one translation in-line translation from Lispish to JavaScript. 
-The input source will be treated by a macro function that will prevent the code from being evaluated and it will pass it along down the pipeline to its respective emitters as ilustrated on figure [NUMBER HERE]. Code will be treated as data and I will use the prefix notation to my advantage, treating each expression as its respective node in a parse tree. 
+The input source will be treated by a macro function that will prevent the code from being evaluated and it will pass it along down the pipeline to its respective emitters as ilustrated on figure ~\ref{fig:abstract_compilation}. Code will be treated as data and I will use the prefix notation to my advantage, treating each expression as its respective node in a parse tree. 
+
+\subsection{Alternative approach}
