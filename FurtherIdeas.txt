@@ -1,0 +1,5 @@
+Ideas:
+
+2. Add macros (defmacro) to Lispish
+3. ??
+4. PROFIT

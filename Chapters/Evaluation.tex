@@ -1,3 +1,10 @@
 \chapter{Results/Evaluation}
+The implementation of Lispish to JavaScript was supposed to serve as an example of how in a simple way, a programming language translator can be implemented.
 
-\section{Section Heading}
+Appendix [REFERENCE HERE] provides a set of unit tests that include three real applications of our translator by trans-compiling a Clojure Fibonacci, factorial and Ackermann functions to its equivalent JavaScript functions.
+
+The test suite defined in the test namespace all successfully pass. 
+
+The compiler does not provide any facility for error reporting during compilation and for checking the validity of the Lispish source code, nor the generated JavaScript code.
+
+\section{Future work}

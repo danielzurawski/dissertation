@@ -162,4 +162,145 @@ clojure.test API [REFERENCE HERE] is a unit testing framework that provides a se
 \end{verbatim}
 \end{quote}
 
-.Although the compiler is not a very complexy system, it still 
+\subsection{Deploying Lispish}
+The end goal of this project was to be able to compile a source Lispish program to an equivalent JavaScript program.
+It is however not ideal to have to perform compilation in an interactive REPL, where Clojure environment is set up. 
+
+To solve this problem, Lispish compiler is compiled as a standalone JAR file that can be executed in any environment with the Java Runtime Environment installed. This is possible as the JAR file bundles the Clojure language itself, as well as all of its dependencies and our Lispish compiler. It then exposes the application through a simple static main method, which servers as an entry point to programs execution, similarily to standard Java applications. 
+
+There are three simple ways to compile a Lispish program to JavaScript. T
+he first method is to execute the lispish jar file and provide simple source code as a command line argument:
+
+\begin{verbatim}
+danielzurawski$ java -jar lispish-1.0.jar "(+ 2 2)"Emit Lispish:  (+ 2 2)
+Emit-list head:  + , tail:  (2 2)
+Emit-op, head:  + , tail:  (2 2)
+Emit Lispish:  2
+Emit Lispish:  2
+(2+2)
+\end{verbatim}
+
+Given as an input a prefix s-expression of (+ 2 2), the program yields an expected result, which is an equivalent in-fix (2+2).
+
+This approach is fine for trivial examples that do not span across multiple lines, it is however not optimal when we want to compile a Lispish program file to an equivalent JS. 
+In order to compile a Lispish source file to an equivalent JavaScript source file, our compiler accepts two command line options:
+
+\begin{verbatim}
+["-in" "--input" "REQUIRED: Path to Lispish source code."]
+["-out" "--output" "OPTIONAL: Path to JavaScript output file."]
+\end{verbatim}
+
+"-in" or equivalently "--input", that should follow with a path to a Lispish source file, as well as an optional 
+"-out" or equivalently "--output", that should follow with the name of the output source file. 
+
+To demonstrate how compilation of one source file to another is performed, here is the content of a sample "test.lispish" file:
+
+\begin{verbatim}
+danielzurawski$ more test.lispish
+(+ 2 2)
+\end{verbatim}
+
+We can then execute the compiler passing in the -in and -out arguments, as follows:
+
+\begin{verbatim}
+danielzurawski$ java -jar lispish-1.0.jar -in /Users/danielzurawski/git/lispish/test.lispish -out test.js
+Emit Lispish:  (+ 2 2)
+Emit-list head:  + , tail:  (2 2)
+Emit-op, head:  + , tail:  (2 2)
+Emit Lispish:  2
+Emit Lispish:  2
+danielzurawski$
+\end{verbatim}
+
+Our -in argument is an asbolute path to the test.lispish file that we printed in the code snippet above and our -out arument is the name of the file to be generated, to which the compiler will yield result. 
+The compiler will print out all of the computation steps to the console, but the final result that is the JavaScript output will be written to a file.
+
+Now, if we check the content of test.js, we can see
+\begin{verbatim}
+danielzurawski$ more test.js
+(2+2)
+danielzurawski$
+\end{verbatim}
+that the test.js file yields the compiled JavaScript source code. 
+
+This however is a rather trivial example, that does not span accross multiple lines, so lets try something a bit more sophisticated:
+
+The following snippet illustrates the conversion of not-primitive recursive Ackermann Function [REFERENCE HERE https://en.wikipedia.org/wiki/Ackermann_function] from a Lispish source code, to JavaScript. 
+
+\begin{verbatim}
+danielzurawski$ java -jar lispish-1.0.jar -in /Users/danielzurawski/git/lispish/test.lispish -out test.js
+Emit Lispish:  (defn ackermann [m n] (cond (= m 0) (+ n 1) (= n 0) (ackermann (- m 1) 1) :else (ackermann (- m 1) (ackermann m (- n 1)))))
+Emit-list head:  defn , tail:  (ackermann [m n] (cond (= m 0) (+ n 1) (= n 0) (ackermann (- m 1) 1) :else (ackermann (- m 1) (ackermann m (- n 1)))))
+Emit-forms, head:  defn , full expression:  (defn ackermann [m n] (cond (= m 0) (+ n 1) (= n 0) (ackermann (- m 1) 1) :else (ackermann (- m 1) (ackermann m (- n 1)))))
+Emit-defn, name:  ackermann , arg:  m , arg tail:  (n) , rest:  ((cond (= m 0) (+ n 1) (= n 0) (ackermann (- m 1) 1) :else (ackermann (- m 1) (ackermann m (- n 1)))))
+Emit Lispish:  ((cond (= m 0) (+ n 1) (= n 0) (ackermann (- m 1) 1) :else (ackermann (- m 1) (ackermann m (- n 1)))))
+Emit Lispish:  (cond (= m 0) (+ n 1) (= n 0) (ackermann (- m 1) 1) :else (ackermann (- m 1) (ackermann m (- n 1))))
+Emit-list head:  cond , tail:  ((= m 0) (+ n 1) (= n 0) (ackermann (- m 1) 1) :else (ackermann (- m 1) (ackermann m (- n 1))))
+Emit-forms, head:  cond , full expression:  (cond (= m 0) (+ n 1) (= n 0) (ackermann (- m 1) 1) :else (ackermann (- m 1) (ackermann m (- n 1))))
+Emit Lispish:  (= m 0)
+Emit-list head:  = , tail:  (m 0)
+Emit-op, head:  = , tail:  (m 0)
+Emit Lispish:  m
+Emit Lispish:  0
+Emit Lispish:  (+ n 1)
+Emit-list head:  + , tail:  (n 1)
+Emit-op, head:  + , tail:  (n 1)
+Emit Lispish:  n
+Emit Lispish:  1
+Emit Lispish:  (= n 0)
+Emit-list head:  = , tail:  (n 0)
+Emit-op, head:  = , tail:  (n 0)
+Emit Lispish:  n
+Emit Lispish:  0
+Emit Lispish:  (ackermann (- m 1) 1)
+Emit-list head:  ackermann , tail:  ((- m 1) 1)
+Emit-forms, head:  ackermann , full expression:  (ackermann (- m 1) 1)
+emit-recur, head: ackermann , name:  ackermann , args:  (- m 1) , more:  (1)
+Emit Lispish:  (- m 1)
+Emit-list head:  - , tail:  (m 1)
+Emit-op, head:  - , tail:  (m 1)
+Emit Lispish:  m
+Emit Lispish:  1
+Emit Lispish:  1
+Emit Lispish:  (ackermann (- m 1) (ackermann m (- n 1)))
+Emit-list head:  ackermann , tail:  ((- m 1) (ackermann m (- n 1)))
+Emit-forms, head:  ackermann , full expression:  (ackermann (- m 1) (ackermann m (- n 1)))
+emit-recur, head: ackermann , name:  ackermann , args:  (- m 1) , more:  ((ackermann m (- n 1)))
+Emit Lispish:  (- m 1)
+Emit-list head:  - , tail:  (m 1)
+Emit-op, head:  - , tail:  (m 1)
+Emit Lispish:  m
+Emit Lispish:  1
+Emit Lispish:  (ackermann m (- n 1))
+Emit-list head:  ackermann , tail:  (m (- n 1))
+Emit-forms, head:  ackermann , full expression:  (ackermann m (- n 1))
+emit-recur, head: ackermann , name:  ackermann , args:  m , more:  ((- n 1))
+Emit Lispish:  m
+Emit Lispish:  (- n 1)
+Emit-list head:  - , tail:  (n 1)
+Emit-op, head:  - , tail:  (n 1)
+Emit Lispish:  n
+Emit Lispish:  1
+\end{verbatim}
+
+The ackermann function is a fairly complicated function that spans across multiple lines and in order to produce an equivalent JavaScript code, a fair amount of recursive calls has to be performed, thus the trace of execution is a rather lengthy one. 
+
+If we now examine the test.js file, it yields:
+
+\begin{verbatim}
+danielzurawski$ more test.js
+function ackermann(m, n) {if((m==0)) { return (n+1) }else if((n==0)){ return ackermann((m-1), 1) }else if(true){ return ackermann((m-1), ackermann(m, (n-1))) }}
+\end{verbatim}
+
+We can now test whether the code can be executed in a JavaScript environment by testing it in for example Google Chrome Console: 
+
+\begin{verbatim}
+> function ackermann(m, n) {if((m==0)) { return (n+1) }else if((n==0)){ return ackermann((m-1), 1) }else if(true){ return ackermann((m-1), ackermann(m, (n-1))) }}
+> ackermann(1, 3)
+5
+\end{verbatim}
+
+As we can see, the Google Chrome web browsers console can evaluate the function and when executed with parameters, it yields the right result. 
+
+\subsection{Performance}
+
