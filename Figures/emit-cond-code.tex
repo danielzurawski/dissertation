@@ -1,0 +1,16 @@
+
+\begin{figure}[ht]
+\begin{verbatim}
+(defn emit-cond [head [name condition statement & rest]]
+  (str "if(" (emit condition) ") { return " (emit statement) " }"
+       (reduce str (interleave 
+        (map #(str "else if(" % ")")
+            ;; Special case if condition is :else then emit "true"
+            (reduce list 
+                (map #(if (= (str %) ":else") "true" (emit %))
+                             (take-nth 2 rest))))
+                (map #(str "{ return " % " }")
+                    (map emit (take-nth 2 (pop rest)))))) ))
+\end{verbatim}
+\caption{emit-cond source code}
+\end{figure}

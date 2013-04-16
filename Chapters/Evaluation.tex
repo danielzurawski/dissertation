@@ -1,9 +1,9 @@
-\chapter{Results/Evaluation}
+\chapter{Evaluation}
 The implementation of Lispish to JavaScript was supposed to serve as an example of how in a simple way, a programming language translator can be implemented.
 
-Due to its functional nature and immutability, it does not suffer from errors caused by inconsistent state, as there is no state. The compiler will always produce a result. The result however is not guaranteed to be correct, if an incorect input has been provided. 
+Due to its functional nature and immutability, it does not suffer from errors caused by inconsistent state, as there is no state. The compiler will always produce a result. The result however is not guaranteed to be correct, if an incorrect input has been provided. 
 
-Appendix [REFERENCE HERE] provides a set of unit tests that include three real applications of our translator by translating a Clojure Fibonacci, factorial and Ackermann functions to its equivalent JavaScript functions, as well as smaller tests that check the correctnes of single forms.
+Appendix [REFERENCE HERE] provides a set of unit tests that include three real applications of our translator by translating a Clojure Fibonacci, factorial and Ackermann functions to its equivalent JavaScript functions, as well as smaller tests that check the correctness of single forms.
 The unit tests included in the above mentioned appendix all successfully pass.
 The compiler also successfully compiles a given input file to an output file with name of our choice. 
 
@@ -15,10 +15,3 @@ The compiler does not have any means of validating the JavaScript code. This cou
 
 The biggest issue with the compiler is that it does not actually parse the input string before the compilation is performed. This caveat removes the posibility of determining if the input source, that is Lispish, is actually valid. 
 Providing an invalid Lispish source code would still result in a JavaScript output, but the generated code would be malformed and would not execute in a browser. This is both true for semantical, as well as syntactical errors.
-
-\section{Future work}
-\subsection{Parser}
-In order for Lispish translator to be a true compiler, it would need a parser that can decide whether the input string, that is the Lispish program, is in fact a correct one. As mentioend in the section above, it does not provide any error detection facility and this therefore would be the first step for proper error handling. 
-\subsection{JavaScript validator}
-For Lispish to be trully useful, its translator would have to have a JavaScript validator in place. 
-JavaScript that is not syntactically correct due to the faulty input Lispish is only going to decrease the productivity of the developer, which goes against the core idea of building an abstraction over an imperative language.

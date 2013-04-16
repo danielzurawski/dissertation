@@ -17,7 +17,7 @@ The compiler breaks down each s-expression it comes across into its primitives u
    {Flow chart of \textit{Lispish to JavaScript} compilation.}
 \end{figure}
 
-Figure ~\ref{fig:recursive_expansion_flowchart} illustrates the functional flow chart of the compiler, without yet going deep into the details how s-expressions with multiply arity arguments are handled. 
+Figure ~\ref{fig:recursive_expansion_flowchart} illustrates the functional flow chart of the compiler, without yet going deep into the details how multi-arity s-expressions are handled. 
 
 \subsection{Forms with multiple arity (Map and reduce fns?)}
 
@@ -38,7 +38,7 @@ that yields
 as a result
 
 \subsection{Reduce}
-Reduce generates a single result or a collection out of the application of a funcion to a collection.	
+Reduce generates a single result or a collection out of the application of a function to a collection.	
 
 \begin{verbatim}
 (reduce str 
@@ -53,18 +53,10 @@ If we would to map a "str" function over the collection of [1 2 3], it would res
 
 To now put the map reduce constructs into perspective with Lispish, here is how a multiple arity cond (allowing practically not bound list of tests) is implemented, that not only allows for multiple arity but also generates a different, yet equivalent JavaScript code: 
 
-\begin{verbatim}
-(defn emit-cond [head [name condition statement & rest]]
-  (str "if(" (emit condition) ") { return " (emit statement) " }"
-       (reduce str (interleave (map #(str "else if(" % ")")
-                                    ;; Special case if condition is :else then emit "true"
-                                    (reduce list (map #(if (= (str %) ":else") "true" (emit %))
-                                                     (take-nth 2 rest))))
-                               (map #(str "{ return " % " }")
-                                    (map emit (take-nth 2 (pop rest)))))) ))
-\end{verbatim}
+\input{Figures/emit-cond-code}
 
-Given an arbitrary number of "(test) result" tuples for the input (cond ) form, we are first emiting the first condition and the result statement: "if(" (emit condition) ") { return " (emit statement) " }". As we can see, we are concatenating the "if" symbol with the emitted condition that was passed as an argument to the function, then concatenating that with the ") { return " string and then concatenating that with the emitted true-form (emit statement), concatenated with the closing " }" string. 
+Given an arbitrary number of "(test) result" tuples for the input (cond ) form, we are first emitting the first condition and the result statement: $$ \texttt{if(" (emit condition) ") \{ return " (emit statement) " \}} $$ 
+As we can see, we are concatenating the "if" symbol with the emitted condition that was passed as an argument to the function, then concatenating that with the ") { return " string and then concatenating that with the emitted true-form (emit statement), concatenated with the closing " }" string. 
 The next step is to emit and interleave the else if and return parts of the JavaScript code, with the exception of the form ":else" which needs to produce and "else if (true)" and the second part of the tuple, which is the matching true form expression.
 At the end of the emiting, we are reducing the interleaved emitted JavaScript snippets to a single combined string, which results in an elegant transformation of a Lisps (cond (test) true (test2) true2) to a JavaScript if-else-if expression.
 
@@ -93,7 +85,7 @@ The same procedure is repeated for all of the "op", as well as "bop" expressions
 In the next sub section, we will have a look at a more complex example of generating a named function that is implemnted largely with Abstract Structural Binding.
 
 \subsection{Abstract Structural Binding}
-Abstract Sutrctural Binding in simple words means destructuring. It allows for destructuring any data structure to a corresponding argument in function parameters or a let form.
+Abstract Structural Binding in simple words means de-structuring. It allows for de-structuring any data structure to a corresponding argument in function parameters or a let form, creating locally scoped bindings.
 For example, if we define a let as follows:
 \begin{verbatim}
 (let [[x1 x2] [1 2]])
@@ -106,10 +98,10 @@ If our function accepts one parameter which is a collection:
 (defn test [[x1 x2]] (println x1 x2))
 (test [1])
 \end{verbatim}
-and it destructures the first two elements of the collection to x1 x2, in the above case, x1 will yield 1 and x2 null.
+and it binds the first two elements of the collection to x1 x2, in the above case, x1 will yield 1 and x2 null.
 
 
-Lispish uses destructuring for generating all of its forms ($F$):
+Lispish uses de-structuring for generating all of its forms ($F$):
 \begin{verbatim}
 lispish.core> (lisp-to-js (defn square [x] (* x x)))
 Emit Lispish:  (defn square [x] (* x x))
@@ -132,7 +124,7 @@ Lets look at the signature of the emit-defn function:
 (defn emit-defn [type [defn name [arg & more] & rest]]
   )
 \end{verbatim}
-as we can see, the function takes 4 arguments and 2 optional tail arguments that can be a list of an arbitrary length. The "type" argument is simply a convinience placeholder for the head of the whole expression.
+as we can see, the function takes 4 arguments and 2 optional tail arguments that can be a list of an arbitrary length. The "type" argument is simply a convenience placeholder for the head of the whole expression.
 The actual expression begins to bind from the [defn name [arg \& more] \& rest] arguments. 
 The optional more in the arguments list of arguments allows for an arbitrary length of the named function arguments and the optional rest is for the expression that follows the named function.
 
@@ -157,14 +149,13 @@ This structure can be then reused to output the corresponding JavaScript as foll
 )
 \end{verbatim}
 
-\subsection{Deploying Lispish}
+\subsection{Deploying and Using Lispish}
 The end goal of this project was to be able to compile a source Lispish program to an equivalent JavaScript program.
-It is however not ideal to have to perform compilation in an interactive REPL, where Clojure environment is set up. 
+It is, however, not ideal to have to perform compilation in an interactive REPL, where Clojure environment is set up. 
 
-To solve this problem, Lispish compiler is compiled as a standalone JAR file that can be executed in any environment with the Java Runtime Environment installed. This is possible as the JAR file bundles the Clojure language itself, as well as all of its dependencies and our Lispish compiler. It then exposes the application through a simple static main method, which servers as an entry point to programs execution, similarily to standard Java applications. 
+To solve this problem, the Lispish compiler is compiled as a standalone JAR file that can be executed in any environment equipped with the Java Runtime Environment. This is possible as the JAR file bundles the Clojure language itself, as well as all of its dependencies and our Lispish compiler. It exposes the application through a simple static main method, which serves as an entry point to programs execution, similarly to standard Java applications. 
 
-There are three simple ways to compile a Lispish program to JavaScript. T
-he first method is to execute the lispish jar file and provide simple source code as a command line argument:
+There are three simple ways to compile a Lispish program to JavaScript. The first method is to execute the Lispish jar file and provide simple source code as a command line argument:
 
 \begin{verbatim}
 danielzurawski$ java -jar lispish-1.0.jar "(+ 2 2)"Emit Lispish:  (+ 2 2)
@@ -185,8 +176,8 @@ In order to compile a Lispish source file to an equivalent JavaScript source fil
 ["-out" "--output" "OPTIONAL: Path to JavaScript output file."]
 \end{verbatim}
 
-"-in" or equivalently "--input", that should follow with a path to a Lispish source file, as well as an optional 
-"-out" or equivalently "--output", that should follow with the name of the output source file. 
+\texttt{-in} or equivalently  \texttt{--input}, that should follow with a path to a Lispish source file, as well as an optional 
+\texttt{-out} or equivalently \texttt{--output}, that should follow with the name of the output source file. 
 
 To demonstrate how compilation of one source file to another is performed, here is the content of a sample "test.lispish" file:
 
@@ -207,7 +198,7 @@ Emit Lispish:  2
 danielzurawski$
 \end{verbatim}
 
-Our "-in" argument is an asbolute path to the "test.lispish" file that we printed in the code snippet above and our "-out" argument is the name of the file to be generated, to which the compiler will yield result. 
+Our "-in" argument is an absolute path to the "test.lispish" file that we printed in the code snippet above and our "-out" argument is the name of the file to be generated, to which the compiler will yield result. 
 The compiler will print out all of the computation steps to the console, but the final result that is the JavaScript output will be written to a file.
 
 Now, if we check the content of test.js, we can see
@@ -287,7 +278,7 @@ danielzurawski$ more test.js
 function ackermann(m, n) {if((m==0)) { return (n+1) }else if((n==0)){ return ackermann((m-1), 1) }else if(true){ return ackermann((m-1), ackermann(m, (n-1))) }}
 \end{verbatim}
 
-We can now test whether the code can be executed in a JavaScript environment by testing it in for example Google Chrome Console: 
+We can now test whether the code can be executed in a JavaScript environment by testing it in, for example, Google Chrome Console: 
 
 \begin{verbatim}
 > function ackermann(m, n) {if((m==0)) { return (n+1) }else if((n==0)){ return ackermann((m-1), 1) }else if(true){ return ackermann((m-1), ackermann(m, (n-1))) }}

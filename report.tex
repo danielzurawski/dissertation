@@ -36,18 +36,28 @@
 
 \chapter{Introduction}
 "This is one of the most important components of the report. It should begin with a clear statement of what the project is about so that the nature and scope of the project can be understood by a lay reader. It should summarise everything that you set out to achieve, provide a clear summary of the project's background and relevance to other work, and give pointers to the remaining sections of the report, which will contain the bulk of the technical material"  .... \\
-Following the invention of high performance JavaScript compilers such as the Google V8 JavaScript Engine, raised the interest in creating programming language interpreters and compilers that target JavaScript. It enables applications written in other languages, very often high-level languages to be run on any modern web browser. \\
+Following the invention of high performance JavaScript compilers such as the Google V8 JavaScript Engine, raised the interest in creating programming language interpreters and compilers that target JavaScript. It enables applications written in other languages, very often higher level languages to be run on any modern web browser. \\
  
-The main motivation behind this project is to investigate how compilers and interpreters for functional languages work and how a translation from a source Lisp language to a target JavaScript language can be performed. The implementation language I am planning to use is Clojure. This project offers a good opportunity to deepen understanding of functional programming using Lisp and JavaScript and how both can be used to solve complex problems in Computer Science. 
+ \section{Motivation}
+There are two categories of motivations behind this project. The first category is strictly practical and covers the engineering aspects of this project and the second category is strictly theoretical, as it uncovers an unexplored problem in computer science. In the sub sections below, I would like to introduce these motivations:
 
-I will design a small Lisp based language called Lispish and I will investigate how such language can be translated to an executable JavaScript. The language will implement a subset of Clojure programming language, which is a modern dialect of Lisp running on the JVM.
-As there already exists a number of similar projects that target JavaScript, I will investigate how each compares to my Lispish to JavaScript compiler
+\subsection{Theoretical}
+I am going to investigate an implementation of a translator that allows for a programming paradigm shift. The translator is going to compile a functional language to an imperative language. 
+
+Preceeding the implementation of the translator, I will have to design a small Lisp based language called Lispish and I will investigate how it can be translated to an executable JavaScript. Lispish is going to implement a subset of the Clojure programming language.
+
+From an engineering perspective, Lispish will provide a way to write programs in Lisp, that can execute in any modern web browser. Lispish could also allow for simple interaction with the DOM elements of web pages, as long as any arbitrary JavaScript function call can be invoked from within Lispish.
+One of the practical aspect of this project will also involve investigating how a functional Lisp language can be used for compilation, as the implementation language that will be used to implement the compiler will be Clojure, which is a modern dialect of Lisp running on the JVM.  
+
+This project offers a good opportunity to deepen understanding of functional programming using Lisp and JavaScript and how both can be used to solve complex problems in Computer Science. 
+
+As there already exists a number of similar projects that target JavaScript, I will investigate how each compares to my Lispish to JavaScript compiler.
 
 \section{Report Structure}
 Chapter 2 will provide the background research and rationale behind this project. \
 Section 2.1 of chapter 2 aims to explain the differences between functional and imperative programming paradigms. 
 Section 2.2 goes into the details of the two main programming languages involved in the project, namely Clojure and JavaScript and tries to summarise the differences and similarities of each. 
-Section 2.3 briefly explains the reasoning for choosing JavaScript as a target language for our Lisp languange.
+Section 2.3 briefly explains the reasoning for choosing JavaScript as a target language for our Lisp language.
 Section 2.4 introduces the different existing implementations of Lisp to JavaScript compilers.
 
 Chapter 3 defines the language of Lispish and describes the compilation pipeline.
