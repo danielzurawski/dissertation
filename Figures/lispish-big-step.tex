@@ -1,0 +1,56 @@
+\begin{figure}[ht]
+\centering
+Opertors:
+\[
+\inference[bop]{E_1, s \ $$\Downarrow$$ \ b_1, s' \ E_2, s' \ $$\Downarrow$$ \ b_2, s''}
+{(bop \ E_1 \ E_2) \ $$\Downarrow$$ \ b, s'', if (= b \ (bop \ b_1 \ b_2))}
+\]
+\[
+\inference[op]{E_1, s \ $$\Downarrow$$ \ n_1, s' \ E_2, s' \ $$\Downarrow$$ \ n_2, s''}
+{(op \ E_1 \ E_2) \ $$\Downarrow$$ \ b, s'', if (= b \ (op \ n_1 \ n_2))}
+\]
+
+
+Atomic:
+\[
+\inference[String]{}
+{s \ $$\Downarrow$$ \ s}
+\]
+\[
+\inference[Integer]{}
+{n \ $$\Downarrow$$ \ n}
+\]
+\[
+\inference[List]{n \ $$\Downarrow$$ \ v}
+{(n) \ $$\Downarrow$$ \ v}
+\]
+
+
+Forms (F):
+\[
+\inference[let]{t_0 \ $$\Downarrow$$ \ v}
+{(\text{let } \ {[x \ (t_0)]} \ (t_1)) \ $$\Downarrow$$ \ t_1 {[}x \ $$\mapsto$$ \ v{]} }
+\]
+\[
+\inference[if true]{{t_0} \ $$\Downarrow$$ \ \textsc{True} & t_1 \ $$\Downarrow$$ \ v}
+{(if \ (t_0) \ t_1 \ t_2) \ $$\Downarrow$$ \ v) }
+\]
+\[
+\inference[if false]{t_0 \ $$\Downarrow$$ \ \textsc{False} & t2 \ $$\Downarrow$$ \ v}
+{(if \ (t_0) \ t_1 \ t_2) \ $$\Downarrow$$ \ v) }
+\]
+\[
+\inference[cond]{t_0 \ $$\Downarrow$$ \ \textsc{False} & t_1 \ $$\Downarrow$$ \ \textsc{True} & t_3 \ $$\Downarrow$$ \ v}
+{(cond \ (t_0) \ t_2 \ (t_1) \ t_3) \ $$\Downarrow$$ \ v) }
+\]
+\[
+\inference[defn]{ {t_0 \ [x]} \ $$\Downarrow$$ \ v}
+{(defn \ s \ {[x]} \ (t_0)) \ $$\Downarrow$$ \ s \ $$\mapsto$$ \ v }
+\]
+\[
+\inference[fn]{ {t_0 \ [x]} \ $$\Downarrow$$ \ v}
+{(fn \ {[x]}  \ (t_0) \ $$\Downarrow$$ \ v }
+\]
+\caption{Lispish evaluation relations (Big-Step Semantics)}
+\label{fig:lispish-big-step}
+\end{figure}

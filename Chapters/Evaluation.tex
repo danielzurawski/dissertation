@@ -1,11 +1,22 @@
 \chapter{Evaluation}
-The implementation of Lispish to JavaScript was supposed to serve as an example of how in a simple way, a programming language translator can be implemented.
+The implementation of Lispish to JavaScript was supposed to serve as an example of how a programming language translator can be implemented using a functional language.
 
 Due to its functional nature and immutability, it does not suffer from errors caused by inconsistent state, as there is no state. The compiler will always produce a result. The result however is not guaranteed to be correct, if an incorrect input has been provided. 
 
-Appendix [REFERENCE HERE] provides a set of unit tests that include three real applications of our translator by translating a Clojure Fibonacci, factorial and Ackermann functions to its equivalent JavaScript functions, as well as smaller tests that check the correctness of single forms.
+Appendix [REFERENCE HERE] provides a set of unit tests that include multiple real applications of our translator by translating small Lispish programs, including Fibonacci sequences, factorial, ackermann and naive primality checking to its equivalent JavaScript programs, as well as smaller tests that check the correctness of single forms.
 The unit tests included in the above mentioned appendix all successfully pass.
 The compiler also successfully compiles a given input file to an output file with name of our choice. 
+
+As a result of desing decisions, Lispish is not strictly a subset of Clojure, as there is a small number of cases, where certain form inputs are not allowed.
+These exceptions include:
+
+\noindent Here's my list:
+
+\begin{itemize}
+\item The \texttt{(let )} form only supports 1 argument, but it can be anything, including an anonymous function.
+\item Strict Clojure allows for \texttt{(cond )} with an optional :else argument at the end. Due to a design decision, \texttt{:else} is strictly required.
+\item Item 3.
+\end{itemize}
 
 \section{Missing parts}
 \subsection{Error handling}

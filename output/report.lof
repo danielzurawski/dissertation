@@ -1,10 +1,15 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces JavaScript event listener function}}{12}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Possible Lisp equivalent of event listener function}}{13}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Abstract \textit {Lispish to JavaScript} compilation.}}{18}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Lispish grammar}}{17}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Lispish evaluation relations (Big-Step Semantics)}}{18}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Abstract \textit {Lispish to JavaScript} compilation.}}{19}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces yadayada}}{20}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces emit-cond source code}}{22}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces yadayada}}{23}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces emit-cond source code}}{24}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Reduction of a cond with multiple arguments}}{25}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

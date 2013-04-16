@@ -1,0 +1,10 @@
+\begin{figure}[ht]
+\centering
+\begin{tabular}{ r | l || l }
+1. & \texttt{a: false} & \texttt{b: ((> 3 2) true)} \\
+2. & \texttt{a: ((3>2)?true:false)} & \texttt{b: ((< 5 2) false)} \\
+3. & \texttt{a: ((5<2)?false:((3>2)?true:false))} & b:
+\end{tabular}
+\caption{Reduction of a cond with multiple arguments}
+\label{fig:emit-cond-expansion}
+\end{figure}

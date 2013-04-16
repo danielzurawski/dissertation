@@ -90,31 +90,15 @@ In theory our language could even be used as a Domain Specific Language (DSL) fo
 JavaScript offers a great opportunity as a target language for any high-level programming language primarily due to two reasons - it's portability and performance.
 
 \subsection{Similarities}
-JavaScript is a prototype based, objected-oriented language that due to its great flexibility and full support for lambda expressions can also be classified as a functional language.
-\begin{quote}
-\begin{verbatim}
-// Attach event listener to the argument
-var assign-event-listener = function(x) {
-  x.addEventListener("load", function() {
-    alert("All done");
-  }, false)
-};
-\end{verbatim}
-\end{quote}
+JavaScript is a prototype based, objected-oriented language that due to its great flexibility and full support for lambda expressions is also classified as a functional language.
 
-Above example illustrates a stored function that takes a reference to a web browsers window as an argument and attaches an event listener to it. The listener then takes two arguments, a string describing the event - here "load" and the callback function - here an anonymous function that displays an alert "All done" that gets displayed after the desired event is triggered.
-To now show the similarly between how the same expression could look like in Lisp, take for instance:
+\input{Figures/js-attach-event-listener}
 
-% Stworzyc nowy environment e.g. code z center i verbatim
-\begin{quote}
-\begin{verbatim}
-(defn assign-event-listener [window]
-  "Attach event listener to the argument"
-  (window (addEventListener
-           "load"
-           (fn [x] (alert "All done")))))
-\end{verbatim}
-\end{quote}
+Figure ~\ref{fig:js-attach-event-listener}  illustrates a stored function that takes a reference to a web browsers window as an argument and attaches an event listener to it. The listener then takes two arguments, a string describing the event - here "load" and the callback function - here an anonymous function that displays an alert "All done" that gets displayed after the desired event is triggered.
+
+\input{Figures/lispish-attach-event-listener}
+
+Similarly, the equivalent expressions written in Lisp could look like on figure ~\ref{fig:lispish-attach-event-listener}, which is arguably a lot more readable. Nonetheless both expressions look alike. 
 
 Both of the expressions make use of nested functions and thus take the advantage of the lambda calculus. This abstraction can be also one-to-one mapped when performing the compilation from a Lisp to JavaScript and thus simplifying the compiler.
 

@@ -1,27 +1,29 @@
 \chapter{Implementation and Testing}
 Following the formal definition of the Lispish language and briefly describing the operations of the compiler, we shall dive into the construction of it. Along the way, I will explain the concepts behind most of the mechanics of the compiler. 
+
 In the following sections, we will also test the implementation by means of examples of an actual compilation. 
-At the end, we will look into formalising those tests by means of using a testing API.  
+At the end, we will look into automating the tests by means of using a Clojure testing API.  
 
 \section{Building the compiler}
-This section will describe the operations of the compiler and the fundamental concepts behind how the compilers translates the input Lispish code to JavaScript. 
+This section will describe the operations of the compiler and the fundamental concepts behind how the compiler translates the input Lispish code to JavaScript. 
+
+Lispish translator is implemented as a single pass compiler.
+This design decision comes from the fact that the compiler has been implemeneted in Clojure, which is a strictly functional language and in order to sustain the immutability property throughout the compiler and not violate common idioms, the compiler avoids using state at all costs. It was therefore difficult to perform multi-pass compilation over the same code, as it is done in other commercial compilers. 
+As a consequence of this, the entire implementation is built around recursively invoking a set a functions, which at the end fold to yield a JavaScript string as a result. 
+
+
 
 \subsection{Recursive Expansion}
 The main idea behind the Lispish compiler's implementation is recursive expansion.
-The compiler breaks down each s-expression it comes across into its primitives until there is no more work to be done. It then buils up the result in layers as the recursion folds upwards. 
+The compiler breaks down each s-expression that it comes across into its primitives until there is no more work to be done. It then builds up the result in layers as the recursion folds upwards. 
 
-\begin{figure}[!htbp]
-	\centering
-	\includegraphics{Graphics/implementation_flowchart.jpg}
-	\caption[yadayada]
-   {Flow chart of \textit{Lispish to JavaScript} compilation.}
-\end{figure}
+Figure ~\ref{fig:recursive_expansion_flowchart} illustrates the flow chart of the compiler. It covers most of the operations of the compiler, except for the details on how multi-arity s-expressions are handled.  
 
-Figure ~\ref{fig:recursive_expansion_flowchart} illustrates the functional flow chart of the compiler, without yet going deep into the details how multi-arity s-expressions are handled. 
+\input{Figures/implementation-flowchart}
 
-\subsection{Forms with multiple arity (Map and reduce fns?)}
+\subsection{Forms with multiple arity}
 
-In order to solve the multiple arity problem, where for instance a (cond ) form can take multiple condition/true-form expression tuples and each one of them has to be individually compiled and them reduced to a string, a Map Reduce construct has been used. 
+In order to solve the multiple arity problem, where for instance a \texttt{(cond )} form can take multiple condition/true-form expression tuples and each one of them has to be compiler to a JavaScript string, map and reduce constructs have been used. 
 
 \subsubsection{Map}
 The idea behind the map operation is to apply a function that takes one argument, to all of the elements in a collection and return a new collection with results of each application of the aforementioned function. 
@@ -38,37 +40,49 @@ that yields
 as a result
 
 \subsection{Reduce}
-Reduce generates a single result or a collection out of the application of a function to a collection.	
-
+Reduce is a function that takes a function, an optional value (or an s-expression) and a collection as an argument. It reduces or in other words folds a given collection (and an optional value) through the application of a function to a collection, to a single result. 
 \begin{verbatim}
-(reduce str 
+(reduce 
+   str
+   1
 	 [1 2 3])
 \end{verbatim}
 that yields 
 \begin{verbatim}
-"123"
+"1123"
 \end{verbatim}
 as a result. The collection of numbers has been reduced to a string, as each number was converted to a string and then a string of the collection has been produced.
-If we would to map a "str" function over the collection of [1 2 3], it would result in a new collection containing all of the elements of the old collection converted to a string, namely this list ("1" "2" "3").
+If we would to map a \texttt{str} function over the collection of \texttt{[1 2 3]}, it would result in a new collection containing all of the elements of the old collection converted to a string, namely the list \texttt{("1" "2" "3")}.
 
-To now put the map reduce constructs into perspective with Lispish, here is how a multiple arity cond (allowing practically not bound list of tests) is implemented, that not only allows for multiple arity but also generates a different, yet equivalent JavaScript code: 
+To now put the map reduce constructs into perspective with Lispish, figure ~\ref{fig:emit-cond-code} illustrates how a multiple arity cond (allowing practically unbound list of tests) is implemented.
 
 \input{Figures/emit-cond-code}
 
-Given an arbitrary number of "(test) result" tuples for the input (cond ) form, we are first emitting the first condition and the result statement: $$ \texttt{if(" (emit condition) ") \{ return " (emit statement) " \}} $$ 
-As we can see, we are concatenating the "if" symbol with the emitted condition that was passed as an argument to the function, then concatenating that with the ") { return " string and then concatenating that with the emitted true-form (emit statement), concatenated with the closing " }" string. 
-The next step is to emit and interleave the else if and return parts of the JavaScript code, with the exception of the form ":else" which needs to produce and "else if (true)" and the second part of the tuple, which is the matching true form expression.
-At the end of the emiting, we are reducing the interleaved emitted JavaScript snippets to a single combined string, which results in an elegant transformation of a Lisps (cond (test) true (test2) true2) to a JavaScript if-else-if expression.
+Given an arbitrary number of \texttt{(test) result} tuples for the input 
+\texttt{(cond )}, the \texttt{(emit-cond)} form first partitions the input into test and expression tuples, then reverses the tuples, so that the originally last one appears at the front, allowing us to perform a right reduce (right fold) and then binds it to a local \texttt{rev} variable. 
+For example, if \texttt{(emit-cond )} is invoked with the following arguments:
+
+$$ \texttt{(< 5 2) false (> 3 2) true :else false} $$
+
+the content of the locally scoped \texttt{rev} will be 
+
+$$ \texttt{((:else false) ((> 3 2) true) ((< 5 2) false))} $$
+
+The reduce function then applies the anonymous function to the first value, which is the result of \texttt{(str (emit (second (first rev))))}, which in this example happens to be the \texttt{false} symbol, as it is grabbed from the first tuple \texttt{(:else false)} as the second element. Reduce is then applied to the second, third etc. element of the collection, in this case the \texttt{((> 3 2) true) ((< 5 2) false)}, whilst the overall result is accumulated in \texttt{a}.
+
+\input{Figures/emit-cond-expansion}
+
+Figure ~\ref{fig:emit-cond-expansion} illustrates a table of how each reduction step is performed in terms of the two arguments of the function passed to reduce. Variable \texttt{a} accumulates the overall result, whilst \texttt{b} is the current element of the \texttt{(cond )} that is being converted to JavaScript ternary expression.
 
 \section{Testing}
 The section above described the operations that are part of the compilation, but they did not provide any examples of an actual compilation. 
-In this section we will take a look at some examples of how our Lispsh to JavaScript compiler performs. 
-To illustrate the compilation, I will demonstrate the output of the recursive expansion that the compiler performs on the given s-expressions. 
+In this section we will take a look at some examples of how our Lispsh to JavaScript compiler works. 
+To illustrate the compilation, I will demonstrate the output of the recursive expansion that the compiler performs on the given Lispish program string. 
 Each line of the compilation trace will correspond to a level in the recursion. The recursion folding will be done implicitly, therefore it does not appear in the compilation traces. 
 
 Let's begin our tests by a simple arithmetic expression:
 \begin{verbatim}
-lispish.core> (lisp-to-js (+ 2 2))
+lispish.core> (lisp-to-js "(+ 2 2)")
 Emit Lispish:  (+ 2 2)
 Emit-list head:  + , tail:  (2 2)
 Emit-op, head:  + , tail:  (2 2)
@@ -99,7 +113,6 @@ If our function accepts one parameter which is a collection:
 (test [1])
 \end{verbatim}
 and it binds the first two elements of the collection to x1 x2, in the above case, x1 will yield 1 and x2 null.
-
 
 Lispish uses de-structuring for generating all of its forms ($F$):
 \begin{verbatim}

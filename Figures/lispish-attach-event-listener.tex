@@ -1,0 +1,11 @@
+\begin{figure}[ht]
+\begin{verbatim}
+(defn assign-event-listener [window]
+	"Attach event listener to the argument"
+	(window (addEventListener
+            	"load"
+                (fn [x] (alert "All done")))))
+\end{verbatim}	
+\caption{Possible Lisp equivalent of event listener function}
+\label{fig:lispish-attach-event-listener}
+\end{figure}

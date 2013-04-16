@@ -1,0 +1,34 @@
+\begin{figure}[ht]
+\centering
+\begin{tabular}{ c c c }
+$F$ & $\Coloneqq$ & (let \ $[x \ F]$ \ ($F$)) \\
+ & $|$ & (if \ ($F$) \ $F_1$ \ $F_2$) \\
+ & $|$ & (defn \ $name$ \ $[args*]$ \ ($F$)) \\
+ & $|$ & (fn \ $[arg]$ \ $(F)$) \\
+ & $|$ & (cond \ $(F_0)$ \ $F_1$ \ $(F_2)$ \ $F_3$) \\
+ & $|$ & $T$ \\
+ & $|$ & $X$ \\
+ & & \\
+where & & \\
+ & & \\
+$X$ & $\Coloneqq$ & $T$ \\
+$T$ & $\Coloneqq$ & $ \ () \ \vert \ N \ \vert \ B \ \vert \ s $ \\
+& & \\
+operators & & \\
+ & & \\
+$N$ & $\Coloneqq$ & $ n \ \vert \ (op \ N \ N) $ \\
+$B$ & $\Coloneqq$ & $ b \ \vert \ (bop \ t1 \ t2) \ $ \\
+$op$ & $\Coloneqq$ & $ \ + \ \vert \ - \ \vert \ * \ \vert \ / \ \vert \ < \ \vert \ > \ \vert \ =$\\
+$bop$ & $\Coloneqq$ & $ \ and \ \vert \ or \ \vert \ not$ \\
+& & \\
+atomic & & \\
+ & & \\
+$s$ & $\Coloneqq$ & $ String $ \\
+$n$ & $\Coloneqq$ & $ Integer $ \\
+$b$ & $\Coloneqq$ & $ true \ \vert \ false $ \\
+$()$ & $\Coloneqq$ & $ List $ \\
+\end{tabular}
+
+\caption{Lispish grammar}
+\label{fig:lispish-grammar}
+\end{figure}

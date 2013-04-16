@@ -35,17 +35,17 @@
 % You can write each chapter directly here or in a separate .tex file and use the include command.
 
 \chapter{Introduction}
-"This is one of the most important components of the report. It should begin with a clear statement of what the project is about so that the nature and scope of the project can be understood by a lay reader. It should summarise everything that you set out to achieve, provide a clear summary of the project's background and relevance to other work, and give pointers to the remaining sections of the report, which will contain the bulk of the technical material"  .... \\
 Following the invention of high performance JavaScript compilers such as the Google V8 JavaScript Engine, raised the interest in creating programming language interpreters and compilers that target JavaScript. It enables applications written in other languages, very often higher level languages to be run on any modern web browser. \\
  
  \section{Motivation}
-There are two categories of motivations behind this project. The first category is strictly practical and covers the engineering aspects of this project and the second category is strictly theoretical, as it uncovers an unexplored problem in computer science. In the sub sections below, I would like to introduce these motivations:
+There are two categories of motivations behind this project. The first category is strictly theoretical, as it touches upon an unexplored problem in computer science and the second is much more practical and covers the engineering aspects of this project. In the sub sections below, I will introduce the two aspects to this project. 
 
-\subsection{Theoretical}
+\subsection{Theoretical (Computer Science)}
 I am going to investigate an implementation of a translator that allows for a programming paradigm shift. The translator is going to compile a functional language to an imperative language. 
 
-Preceeding the implementation of the translator, I will have to design a small Lisp based language called Lispish and I will investigate how it can be translated to an executable JavaScript. Lispish is going to implement a subset of the Clojure programming language.
+Preceding the implementation of the translator, I will have to design a small Lisp based language called Lispish and I will investigate how it can be translated to an executable JavaScript. Lispish is going to implement a subset of the Clojure programming language.
 
+\subsection{Practical (Engineering)}
 From an engineering perspective, Lispish will provide a way to write programs in Lisp, that can execute in any modern web browser. Lispish could also allow for simple interaction with the DOM elements of web pages, as long as any arbitrary JavaScript function call can be invoked from within Lispish.
 One of the practical aspect of this project will also involve investigating how a functional Lisp language can be used for compilation, as the implementation language that will be used to implement the compiler will be Clojure, which is a modern dialect of Lisp running on the JVM.  
 
@@ -56,12 +56,15 @@ As there already exists a number of similar projects that target JavaScript, I w
 \section{Report Structure}
 Chapter 2 will provide the background research and rationale behind this project. \
 Section 2.1 of chapter 2 aims to explain the differences between functional and imperative programming paradigms. 
-Section 2.2 goes into the details of the two main programming languages involved in the project, namely Clojure and JavaScript and tries to summarise the differences and similarities of each. 
+Section 2.2 goes into the details of the two main programming languages involved in the project, namely Clojure and JavaScript and tries to summarize the differences and similarities of each. 
 Section 2.3 briefly explains the reasoning for choosing JavaScript as a target language for our Lisp language.
 Section 2.4 introduces the different existing implementations of Lisp to JavaScript compilers.
 
 Chapter 3 defines the language of Lispish and describes the compilation pipeline.
 Chapter 4 describes the test suite and showcases the functioning compiler using test cases as examples
+
+Throughout the paper, I will refer to the program responsible for converting the Lispish source code to Javascript both as compiler and translator, as the word compiler is not very appropriate in the case of this particular implementation. 
+The reason for this is that the translator builds up on top of the already existing Clojure language and the tools it offers, especially the reader which takes care of parsing the input code to a typed symbols and expressions. 
 
 \listoffigures
 
