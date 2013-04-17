@@ -23,22 +23,18 @@ Figure ~\ref{fig:lispish-big-step} describes the evaluation relations of Lispish
 \input{Figures/lispish-big-step}
 
 \section{Development methodology}
-In order to streamline the process of development of the compiler, I have decided to use the Test Driven Development (TDD) methodology that emphasizes on building small units of functionalities that can be invidually tested by individually unit tests. 
+In order to streamline the process of development of the compiler, I have decided to use the Test Driven Development (TDD) methodology that emphasizes on building small units of functionalities that can be individually tested by unit tests. 
 
 Clojure allows developers to create programs using the REPL (Read Evaluation Print Loop), which is characteristic feature in new dynamic programming languages. It allows you to write your functions, evaluate them and get an instant result from an interpreter that interacts with your code. This in essence reduces the amount of unit tests that have to be implemented for trivial functions in a TDD project. 
 REPL is a great resource for rapid development and prototyping of functions, but also ensuring that they yield the right result before the project as a whole is compiled.
 
-\subsection{Unit tests}
-Even though Clojure provides REPL, it is still important to develop a regression testing suite that ensures whenever the compiler is modified, it can still compile and yield the same result for old programs.
-To do this, I will use clojure.test API that provides a set of macros for evaluating forms and ensuring they yield the expected result. 
+\section{Compiling Lispish to JavaScript}
 
-\section{Compiling Lispish to JavaScript (Compiler design??)}
-
-\subsection{Compilation pipeline (use case/state machines?)}
+\subsection{Compilation pipeline}
 
 \input{Figures/abstract-compilation}
 
 The compiler in its simplest form will perform a one to one translation in-line translation from Lispish to JavaScript. 
-The input source will be treated by a macro function that will prevent the code from being evaluated and it will pass it along down the pipeline to its respective emitters as ilustrated on figure ~\ref{fig:abstract_compilation}. Code will be treated as data and I will use the prefix notation to my advantage, treating each expression as its respective node in a parse tree. 
+The input source will be treated by a macro function that will prevent the code from being evaluated and it will pass it along down the pipeline to its respective emitters as illustrated on figure ~\ref{fig:abstract-compilation}. Code will be treated as data and I will use the prefix notation to my advantage, treating each expression as its respective node in a parse tree. 
 
 \subsection{Alternative approach}

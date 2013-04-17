@@ -11,7 +11,38 @@ Lispish translator is implemented as a single pass compiler.
 This design decision comes from the fact that the compiler has been implemeneted in Clojure, which is a strictly functional language and in order to sustain the immutability property throughout the compiler and not violate common idioms, the compiler avoids using state at all costs. It was therefore difficult to perform multi-pass compilation over the same code, as it is done in other commercial compilers. 
 As a consequence of this, the entire implementation is built around recursively invoking a set a functions, which at the end fold to yield a JavaScript string as a result. 
 
+\subsection{Abstract Structural Binding}
+Abstract Structural Binding allows for de-structuring any data structure to a corresponding argument in function parameters or a let form, creating locally scoped bindings.
+For example, if we define a let as follows:
+\begin{verbatim}
+(let [[x1 x2] [1 2]])
+\end{verbatim}
+\texttt{x1} will yield \texttt{1} and \texttt{x2} will yield \texttt{2}.
+The same principle is true for a function.
+If our function accepts one parameter which is a collection:
 
+\begin{verbatim}
+(defn test [[x1 x2]] (println x1 x2))
+(test [1])
+\end{verbatim}
+and it binds the first two elements of the collection to x1 x2, in the above case, x1 will yield 1 and x2 null.
+
+Lispish uses de-structuring for generating all of its forms. 
+Take for instance the signature of a \texttt{(emit-defn)} function responsible for expanding and generating the equivalent JavaScript named function code:
+$$ \texttt{(defn emit-defn [type [defn name [arg \& more] \& rest]] )} $$
+
+In order to split the provided input source code \texttt{(defn ))} form into its respective elements, the  performs a structural binding of the function arguments. The bindings are then used to generate the equivalent JavaScript code. 
+
+as we can see, the function takes 4 arguments and 2 optional tail arguments that can be a list of an arbitrary length. The \texttt{type} argument is simply a convenience placeholder for the head of the whole expression.
+The actual expression begins to bind from the [defn name [arg \& more] \& rest] arguments. 
+
+\input{Figures/emit-defn}
+
+Figure ~\ref{fig:emit-defn} illustrates the body of the \texttt{(emit-defn)} function and how the bindings acquired upon the function call are used to then generate the corresponding JavaScript quite. 
+At first, we are checking if the \texttt{name} binding is a \texttt{~} character, which is a special case meaning that the function is anonymous (we are passing it from the emit-fn with the rest of the expression, to decrease code count) and an empty string in place of the function name needs to be generated. The function then outputs the argument names. In case if there are multiple arguments, it will output an arguments string with the arguments separated by commas. 
+At the end it emits the body \texttt{(emit rest)} of the function.
+
+The optional \texttt{more} in the arguments list allows for an arbitrary length of the function arguments and the optional rest is for the expression that follows the named function.
 
 \subsection{Recursive Expansion}
 The main idea behind the Lispish compiler's implementation is recursive expansion.
@@ -20,6 +51,15 @@ The compiler breaks down each s-expression that it comes across into its primiti
 Figure ~\ref{fig:recursive_expansion_flowchart} illustrates the flow chart of the compiler. It covers most of the operations of the compiler, except for the details on how multi-arity s-expressions are handled.  
 
 \input{Figures/implementation-flowchart}
+
+To illustrate how in practice the recursive expansion is performed, lets consider how a single form gets expanded and also how its equivalent JavaScript code is generated. 
+
+\input{Figures/emit}
+
+Figure ~\ref{fig:emit} is the top level function of the recursive translator. It is responsible for determining s-expression's type. This is possible as whenever the translator gets executed and a source file is provided as its input, the Clojure Reader is used to read the input source and as a result, it outputs the code as data, more precisely, as lists. 
+These lists can be then checked for type, as the Clojure Reader is responsible for parsing and giving each symbol its corresponding type.
+
+As illustrated on the ~\ref{fig:recursive_expansion_flowchart} flowchart, there is indeed two cases for the emit function. The argument is either a list and it therefore needs to be expanded or it's one of the generic types, e.g. Integer or String and therefore needs to be outputted as a string already at this point. 
 
 \subsection{Forms with multiple arity}
 
@@ -39,7 +79,7 @@ that yields
 \end{verbatim}
 as a result
 
-\subsection{Reduce}
+\subsubsection{Reduce}
 Reduce is a function that takes a function, an optional value (or an s-expression) and a collection as an argument. It reduces or in other words folds a given collection (and an optional value) through the application of a function to a collection, to a single result. 
 \begin{verbatim}
 (reduce 
@@ -78,89 +118,41 @@ Figure ~\ref{fig:emit-cond-expansion} illustrates a table of how each reduction 
 The section above described the operations that are part of the compilation, but they did not provide any examples of an actual compilation. 
 In this section we will take a look at some examples of how our Lispsh to JavaScript compiler works. 
 To illustrate the compilation, I will demonstrate the output of the recursive expansion that the compiler performs on the given Lispish program string. 
-Each line of the compilation trace will correspond to a level in the recursion. The recursion folding will be done implicitly, therefore it does not appear in the compilation traces. 
+Each line of the compilation trace will correspond to a level in the recursion.The recursive folding will be done implicitly, therefore it does not appear in the compilation traces. 
 
-Let's begin our tests by a simple arithmetic expression:
-\begin{verbatim}
-lispish.core> (lisp-to-js "(+ 2 2)")
-Emit Lispish:  (+ 2 2)
-Emit-list head:  + , tail:  (2 2)
-Emit-op, head:  + , tail:  (2 2)
-Emit Lispish:  2
-Emit Lispish:  2
-"(2+2)"
-\end{verbatim}
-As we can see, our recursion begins with passing the Lispish source code to a lisp-to-js macro, which then begins the recursion by invoking the initial emit step.
-At first, our s-expression is of the form (+ 2 2), which is a list. This means that the compiler has to expand the list and emit each individual expression within it. It begins by evaluating the head of the list, which happens to be an "op" operator, in this case the "+" sign. 
-It therefore passes the head of the previous s-expression (the "+" sign), as well as the remaining part of the expression (2 2) to emit-op. 
-Emit-op outputs the corresponding JavaScript by first mapping the top-level recursion emit function to each element inside of the tail list (2 2) which reaches the bottom of the recursion in one step each and then reduces the result of this to a string concatenated with the operator in the middle.
-The same procedure is repeated for all of the "op", as well as "bop" expressions.
+The examples are invoked from the interactive REPL, but later in this section I will illustrate how Lispish translator can be used as a standalone Java JAR file, that takes Lispish (.lispish) source file as an input and produces an equivalent JavaScript code in another file (.js).
 
-In the next sub section, we will have a look at a more complex example of generating a named function that is implemnted largely with Abstract Structural Binding.
+Let's begin our tests by a simple nested arithmetic expression, illustrated on figure ~\ref{fig:emit-simple-arithmetic}.
 
-\subsection{Abstract Structural Binding}
-Abstract Structural Binding in simple words means de-structuring. It allows for de-structuring any data structure to a corresponding argument in function parameters or a let form, creating locally scoped bindings.
-For example, if we define a let as follows:
-\begin{verbatim}
-(let [[x1 x2] [1 2]])
-\end{verbatim}
-"x1" will yield 1 and "x2" will yield 2.
-The same principle is true for a function.
-If our function accepts one parameter which is a collection:
+\input{Figures/emit-simple-arithmetic}
 
-\begin{verbatim}
-(defn test [[x1 x2]] (println x1 x2))
-(test [1])
-\end{verbatim}
-and it binds the first two elements of the collection to x1 x2, in the above case, x1 will yield 1 and x2 null.
+As we can see from the recursive trace illustrated on figure ~\ref{fig:emit-simple-arithmetic}, our recursion begins with passing the Lispish source code to the initial \texttt{(emit)} form, which then begins the recursion.
+At first, our s-expression is of the form \texttt{(+ 2 (* 3 4))}, which is a a whole is a list (an s-expression). This means that the compiler has to expand the list and emit each individual expression within it. It begins by evaluating the head of the list, which happens to be an \texttt{op} operator, in this case the \texttt{$+$} sign. 
+It therefore passes the head of the previous s-expression (the \texttt{$+$} sign), as well as the remaining part of the expression \texttt{(2 (* 3 4))}  to emit-op. 
+Emit-op outputs the corresponding JavaScript by first mapping the top-level recursion emit function to each element inside of the tail list \texttt{(2 (* 3 4))} which reaches the bottom of the recursion in one step for the first \texttt{(2)} and in multiple steps for the second \texttt{(* 3 4)} as it again invokes the same recursive steps and reduces the second list to a string. It then reduces the result of both to a final string concatenated with the two operators as follows \texttt{"(2+(3*4))}, producing an equivalent JavaScript code. 
 
-Lispish uses de-structuring for generating all of its forms ($F$):
-\begin{verbatim}
-lispish.core> (lisp-to-js (defn square [x] (* x x)))
-Emit Lispish:  (defn square [x] (* x x))
-Emit-list head:  defn , tail:  (square [x] (* x x))
-Emit-forms, head:  defn , full expression:  (defn square [x] (* x x))
-Emit-defn, name:  square , arg:  x , arg tail:  nil , rest:  ((* x x))
-Emit Lispish:  ((* x x))
-Emit Lispish:  (* x x)
-Emit-list head:  * , tail:  (x x)
-Emit-op, head:  * , tail:  (x x)
-Emit Lispish:  x
-Emit Lispish:  x
-"function square(x) {(x*x)}"
-\end{verbatim}
+The same procedure is repeated for all of the \texttt{op}, as well as \texttt{bop} type of expressions.
 
-In order to split the "defn" expression into into its respective elements, the emit-defn function that gets invoked by emit-list (after determining the head of list to be "defn") performs a structural binding of the function arguments. The bindings are then used to generate the equivalent JavaScript code. 
 
-Lets look at the signature of the emit-defn function:
-\begin{verbatim}
-(defn emit-defn [type [defn name [arg & more] & rest]]
-  )
-\end{verbatim}
-as we can see, the function takes 4 arguments and 2 optional tail arguments that can be a list of an arbitrary length. The "type" argument is simply a convenience placeholder for the head of the whole expression.
-The actual expression begins to bind from the [defn name [arg \& more] \& rest] arguments. 
-The optional more in the arguments list of arguments allows for an arbitrary length of the named function arguments and the optional rest is for the expression that follows the named function.
+In order to test the usability of the translator, we need to test it with more complex examples of programs that could be written in Lispish, given its grammar and the forms that it supports.
 
-This structure can be then reused to output the corresponding JavaScript as follows:
+\input{Figures/primality-checking-input}
 
-\begin{verbatim}
-(str "function "
-  // Name of the function 
-  name "("
-    (if (nil? more) 
-      // If arguments are not a list, then output just single argument
-      arg 
-      // Else output that list of arguments, separated by a comma
-      (str arg ", " (clojure.string/join ", " more))
-    )
-    // Close the arguments parenthesis and begin function body
-    ") {"
-    // Emit function body
-    (emit rest)
-    // Close function body
-    "}"
-)
-\end{verbatim}
+Program listed in figure ~\ref{fig:primality-checking-input} is an implementation of a naive primality checking written in Lispish. 
+
+
+
+\input{Figures/primality-checking-output}
+
+Provided the JavaScript output listed in ~\ref{fig:primality-checking-output}, the code should be parsable by a JavaScript interpreter. To test this, we will use Google Chrome JavaScript console.
+
+\input{Figures/primality-javascript-test}
+
+Figure ~\ref{fig:primality-javascript-test} illustrates testing of the naive primality test program as it is fed into the Google Chrome's JavaScript console. 
+At the moment of pasting the translator's output to the console, the console yields \texttt{undefined}, meaning that a function has been succesfully parsed and defined as \texttt{is\_prime(num)}. 
+
+The \texttt{{is\_prime}} function is then tested for the first three natural numbers: $1, \ 2, \ 3 $. 1 evaluate to false, whereas the first two prime numbers, 2 and 3 evaluate to true. We then test the prime 997, which also correctly evaluates to true and 1024 which correctly evaluates to false. 
+As this paper does not intend to prove the correctnes of the results of the JavaScript programs that the users of the translator writes, we can therefore conclude this test by saying that the translator produced correct JavaScript code. 
 
 \subsection{Deploying and Using Lispish}
 The end goal of this project was to be able to compile a source Lispish program to an equivalent JavaScript program.
@@ -168,10 +160,15 @@ It is, however, not ideal to have to perform compilation in an interactive REPL,
 
 To solve this problem, the Lispish compiler is compiled as a standalone JAR file that can be executed in any environment equipped with the Java Runtime Environment. This is possible as the JAR file bundles the Clojure language itself, as well as all of its dependencies and our Lispish compiler. It exposes the application through a simple static main method, which serves as an entry point to programs execution, similarly to standard Java applications. 
 
-There are three simple ways to compile a Lispish program to JavaScript. The first method is to execute the Lispish jar file and provide simple source code as a command line argument:
+There are three simple ways to compile a Lispish program to JavaScript. 
+
+The first method is to execute the Lispish jar file and provide simple source code as a command line argument.
+
+\subsubsection{Code as argument}
 
 \begin{verbatim}
-danielzurawski$ java -jar lispish-1.0.jar "(+ 2 2)"Emit Lispish:  (+ 2 2)
+bash$ java -jar lispish-1.0.jar "(+ 2 2)"
+Emit Lispish:  (+ 2 2)
 Emit-list head:  + , tail:  (2 2)
 Emit-op, head:  + , tail:  (2 2)
 Emit Lispish:  2
@@ -182,6 +179,9 @@ Emit Lispish:  2
 Given as an input a prefix s-expression of (+ 2 2), the program yields an expected result, which is an equivalent in-fix (2+2).
 
 This approach is fine for trivial examples that do not span across multiple lines, it is however not optimal when we want to compile a Lispish program file to an equivalent JS. 
+
+\subsubsection{Source (Lispish) and destination (JavaScript) file as argument}
+
 In order to compile a Lispish source file to an equivalent JavaScript source file, our compiler accepts two command line options:
 
 \begin{verbatim}
@@ -189,128 +189,42 @@ In order to compile a Lispish source file to an equivalent JavaScript source fil
 ["-out" "--output" "OPTIONAL: Path to JavaScript output file."]
 \end{verbatim}
 
-\texttt{-in} or equivalently  \texttt{--input}, that should follow with a path to a Lispish source file, as well as an optional 
+\texttt{-in} or equivalently \texttt{--input}, that should follow with a path to a Lispish source file, as well as an optional 
 \texttt{-out} or equivalently \texttt{--output}, that should follow with the name of the output source file. 
 
-To demonstrate how compilation of one source file to another is performed, here is the content of a sample "test.lispish" file:
+To demonstrate how compilation of one source file to another is performed, figure ~\ref{fig:primality-checking-input} illustrates the content of the \texttt{test.lispish} file containing the same example of naive primality checking program written in Lispish, used in the implementation section. 
 
-\begin{verbatim}
-danielzurawski$ more test.lispish
-(+ 2 2)
-\end{verbatim}
+We can then execute the compiler passing in the \texttt{--input} and \texttt{--output} arguments, as follows.
 
-We can then execute the compiler passing in the -in and -out arguments, as follows:
+$$  \texttt{bash\$ java -jar lispish-1.0.jar --input test.lispish --out test.js} $$
 
-\begin{verbatim}
-danielzurawski$ java -jar lispish-1.0.jar -in /Users/danielzurawski/git/lispish/test.lispish -out test.js
-Emit Lispish:  (+ 2 2)
-Emit-list head:  + , tail:  (2 2)
-Emit-op, head:  + , tail:  (2 2)
-Emit Lispish:  2
-Emit Lispish:  2
-danielzurawski$
-\end{verbatim}
+The \texttt{--input} argument specifies path to the \texttt{test.lispish} file and \texttt{--output} argument is the path of the file to be generated.
+The compiler will print out all of the computation steps to the console, but the final result, that is, the JavaScript output, will be written to the file specified in the \texttt{--output} path.
 
-Our "-in" argument is an absolute path to the "test.lispish" file that we printed in the code snippet above and our "-out" argument is the name of the file to be generated, to which the compiler will yield result. 
-The compiler will print out all of the computation steps to the console, but the final result that is the JavaScript output will be written to a file.
+Figure ~\ref{fig:primality-checking-output} illustrates the content of the generated \texttt{test.js} file with the JavaScript equivalent of the previously shown Lispish, naive primality testing, program. 
 
-Now, if we check the content of test.js, we can see
-\begin{verbatim}
-danielzurawski$ more test.js
-(2+2)
-danielzurawski$
-\end{verbatim}
-that the test.js file yields the compiled JavaScript source code. 
-
-This however is a rather trivial example, that does not span accross multiple lines, so lets try something a bit more sophisticated:
-
-The following snippet illustrates the translation of a recursive Ackermann Function [REFERENCE HERE ] from a Lispish source code, to its equivalent JavaScript. 
-
-\begin{verbatim}
-danielzurawski$ java -jar lispish-1.0.jar -in /Users/danielzurawski/git/lispish/test.lispish -out test.js
-Emit Lispish:  (defn ackermann [m n] (cond (= m 0) (+ n 1) (= n 0) (ackermann (- m 1) 1) :else (ackermann (- m 1) (ackermann m (- n 1)))))
-Emit-list head:  defn , tail:  (ackermann [m n] (cond (= m 0) (+ n 1) (= n 0) (ackermann (- m 1) 1) :else (ackermann (- m 1) (ackermann m (- n 1)))))
-Emit-forms, head:  defn , full expression:  (defn ackermann [m n] (cond (= m 0) (+ n 1) (= n 0) (ackermann (- m 1) 1) :else (ackermann (- m 1) (ackermann m (- n 1)))))
-Emit-defn, name:  ackermann , arg:  m , arg tail:  (n) , rest:  ((cond (= m 0) (+ n 1) (= n 0) (ackermann (- m 1) 1) :else (ackermann (- m 1) (ackermann m (- n 1)))))
-Emit Lispish:  ((cond (= m 0) (+ n 1) (= n 0) (ackermann (- m 1) 1) :else (ackermann (- m 1) (ackermann m (- n 1)))))
-Emit Lispish:  (cond (= m 0) (+ n 1) (= n 0) (ackermann (- m 1) 1) :else (ackermann (- m 1) (ackermann m (- n 1))))
-Emit-list head:  cond , tail:  ((= m 0) (+ n 1) (= n 0) (ackermann (- m 1) 1) :else (ackermann (- m 1) (ackermann m (- n 1))))
-Emit-forms, head:  cond , full expression:  (cond (= m 0) (+ n 1) (= n 0) (ackermann (- m 1) 1) :else (ackermann (- m 1) (ackermann m (- n 1))))
-Emit Lispish:  (= m 0)
-Emit-list head:  = , tail:  (m 0)
-Emit-op, head:  = , tail:  (m 0)
-Emit Lispish:  m
-Emit Lispish:  0
-Emit Lispish:  (+ n 1)
-Emit-list head:  + , tail:  (n 1)
-Emit-op, head:  + , tail:  (n 1)
-Emit Lispish:  n
-Emit Lispish:  1
-Emit Lispish:  (= n 0)
-Emit-list head:  = , tail:  (n 0)
-Emit-op, head:  = , tail:  (n 0)
-Emit Lispish:  n
-Emit Lispish:  0
-Emit Lispish:  (ackermann (- m 1) 1)
-Emit-list head:  ackermann , tail:  ((- m 1) 1)
-Emit-forms, head:  ackermann , full expression:  (ackermann (- m 1) 1)
-emit-recur, head: ackermann , name:  ackermann , args:  (- m 1) , more:  (1)
-Emit Lispish:  (- m 1)
-Emit-list head:  - , tail:  (m 1)
-Emit-op, head:  - , tail:  (m 1)
-Emit Lispish:  m
-Emit Lispish:  1
-Emit Lispish:  1
-Emit Lispish:  (ackermann (- m 1) (ackermann m (- n 1)))
-Emit-list head:  ackermann , tail:  ((- m 1) (ackermann m (- n 1)))
-Emit-forms, head:  ackermann , full expression:  (ackermann (- m 1) (ackermann m (- n 1)))
-emit-recur, head: ackermann , name:  ackermann , args:  (- m 1) , more:  ((ackermann m (- n 1)))
-Emit Lispish:  (- m 1)
-Emit-list head:  - , tail:  (m 1)
-Emit-op, head:  - , tail:  (m 1)
-Emit Lispish:  m
-Emit Lispish:  1
-Emit Lispish:  (ackermann m (- n 1))
-Emit-list head:  ackermann , tail:  (m (- n 1))
-Emit-forms, head:  ackermann , full expression:  (ackermann m (- n 1))
-emit-recur, head: ackermann , name:  ackermann , args:  m , more:  ((- n 1))
-Emit Lispish:  m
-Emit Lispish:  (- n 1)
-Emit-list head:  - , tail:  (n 1)
-Emit-op, head:  - , tail:  (n 1)
-Emit Lispish:  n
-Emit Lispish:  1
-\end{verbatim}
-
-The ackermann function is a fairly complicated function that spans across multiple lines and in order to produce an equivalent JavaScript code, a fair amount of recursive calls has to be performed, thus the trace of execution is a rather lengthy one. 
-
-If we now examine the test.js file, it yields:
-
-\begin{verbatim}
-danielzurawski$ more test.js
-function ackermann(m, n) {if((m==0)) { return (n+1) }else if((n==0)){ return ackermann((m-1), 1) }else if(true){ return ackermann((m-1), ackermann(m, (n-1))) }}
-\end{verbatim}
-
-We can now test whether the code can be executed in a JavaScript environment by testing it in, for example, Google Chrome Console: 
-
-\begin{verbatim}
-> function ackermann(m, n) {if((m==0)) { return (n+1) }else if((n==0)){ return ackermann((m-1), 1) }else if(true){ return ackermann((m-1), ackermann(m, (n-1))) }}
-> ackermann(1, 3)
-5
-\end{verbatim}
+I have purposely ommited the recursive trace of the compilation, as the recursion is invoked multiple times and it produces a very long output. 
+The recursive trace is attached to the appendix ~\ref{primality-trace-appendix}. It gives a very good idea how a more complex program gets translated by outputting each one of the forms as a string, also providing name of the function responsible for translating it. 
 
 As we can see, the Google Chrome web browsers console can evaluate the function and when executed with parameters, it yields the right result. 
 
 \subsection{Automating tests with clojure.test API}
 In order to ensure that the compiler is naturally expanded and all of the of regression tests are performed whenever a new language construct is added, I have decided to use the Test Driven Development methodology to approach this project. 
 The tool to support me in the task of TDD I used was the clojure.test API.
-clojure.test API [REFERENCE HERE] is a unit testing framework that provides a set of in-built forms, particularly the "is" macro that allows to perform boolean assertions on arbitrary expressions. 
+clojure.test API\cite{clojure.test:2011:Site} is a unit testing framework that provides a set of in-built forms, particularly the \texttt{(is )} macro that allows to perform boolean assertions on arbitrary expressions. 
 
 \begin{quote}
 \begin{verbatim}
 (deftest factorial-example
-  (is (= "function factorial(n) {if(n<2) { return 1 } else { return (n*factorial(((n-1)))) }}"
-         (lisp-to-js (defn factorial [n] (if (< n 2) 1 (* n (factorial (- n 1)))))))))
+  (is (= 
+         "function factorial(n) {return 
+          ((n<2) ? (1):((n*factorial(((n-1))))))}"
+         (lisp-to-js 
+           "(defn factorial [n] 
+              (if (< n 2) 1 (* n (factorial (- n 1)))))"))))
 \end{verbatim}
 \end{quote}
+
+The above snippet is just one out of many tests included in appendix ~\ref{tests-appendix}. 
+
 

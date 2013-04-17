@@ -1,0 +1,19 @@
+\begin{figure}[ht]
+\begin{verbatim}
+(defn is_prime [num]
+  (let [prime_over_two
+         (fn [num factor]
+           (if (> factor (Math.sqrt num))
+               true
+               (if (= 0 (mod num factor))
+                   false
+                   (recur num (+ 2 factor)))))]
+    (cond
+      (< num 2) false
+      (= 2 num) true
+      (= 0 (mod num 2)) false
+       :else (prime_over_two num 3))))
+\end{verbatim}
+\caption{Lispish naive primality checking source file}
+\label{fig:primality-checking-input}
+\end{figure}

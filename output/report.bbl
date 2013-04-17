@@ -1,3 +1,50 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{7}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[LiS(2013)]{LiScript:2013:Site}
+Liscript, 2013.
+\newblock URL \url{https://github.com/viclib/LiScript}.
+\newblock Accessed 17 April 2013.
+
+\bibitem[Andreev(2013)]{RecursiveDescentParserJS:2013:Site}
+Oleg Andreev.
+\newblock Recursive descent parser in javascript, 2013.
+\newblock URL
+  \url{http://blog.oleganza.com/post/106246432/recursive-descent-parser-in-javascript}.
+\newblock Accessed 17 April 2013.
+
+\bibitem[Hickey(2008)]{Clojure:2013:Site}
+Rich Hickey.
+\newblock Clojure, 2008.
+\newblock URL \url{http://clojure.org/}.
+\newblock Accessed 17 April 2013.
+
+\bibitem[Hickey(2011)]{ClojureScript:2013:Site}
+Rich Hickey.
+\newblock Clojurescript, 2011.
+\newblock URL \url{https://github.com/clojure/clojurescript}.
+\newblock Accessed 17 April 2013.
+
+\bibitem[Krishnan(2011)]{ClojureJS:2011:Site}
+Ram Krishnan.
+\newblock A naive clojure to javascript translator, 2011.
+\newblock URL \url{https://github.com/kriyative/clojurejs}.
+\newblock Accessed 17 April 2013.
+
+\bibitem[Long(2012)]{Outlet:2013:Site}
+James Long.
+\newblock Outlet, 2012.
+\newblock URL \url{https://github.com/jlongster}.
+\newblock Accessed 17 April 2013.
+
+\bibitem[Sierra(2011)]{clojure.test:2011:Site}
+Stuart Sierra.
+\newblock A unit testing framework - api for clojure.test., 2011.
+\newblock URL \url{http://richhickey.github.io/clojure/clojure.test-api.html}.
+\newblock Accessed 17 April 2013.
 
 \end{thebibliography}

@@ -1,0 +1,18 @@
+\begin{figure}[ht]
+\begin{verbatim}
+lispish.core> (lisp-to-js "(+ 2 (* 3 4))")
+(+ 2 (* 3 4))
+Emit Lispish:  (+ 2 (* 3 4))
+Emit-list head:  + , tail:  (2 (* 3 4))
+Emit-op, head:  + , tail:  (2 (* 3 4))
+Emit Lispish:  2
+Emit Lispish:  (* 3 4)
+Emit-list head:  * , tail:  (3 4)
+Emit-op, head:  * , tail:  (3 4)
+Emit Lispish:  3
+Emit Lispish:  4
+"(2+(3*4))"
+\end{verbatim}
+\caption{Emit simple arithmetics example}
+\label{fig:emit-simple-arithmetic}
+\end{figure}

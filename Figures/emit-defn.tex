@@ -1,0 +1,18 @@
+\begin{figure}[ht]
+\centering
+\begin{verbatim}
+(defn emit-defn [type [defn name [arg & more] & rest]]
+    (str "function " (if (= "~" name) "" name) "("
+     
+         ;; Output the argument names 
+         (if (nil? more) arg (str arg ", " (clojure.string/join ", " more)))
+          ") {return "
+        
+         ;; Emit body of the function
+         (emit rest)
+
+         "}")))
+\end{verbatim}
+\caption{Emit-defn function}
+\label{fig:emit-defn}
+\end{figure}

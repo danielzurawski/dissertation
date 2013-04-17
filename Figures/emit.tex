@@ -1,0 +1,18 @@
+\begin{figure}[ht]
+\begin{verbatim}
+(defn emit [expressions]
+  "Take an s-expression and emit its corresponding JavaScript form"
+  (do
+    (println "Emit Lispish: " expressions)
+    (cond
+      (nil? expressions) "null"
+      (symbol? expressions) (str expressions)
+      (seq? expressions) (emit-list expressions)
+      (integer? expressions) (str expressions)
+      (float? expressions) (str expressions)
+      (string? expressions) (str expressions)
+      :else (str expressions))))
+\end{verbatim}
+\caption{Top level function of the recursive expansion}
+\label{fig:emit}
+\end{figure}

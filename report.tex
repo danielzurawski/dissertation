@@ -9,6 +9,7 @@
 \usepackage{listings} %References
 \usepackage{semantic}
 \usepackage{fancyvrb}
+\usepackage{url}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Front Matter - project title, name, supervisor name and date
@@ -40,12 +41,12 @@ Following the invention of high performance JavaScript compilers such as the Goo
  \section{Motivation}
 There are two categories of motivations behind this project. The first category is strictly theoretical, as it touches upon an unexplored problem in computer science and the second is much more practical and covers the engineering aspects of this project. In the sub sections below, I will introduce the two aspects to this project. 
 
-\subsection{Theoretical (Computer Science)}
-I am going to investigate an implementation of a translator that allows for a programming paradigm shift. The translator is going to compile a functional language to an imperative language. 
+\subsection{Theoretical}
+This paper is going to investigate an implementation of a translator that allows for a programming paradigm shift. The translator is going to compile a functional language to an imperative language. 
 
 Preceding the implementation of the translator, I will have to design a small Lisp based language called Lispish and I will investigate how it can be translated to an executable JavaScript. Lispish is going to implement a subset of the Clojure programming language.
 
-\subsection{Practical (Engineering)}
+\subsection{Practical}
 From an engineering perspective, Lispish will provide a way to write programs in Lisp, that can execute in any modern web browser. Lispish could also allow for simple interaction with the DOM elements of web pages, as long as any arbitrary JavaScript function call can be invoked from within Lispish.
 One of the practical aspect of this project will also involve investigating how a functional Lisp language can be used for compilation, as the implementation language that will be used to implement the compiler will be Clojure, which is a modern dialect of Lisp running on the JVM.  
 
@@ -78,9 +79,10 @@ The reason for this is that the translator builds up on top of the already exist
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % References
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\bibliographystyle{plain}
+\bibliographystyle{plainnat}
 \bibliography{references}
 \addcontentsline{toc}{section}{Bibliography}
+\nocite{*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Appendices

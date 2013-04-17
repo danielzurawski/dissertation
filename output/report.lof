@@ -5,11 +5,17 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Lispish grammar}}{17}
 \contentsline {figure}{\numberline {3.2}{\ignorespaces Lispish evaluation relations (Big-Step Semantics)}}{18}
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Abstract \textit {Lispish to JavaScript} compilation.}}{19}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Abstract compilation of Lispish to JavaScript.}}{19}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces yadayada}}{23}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces emit-cond source code}}{24}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Reduction of a cond with multiple arguments}}{25}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Emit-defn function}}{22}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Flow chart of Lispish to JavaScript compilation.}}{23}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Top level function of the recursive expansion}}{24}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces emit-cond source code}}{26}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Reduction of a cond with multiple arguments}}{26}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Emit simple arithmetics example}}{27}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Lispish naive primality checking source file}}{28}
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Naive primality testing Lispish to JavaScript output}}{29}
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Compiled Lispish program for naive primality checking, being tested in Google Chrome JavaScript console and yielding right results.}}{29}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

@@ -1,6 +1,4 @@
 \chapter{Background}
-The background should set the project into context by motivating the subject matter and relating it to existing published work. The background will include a critical evaluation of the existing literature in the area in which your project work is based and should lead the reader to understand how your work is motivated by and related to existing work.
-
 This section provides a throughout background research of the domain of functional programming, Lisp and JavaScript that lead me to the rational behind Lispish design decisions.
 
 \section{Bridging the gap between functional and imperative paradigm}
@@ -21,11 +19,10 @@ The property of immutability is also preserved for data structures, as each time
 In order to complete this project, it is necessary not only to understand the two different programming paradigms, but also the specific features of each of the languages involved - Clojure and JavaScript, as Lispish is a subset of Clojure and the compiler itself is also programmed in Clojure.
 
 \subsection{Clojure}
-Clojure is a functional language, which is implemented as a dialect of Lisp and primarily targets the Java Virtual Machine. It can also target Microsoft's Common Language Runtime, which is the virtual machine for the .NET Framework through Clojure's sub-project \textbf{clojure-clr} [REFERENCE HERE https://github.com/clojure/clojure-clr]. 
-It also targets JavaScript by means of \textbf{ClojureScript} [REFERENCE HERE https://github.com/clojure/clojurescript], which is a subset of Clojure that compiles to JavaScript. 
+Clojure\cite{Clojure:2013:Site} is a functiona language, which is implemented as a dialect of Lisp and primarily targets the Java Virtual Machine. It can also target Microsoft's Common Language Runtime, which is the virtual machine for the .NET Framework through Clojure's sub-project \textbf{clojure-clr} [REFERENCE HERE https://github.com/clojure/clojure-clr]. 
+It also targets JavaScript by means of \texttt{ClojureScript}\cite{ClojureScript:2013:Site}, which is a subset of Clojure that compiles to JavaScript. 
 
 Clojure is a powerful abstraction over standard Java, which as of today does not provide lambdas and any of the functional constructs that Clojure does, including immutability and treating code as data.
-\cite{reflabel}
 
 \subsubsection{Lisp}
 
@@ -110,22 +107,22 @@ ClojureScript is a Clojure to JavaScript compiler that can already generate code
 ClojureScript also takes the idea further and utilises Google Closure compiler to optimise the code to remove code that can be reduced, thus making it run faster, but this approach also suffers from the fact that the Closure optimising compiler very often breaks the JavaScript code that was compiled from Clojure.
 
 \subsection{Outlet}
-Outlet [https://github.com/jlongster/outlet] is a Lisp-like programming language that compiles to JavaScript. 
+Outlet\cite{Outlet:2013:Site} is a Lisp-like programming language that compiles to JavaScript. 
 It's compilation is interesting in that the compiler itself is written in Outlet, only after it is bootstrapped by a JavaScript interpreter.
-The bootstrapping interpreter is implemented using grammar rules similar to Backus-Naur Form context-free grammars [http://blog.oleganza.com/post/106246432/recursive-descent-parser-in-javascript], thus ensuring that the initial interpretation of the main constructs is correct. 
+The bootstrapping interpreter is implemented using grammar rules similar to Backus-Naur Form context-free grammars \cite{RecursiveDescentParserJS:2013:Site} , thus ensuring that the initial interpretation of the main constructs is correct. 
 This approach provides a solid foundation for then implementing rest of the constructs of the Outlet language, in Outlet.
 
 Outlet does not provide the ability to define macros, thus there is no way to dynamically extend the language without modifying the compilers source, which is a big feature of a Lisp language.
 
 \subsection{LiScript}
-LiScript [REFERENCE HERE https://github.com/viclib/LiScript] is again a Lisp language that compiles to JavaScript. It supports roughly 20 forms, out of which 13 forms replace the normal binary and arithmetic operations of ">" "<" etc. and the remaining 7 are forms such as "if", anonymous function "fn", iterating constructs such as "iter" and "while".
+LiScript\cite{LiScript:2013:Site} is again a Lisp language that compiles to JavaScript. It supports roughly 20 forms, out of which 13 forms replace the normal binary and arithmetic operations of \texttt{$>$}, \texttt{$<$} etc. and the remaining 7 are forms such as \texttt{if}, anonymous function \texttt{fn}, iterating constructs such as \texttt{iter} and \texttt{while}.
 
 LiScript is implemented in JavaScript and it is surprisingly lightweight. The entire implementation is around 100 lines of code, but nonetheless it can generate a readable and most importantly executable JavaScript code. 
 
-LiScript allows defining new language constructs by means of macros, a special form "defmacro". That enables for building new forms from arbitrary strings, as input to the defmacro form first modifies the code and only then evaluates it. 
+LiScript allows defining new language constructs by means of macros, a special form \texttt{defmacro}. That enables for building new forms from arbitrary strings, as input to the defmacro form first modifies the code and only then evaluates it. 
 
 \subsection{clojurejs}
-ClojureJS is a small subset of Clojure to JavaScript compiler.
+ClojureJS\cite{ClojureJS:2011:Site} is a small subset of Clojure to JavaScript compiler.
 ClojureJS takes on a different approach to the preceding implementations, as the compilers is written in Clojure. 
 It is a hand-written recursive descent parser that requires a running Clojure environment in order to evaluate input source code, which is of the form of a subset of Clojure.
 
