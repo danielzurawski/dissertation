@@ -42,7 +42,7 @@
 \contentsline {subsubsection}{Source (Lispish) and destination (JavaScript) file as argument}{32}
 \contentsline {subsection}{\numberline {4.2.2}Automating tests with clojure.test API}{33}
 \contentsline {subsection}{\numberline {4.2.3}Writing Lispish programs that interact with JavaScript functions}{33}
-\contentsline {subsection}{\numberline {4.2.4}Using jQuery functions to interact with the browser's Document Object Model (DOM)}{34}
+\contentsline {section}{\numberline {4.3}Writing Lispish programs using jQuery functions to interact with the browser's Document Object Model (DOM)}{34}
 \contentsline {chapter}{\numberline {5}Professional Issues}{36}
 \contentsline {section}{\numberline {5.1}Section Heading}{36}
 \contentsline {chapter}{\numberline {6}Evaluation}{37}
