@@ -3,37 +3,61 @@
 \chapter{Extra Information}
 \section{Compilation trace of Lispish naive primality testing to JavaScript}\label{primality-trace-appendix}
 \begin{verbatim}
-Emit Lispish:  (defn is_prime [num] (let [prime_over_two (fn [num factor] (if (> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false (recur num (+ 2 factor)))))] (cond (< num 2) false (= 2 num) true (= 0 (mod num 2)) false :else (prime_over_two num 3))))
-
-Emit-list head:  defn , tail:  (is_prime [num] (let [prime_over_two (fn [num factor] (if (> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false (recur num (+ 2 factor)))))] (cond (< num 2) false (= 2 num) true (= 0 (mod num 2)) false :else (prime_over_two num 3))))
-
-Emit-forms, head:  defn , full expression:  (defn is_prime [num] (let [prime_over_two (fn [num factor] (if (> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false (recur num (+ 2 factor)))))] (cond (< num 2) false (= 2 num) true (= 0 (mod num 2)) false :else (prime_over_two num 3))))
-
-Emit-defn, name:  , arg:  num , arg tail:  nil , rest:  ((let [prime_over_two (fn [num factor] (if (> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false (recur num (+ 2 factor)))))] (cond (< num 2) false (= 2 num) true (= 0 (mod num 2)) false :else (prime_over_two num 3))))
-
-Emit Lispish:  ((let [prime_over_two (fn [num factor] (if (> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false (recur num (+ 2 factor)))))] (cond (< num 2) false (= 2 num) true (= 0 (mod num 2)) false :else (prime_over_two num 3))))
-
-Emit Lispish:  (let [prime_over_two (fn [num factor] (if (> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false (recur num (+ 2 factor)))))] (cond (< num 2) false (= 2 num) true (= 0 (mod num 2)) false :else (prime_over_two num 3)))
-
-Emit-list head:  let , tail:  ([prime_over_two (fn [num factor] (if (> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false (recur num (+ 2 factor)))))] (cond (< num 2) false (= 2 num) true (= 0 (mod num 2)) false :else (prime_over_two num 3)))
-
-Emit-forms, head:  let , full expression:  (let [prime_over_two (fn [num factor] (if (> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false (recur num (+ 2 factor)))))] (cond (< num 2) false (= 2 num) true (= 0 (mod num 2)) false :else (prime_over_two num 3)))
-type:  let , let:  let , x:  prime_over_two , y:  (fn [num factor] (if (> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false (recur num (+ 2 factor))))) , body:  (cond (< num 2) false (= 2 num) true (= 0 (mod num 2)) false :else (prime_over_two num 3))
-
+Emit Lispish:  (defn is_prime [num] (let [prime_over_two (fn [num factor] 
+(if (> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false 
+(recur num (+ 2 factor)))))] (cond (< num 2) false (= 2 num) true 
+(= 0 (mod num 2)) false :else (prime_over_two num 3))))
+Emit-list head:  defn , tail:  (is_prime [num] (let [prime_over_two 
+(fn [num factor] (if (> factor (Math.sqrt num)) true 
+(if (= 0 (mod num factor)) false (recur num (+ 2 factor)))))] 
+(cond (< num 2) false (= 2 num) true (= 0 (mod num 2)) false :else 
+(prime_over_two num 3))))
+Emit-forms, head:  defn , full expression:  (defn is_prime [num] 
+(let [prime_over_two (fn [num factor] (if (> factor (Math.sqrt num)) true 
+(if (= 0 (mod num factor)) false (recur num (+ 2 factor)))))] 
+(cond (< num 2) false (= 2 num) true (= 0 (mod num 2)) false :else 
+(prime_over_two num 3))))
+Emit-defn, name:  , arg:  num , arg tail:  nil , rest:  ((let [prime_over_two 
+(fn [num factor] (if (> factor (Math.sqrt num)) true 
+(if (= 0 (mod num factor)) false (recur num (+ 2 factor)))))] 
+(cond (< num 2) false (= 2 num) true (= 0 (mod num 2)) false :else 
+(prime_over_two num 3))))
+Emit Lispish:  ((let [prime_over_two (fn [num factor] (if (> factor 
+(Math.sqrt num)) true (if (= 0 (mod num factor)) false 
+(recur num (+ 2 factor)))))] (cond (< num 2) false (= 2 num) true 
+(= 0 (mod num 2)) false :else (prime_over_two num 3))))
+Emit Lispish:  (let [prime_over_two (fn [num factor] 
+(if (> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false 
+(recur num (+ 2 factor)))))] (cond (< num 2) false (= 2 num) true 
+(= 0 (mod num 2)) false :else (prime_over_two num 3)))
+Emit-list head:  let , tail:  ([prime_over_two (fn [num factor] 
+(if (> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false 
+(recur num (+ 2 factor)))))] (cond (< num 2) false (= 2 num) true 
+(= 0 (mod num 2)) false :else (prime_over_two num 3)))
+Emit-forms, head:  let , full expression:  (let [prime_over_two 
+(fn [num factor] (if (> factor (Math.sqrt num)) true 
+(if (= 0 (mod num factor)) false (recur num (+ 2 factor)))))] 
+(cond (< num 2) false (= 2 num) true (= 0 (mod num 2)) false 
+:else (prime_over_two num 3)))
+type:  let , let:  let , x:  prime_over_two , y:  (fn [num factor] 
+(if (> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false 
+(recur num (+ 2 factor))))) , body:  (cond (< num 2) false 
+(= 2 num) true (= 0 (mod num 2)) false :else (prime_over_two num 3))
 Emit Lispish:  prime_over_two
-Emit Lispish:  (cond (< num 2) false (= 2 num) true (= 0 (mod num 2)) false :else (prime_over_two num 3))
-
-Emit-list head:  cond , tail:  ((< num 2) false (= 2 num) true (= 0 (mod num 2)) false :else (prime_over_two num 3))
-
-Emit-forms, head:  cond , full expression:  (cond (< num 2) false (= 2 num) true (= 0 (mod num 2)) false :else (prime_over_two num 3))
-
-Emit-cond, head:  cond , name:  cond , rest:  ((< num 2) false (= 2 num) true (= 0 (mod num 2)) false :else (prime_over_two num 3)) , reverse after partitioning:  ((:else (prime_over_two num 3)) ((= 0 (mod num 2)) false) ((= 2 num) true) ((< num 2) false))
-
+Emit Lispish:  (cond (< num 2) false (= 2 num) true 
+(= 0 (mod num 2)) false :else (prime_over_two num 3))
+Emit-list head:  cond , tail:  ((< num 2) false (= 2 num) true 
+(= 0 (mod num 2)) false :else (prime_over_two num 3))
+Emit-forms, head:  cond , full expression:  (cond (< num 2) false 
+(= 2 num) true (= 0 (mod num 2)) false :else (prime_over_two num 3))
+Emit-cond, head:  cond , name:  cond , rest:  ((< num 2) false (= 2 num) true 
+(= 0 (mod num 2)) false :else (prime_over_two num 3)) , reverse after
+partitioning:  ((:else (prime_over_two num 3)) ((= 0 (mod num 2)) false) 
+((= 2 num) true) ((< num 2) false))
 Emit Lispish:  (prime_over_two num 3)
 Emit-list head:  prime_over_two , tail:  (num 3)
 Emit-forms, head:  prime_over_two , 
 full expression:  (prime_over_two num 3)
-
 Emit-call, name:  prime_over_two , args:  num , rest:  (3)
 Emit Lispish:  num
 Emit Lispish:  3
@@ -42,7 +66,6 @@ Emit-list head:  = , tail:  (0 (mod num 2))
 Emit-op, head:  = , tail:  (0 (mod num 2))
 Emit Lispish:  0
 Emit Lispish:  (mod num 2)
-
 Emit-list head:  mod , tail:  (num 2)
 Emit-op, head:  mod , tail:  (num 2)
 Emit Lispish:  num
@@ -55,30 +78,34 @@ Emit-op, head:  = , tail:  (2 num)
 Emit Lispish:  2
 Emit Lispish:  num
 Emit Lispish:  true
-a:  ((2==num)?true:((0==(num%2))?false:prime_over_two(num, 3))) , b:  ((< num 2) false)
+a:  ((2==num)?true:((0==(num%2))?false:prime_over_two(num, 3))) , b:  
+((< num 2) false)
 Emit Lispish:  (< num 2)
 Emit-list head:  < , tail:  (num 2)
 Emit-op, head:  < , tail:  (num 2)
 Emit Lispish:  num
 Emit Lispish:  2
 Emit Lispish:  false
-Emit Lispish:  (fn [num factor] (if (> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false (recur num (+ 2 factor)))))
-
-Emit-list head:  fn , tail:  ([num factor] (if (> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false (recur num (+ 2 factor)))))
-
-Emit-forms, head:  fn , full expression:  (fn [num factor] (if (> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false (recur num (+ 2 factor)))))
-
-Emit-defn, name:  , arg:  num , arg tail:  (factor) , rest:  ((if (> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false (recur num (+ 2 factor)))))
-Emit Lispish:  ((if (> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false (recur num (+ 2 factor)))))
-
-Emit Lispish:  (if (> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false (recur num (+ 2 factor))))
-
-Emit-list head:  if , tail:  ((> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false (recur num (+ 2 factor))))
-
-Emit-forms, head:  if , full expression:  (if (> factor (Math.sqrt num)) true (if (= 0 (mod num factor)) false (recur num (+ 2 factor))))
-
-Emit-if, condition:  (> factor (Math.sqrt num)) , true-form:  true , false-form:  ((if (= 0 (mod num factor)) false (recur num (+ 2 factor))))
-
+Emit Lispish:  (fn [num factor] (if (> factor (Math.sqrt num)) true 
+(if (= 0 (mod num factor)) false (recur num (+ 2 factor)))))
+Emit-list head:  fn , tail:  ([num factor] (if (> factor (Math.sqrt num)) true 
+(if (= 0 (mod num factor)) false (recur num (+ 2 factor)))))
+Emit-forms, head:  fn , full expression:  (fn [num factor] (if (> factor 
+(Math.sqrt num)) true (if (= 0 (mod num factor)) false (recur num 
+(+ 2 factor)))))
+Emit-defn, name:  , arg:  num , arg tail:  (factor) , rest:  ((if (> factor 
+(Math.sqrt num)) true (if (= 0 (mod num factor)) false (recur num 
+(+ 2 factor)))))
+Emit Lispish:  ((if (> factor (Math.sqrt num)) true 
+(if (= 0 (mod num factor)) false (recur num (+ 2 factor)))))
+Emit Lispish:  (if (> factor (Math.sqrt num)) true 
+(if (= 0 (mod num factor)) false (recur num (+ 2 factor))))
+Emit-list head:  if , tail:  ((> factor (Math.sqrt num)) true 
+(if (= 0 (mod num factor)) false (recur num (+ 2 factor))))
+Emit-forms, head:  if , full expression:  (if (> factor (Math.sqrt num)) true 
+(if (= 0 (mod num factor)) false (recur num (+ 2 factor))))
+Emit-if, condition:  (> factor (Math.sqrt num)) , true-form:  true , 
+false-form:  ((if (= 0 (mod num factor)) false (recur num (+ 2 factor))))
 Emit Lispish:  (> factor (Math.sqrt num))
 Emit-list head:  > , tail:  (factor (Math.sqrt num))
 Emit-op, head:  > , tail:  (factor (Math.sqrt num))
@@ -91,12 +118,12 @@ Emit Lispish:  num
 Emit Lispish:  true
 Emit Lispish:  ((if (= 0 (mod num factor)) false (recur num (+ 2 factor))))
 Emit Lispish:  (if (= 0 (mod num factor)) false (recur num (+ 2 factor)))
-Emit-list head:  if , tail:  ((= 0 (mod num factor)) false (recur num (+ 2 factor)))
-
-Emit-forms, head:  if , full expression:  (if (= 0 (mod num factor)) false (recur num (+ 2 factor)))
-
-Emit-if, condition:  (= 0 (mod num factor)) , true-form:  false , false-form:  ((recur num (+ 2 factor)))
-
+Emit-list head:  if , tail:  ((= 0 (mod num factor)) false (recur num 
+(+ 2 factor)))
+Emit-forms, head:  if , full expression:  (if (= 0 (mod num factor)) false 
+(recur num (+ 2 factor)))
+Emit-if, condition:  (= 0 (mod num factor)) , true-form:  false , false-form:
+((recur num (+ 2 factor)))
 Emit Lispish:  (= 0 (mod num factor))
 Emit-list head:  = , tail:  (0 (mod num factor))
 Emit-op, head:  = , tail:  (0 (mod num factor))
@@ -120,7 +147,10 @@ Emit-op, head:  + , tail:  (2 factor)
 Emit Lispish:  2
 Emit Lispish:  factor
 
-function is_prime(num) {return (function(prime_over_two) { return ((num<2)?false:((2==num)?true:((0==(num%2))?false:prime_over_two(num, 3)))) })(function (num, factor) {return ((factor>Math.sqrt((num))) ? (true):(((0==(num%factor)) ? (false):(arguments.callee(num, (2+factor))))))})}
+function is_prime(num) {return (function(prime_over_two) { return ((num<2)
+?false:((2==num)?true:((0==(num%2))?false:prime_over_two(num, 3)))) })(
+function (num, factor) {return ((factor>Math.sqrt((num))) ? (true):(((0==(
+num%factor)) ? (false):(arguments.callee(num, (2+factor))))))})}
 \end{verbatim}
 
 \section{Test coverage of the naive Clojure recursive-descent-parser implementation}\label{tests-appendix}
@@ -132,69 +162,72 @@ function is_prime(num) {return (function(prime_over_two) { return ((num<2)?false
 
 (deftest plus
   (is (= "(2+2)" (lisp-to-js "(+ 2 2)"))))
-
 (deftest minus
   (is (= "(2-2)" (lisp-to-js "(- 2 2)"))))
-
 (deftest multiply
   (is (= "(2*2)" (lisp-to-js "(* 2 2)"))))
-
 (deftest divide
   (is (= "(2/2)" (lisp-to-js "(/ 2 2)"))))
-
 (deftest logical-or
   (is (= "((5>10)||(10>5))" (lisp-to-js "(or (> 5 10) (> 10 5))"))))
-
 (deftest logical-and
   (is (= "((5>10)&&(10>5))" (lisp-to-js "(and (> 5 10) (> 10 5))"))))
-
 (deftest logical-and
   (is (= "(!(5>10))" (lisp-to-js "(not (> 5 10))"))))
-
 (deftest if-form
   (is (= "((5>10) ? (true):(false))" (lisp-to-js "(if (> 5 10)\"true\" \"false\")"))))
-
 (deftest fn-form
   (is (= "function (x) {return (x*x)}" (lisp-to-js "(fn [x] (* x x))"))))
-
 (deftest let-form
-  (is (= "(function(x) { return (x*x) })(2)" (lisp-to-js "(let [x 2] (* x x))"))))
-
+  (is (= 
+  "(function(x) { return (x*x) })(2)" 
+  (lisp-to-js "(let [x 2] (* x x))"))))
 (deftest let-lambda-function
-  (is (= "(function(times-five) { return times-five((5)) })(function (x) {return (x*5)})" (lisp-to-js "(let [times-five (fn [x] (* x 5))] (times-five 5))"))))
-
+  (is (= 
+  "(function(times-five) { return times-five((5)) })(function (x) {return 
+  (x*5)})" 
+  (lisp-to-js "(let [times-five (fn [x] (* x 5))] (times-five 5))"))))
 (deftest defn-form
-  (is (= "function square(x) {return (x*x)}" (lisp-to-js "(defn square [x] (* x x))"))))
-
+  (is (= "function square(x) {return (x*x)}" 
+  (lisp-to-js "(defn square [x] (* x x))"))))
 (deftest fibonacci-example
   (is (= "function fib(n) {return ((n<2) ? (1):((fib(((n-1)))+fib(((n-2))))))}"
-         (lisp-to-js "(defn fib [n] (if (< n 2) 1 (+ (fib (- n 1)) (fib (- n 2)))))" ))))
-
+         (lisp-to-js 
+         "(defn fib [n] (if (< n 2) 1 (+ (fib (- n 1)) (fib (- n 2)))))" ))))
 (deftest factorial-example
-  (is (= "function factorial(n) {return ((n<2) ? (1):((n*factorial(((n-1))))))}"
-         (lisp-to-js "(defn factorial [n] (if (< n 2) 1 (* n (factorial (- n 1)))))"))))
-
+  (is (= 
+  "function factorial(n) {return ((n<2) ? (1):((n*factorial(((n-1))))))}"
+  (lisp-to-js 
+    "(defn factorial [n] (if (< n 2) 1 (* n (factorial (- n 1)))))"))))
 (deftest ackermann-function
-  (is (= "function ackermann(m, n) {return ((m==0)?(n+1):((n==0)?ackermann((m-1), 1):ackermann((m-1), ackermann(m, (n-1)))))}"
-         (lisp-to-js "(defn ackermann [m n]
-                       (cond (= m 0) (+ n 1)
-                             (= n 0) (ackermann (- m 1) 1)
-                             :else (ackermann (- m 1) (ackermann m (- n 1)))))"))))
-
+  (is (= 
+  "function ackermann(m, n) {return 
+  ((m==0)?(n+1):((n==0)?ackermann((m-1), 1):
+  ackermann((m-1), ackermann(m, (n-1)))))}"
+  (lisp-to-js 
+  "(defn ackermann [m n]
+     (cond (= m 0) (+ n 1)
+           (= n 0) (ackermann (- m 1) 1)
+           :else (ackermann (- m 1) (ackermann m (- n 1)))))"))))
 (deftest primality-checking-program
-  (is (= "function is_prime(num) {return (function(prime_over_two) { return ((num<2)?false:((2==num)?true:((0==(num%2))?false:prime_over_two(num, 3)))) })(function (num, factor) {return ((factor>Math.sqrt((num))) ? (true):(((0==(num%factor)) ? (false):(arguments.callee(num, (2+factor))))))})}"
-         (lisp-to-js "(defn is_prime [num]
-        (let [prime_over_two
-                (fn [num factor]
-                        (if (> factor (Math.sqrt num))
-                                true
-                                (if (= 0 (mod num factor))
-                                        false
-                                        (recur num (+ 2 factor)))))]
+  (is (= 
+  "function is_prime(num) {return (function(prime_over_two) { return ((num<2)
+  ?false:((2==num)?true:((0==(num%2))?false:prime_over_two(num, 3)))) })(
+  function (num, factor) {return ((factor>Math.sqrt((num))) ? (true):(((0==(
+  num%factor)) ? (false):(arguments.callee(num, (2+factor))))))})}" 
+  (lisp-to-js 
+  "(defn is_prime [num]
+     (let [prime_over_two 
+             (fn [num factor]
+               (if (> factor (Math.sqrt num))
+                   true
+                   (if (= 0 (mod num factor))
+                       false
+                       (recur num (+ 2 factor)))))]
         (cond
-                (< num 2) false
-                (= 2 num) true
-                (= 0 (mod num 2)) false
-                :else (prime_over_two num 3))))"))))
+          (< num 2) false
+          (= 2 num) true
+          (= 0 (mod num 2)) false
+          :else (prime_over_two num 3))))"))))
 
 \end{verbatim}

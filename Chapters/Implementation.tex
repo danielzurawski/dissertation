@@ -179,6 +179,7 @@ Emit Lispish:  2
 Given as an input a prefix s-expression of (+ 2 2), the program yields an expected result, which is an equivalent in-fix (2+2).
 
 This approach is fine for trivial examples that do not span across multiple lines, it is however not optimal when we want to compile a Lispish program file to an equivalent JS. 
+It, therefore, only supports compiling programs made of a single s-expression like in the example above, meaning it will not compile two \texttt{defn} forms or two separate s-expressions that are not part of the same list. 
 
 \subsubsection{Source (Lispish) and destination (JavaScript) file as argument}
 
@@ -226,5 +227,59 @@ clojure.test API\cite{clojure.test:2011:Site} is a unit testing framework that p
 \end{quote}
 
 The above snippet is just one out of many tests included in appendix ~\ref{tests-appendix}. 
+
+\subsection{Writing Lispish programs that interact with JavaScript functions}
+As a consequence of Lispish design, the language allows for forms that begin with an arbitrary string as a function name. During the translation, the expression with an arbitrary string as a function name is translated to a JavaScript function call with the same name. This allows the user of the language to use JavaScript built-in function names in their Lispish source code. An example of this has been illustrated in the example show on figure ~\ref{fig:primality-checking-input}, where at some point of the computation, the Math.sqrt has been invoked. 
+
+\input{Figures/emit-call-source}
+
+Figure ~\ref{fig:emit-cond-code} illustrates the \texttt{emit-call} function that is responsible for generating JavaScript code for recursive calls, as well as functions with arbitrary names, used for interacting with the browser and in-built JavaScript functions. 
+As with the function responsible for generating code for JavaScript functions, it concatenates the optional function name, used here for invoking in-built JavaScript functions, with the emitted arguments to that function.
+In case if a Lispish form begins with a recursive call, the JavaScript \texttt{arguments.callee} is passed as a function name to the above \texttt{emit-call}.
+When generated, it outputs JS of the form of \texttt{arguments.callee(x, y, z)}, which tells the JS interpreter to recursively invoke the function with arguments \texttt{x, y, z}.
+
+At first the emit-call might seem like a flaw, but it's a powerful feature, as it allows for invoking JavaScript functions responsible for interacting with the browser. 
+
+\subsection{Using jQuery functions to interact with the browser's Document Object Model (DOM)}
+The in-built JavaScript functions that provide an interface for manipulating content of the Document Object Model are inherently imperative.
+For example, modifying a content of a \texttt{<div id=\"content\">test</div>} element requires us to use an assignment operator that will modify the state of the DOM. 
+
+$$ \texttt{document.getElementById("test").innerHTML = "some text";} $$
+
+
+The JavaScript that is generated out of Lispish does not allow for imperative assignments, as an assignment is done by means of an an argument passed to an anonymous function, which binds to the functions argument, as in the following 
+example:  
+
+\begin{verbatim}
+(function(element) { element.innerHTML("some text") })(".test")
+\end{verbatim}
+
+
+This code would fail in JavaScript, as the \texttt{.innerHTML} is an object's property. Lispish being a non object-oriented, functional language, does not provide this functionality and therefore for it to work, \texttt{innerHTML} would have to be a function.
+
+As a coincidence, there exist JavaScript libraries, that are in fact very popular and provide wrappers over the standard JavaScript functions.
+An example of such library is a very popular jQuery\cite{jquery}. 
+One of the many functionalities that jQuery provides, is the possibility to modify content of a DOM element by passing the new content to a function.
+Similarly to the standard JS \texttt{.innerHTML} property, we can use jQuery's \texttt{.html()} function, that takes the new content as an argument and performs the DOM update internally. 
+
+\begin{verbatim}
+(function(x) { return x.html(("test")) })($((".someDiv")))
+\end{verbatim}
+
+The above code snippet has been generated from the following Lispish code:
+
+\begin{verbatim}
+(let [x ($(".participation"))] (x.html "test"))
+\end{verbatim}
+
+The JavaScript functions takes a jQuery \texttt{\$(".someDiv")} DOM node object and passes it as an argument to the preceding anonymous function.
+It then invokes the \texttt{.html()} function with the text \texttt{test} as an argument, which replaces the content of the DIV with the text.
+
+
+
+
+
+
+
 
 

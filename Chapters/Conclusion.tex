@@ -1,10 +1,22 @@
 \chapter{Conclusions and Future Work}
 
-The project's conclusions should list the key things that have been learnt as a consequence of engaging in your project work. For example, ``The use of overloading in C++ provides a very elegant mechanism for transparent parallelisation of sequential programs'', or ``The overheads of linear-time n-body algorithms makes them computationally less efficient than $O(n log n)$ algorithms for systems with less than 100000 particles''. Avoid tedious personal reflections like ``I learned a lot about C++ programming...'', or ``Simulating colliding galaxies can be real fun...''. It is common to finish the report by listing ways in which the project can be taken further. This might, for example, be a plan for turning a piece of software or hardware into a marketable product, or a set of ideas for possibly turning your project into an MPhil or PhD.
+Functional compilers provide an elegant alternative to compilers written in imperative languages, it is however not trivial to implement one, given the nature of functional programs.   
+
+The translator at its current state could be a good foundation for initiating a collaboration with the open source community, that could have interest in extending it. 
+
+It was not in the scope of this paper to provide any formal proofs of the correctness of the translations. This, however, would be a very achievable target, mainly due the functional properties of the compiler, namely the one-input/one-output property. 
+Providing formal proves of the correctness of the translator and even further, of the generated translations could be a good project for Master Thesis and beyond. 
 
 \section{Future work}
+\subsection{Macros}
+It is typical for Lisp languages to provide a way to define new constructs in terms of already existing language constructs.
+For this to happen, a language needs to support macros. 
+Macros provide a way to extend the language at compile time. 
+Due to time constraints, I was unable to perform sufficient research into how provide the flexibility of macros, yet still being able to parse the code correctly. 
+
 \subsection{Parser}
-In order for Lispish translator to be a true compiler, it would need a parser that can decide whether the input string, that is the Lispish program, is in fact a correct one. As mentioend in the section above, it does not provide any error detection facility and this therefore would be the first step for proper error handling. 
+In order for Lispish translator to be a true compiler, it would need a parser that can decide whether the input string, that is the Lispish program, is in fact a correct one. As mentioned in the section above, it does not provide any error detection facility and this therefore would be the first step for proper error handling. 
 \subsection{JavaScript validator}
-For Lispish to be trully useful, its translator would have to have a JavaScript validator in place. 
+For Lispish to be truly useful, its translator would need have to have a JavaScript validation in place. The parser used for validation could flag, for example, at which point there is an error in the generated JavaScript code and therefore simply the task of debugging the translated code. 
+
 JavaScript that is not syntactically correct due to the faulty input Lispish is only going to decrease the productivity of the developer, which goes against the core idea of building an abstraction over an imperative language.

@@ -1,0 +1,13 @@
+\begin{figure}[ht]
+\begin{verbatim}
+(defn emit-call [head [name args & rest]]
+  (println "Emit-call, name: " name ", args: " args ", rest: " rest)
+  (str name "("
+       (if (nil? rest)
+         (str "(" (emit args) ")")
+         (str (str (emit args)) ", " 
+         	(clojure.string/join ", " (map emit rest)))) ")"))
+\end{verbatim}
+\caption{emit-call source code}
+\label{fig:emit-call-code}
+\end{figure}

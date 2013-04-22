@@ -57,13 +57,15 @@ Clojure can also access all of the core Java static classes/methods, making it a
 JavaScript is an interpreted, dynamically typed, object-oriented programming language that originated from the ECMAScript language in 1995 [REFERENCE HERE]. It was originally intended as a client side scripting language for web browser, but it has since evolved to an extent where well-known corporations such as Microsoft use it for their server side processing [REFERENCRE HERE] due to its rich support for multiple programming styles, including functional programming at its core.
 
 \subsubsection{JavaScript performance}
-The invention of the V8 Google JavaScript Engine made JavaScript stand out from other dynamic languages by making it faster than other dynamically types languages such as for e.g. Python [reference required].
+The invention of the V8 Google JavaScript Engine made JavaScript stand out from other dynamic languages by making it significantly faster than for e.g. Python \cite{JavaScriptVSPython3} or Ruby \cite{JavaScriptVSRuby}.
 
 Due to the fact that Lispish compiles to JavaScript, the generated code can be treated with various optimisation techniques, including the Google Closure compiler that minimises and optimises the code, by compiling the readable, yet verbose version of the JavaScript code, to a less readable but highly optimised JS code.
 
 \subsubsection{Portability}
 JavaScript interpreters are present on majority of consumer devices and are present in all of the modern web browsers. It is the basis of Rich Internet Applications and is now not only present on the front end of the web browser, but also servers as a language of choice for back ends.
-Most notable examples include Microsoft's cloud platform Windows Azure that operates using JavaScript both on the front end and as well as the back end, making use of the Node.Js framework for producing highly asynchronous web applications. [reference required]
+Most notable examples include Microsoft's adoption of \texttt{node.js} for their cloud platform Windows Azure \cite{nodejs.WindowsAzure}. It enables developers to write server-side applications that operate using JavaScript both on the front end and as well as the back end using a single language.
+
+ making use of the Node.Js framework for producing highly concurrent web applications. [reference required]
 
 \subsection{Compiling Lispish using a dialect of Lisp}
 The decision to use Clojure to write a compiler for my Lisp language comes from the fact that there are large advantages of using Lisp to compile Lisp.
@@ -72,7 +74,7 @@ The nature of Lisp and it's s-expressions allows us to build efficient recursive
 Some of the typical complexities that we would encounter when trying to implement a Lisp compiler using a non-lisp imperative language such as C include having to determine if a given expression is an s-expression (list) or a symbol and then breaking the input down into its atomic form of tokens to then building a Parse Tree (ST) or an Annotated Syntax Tree (AST).
 In our case, our input s-expressions with their prefix notations can be treated as a parse tree and thanks to the in-built functions, we can greatly simplify the compiler.
 
-For example, any s-expression can be essentially type-checked using the inbuilt "symbol?" or "list?" to determine if the given s-expression yields to a symbol or a list of expressions. If an input is a list, that means we have come across another s-expression and each element in the list has to be separately evaluated.
+For example, any s-expression can be essentially type-checked using the inbuilt \texttt{(symbol? )} or \texttt{(list? )} to determine if the given s-expression yields to a symbol or a list of expressions. If an input is a list, that means we have come across another s-expression and each element in the list has to be separately evaluated.
 
 Modern dialects of Lisp, such as Clojure, target the Java Virtual Machine making them very portable and pluggable into an existing Java applications.
 Other Lisp languages are very often compiled to another target language, such as C or JavaScript that can be then run on a variety of machines.

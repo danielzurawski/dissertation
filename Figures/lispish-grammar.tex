@@ -6,6 +6,8 @@ $F$ & $\Coloneqq$ & (let \ $[x \ F]$ \ ($F$)) \\
  & $|$ & (defn \ $name$ \ $[args*]$ \ ($F$)) \\
  & $|$ & (fn \ $[arg]$ \ $(F)$) \\
  & $|$ & (cond \ $(F_0)$ \ $F_1$ \ $(F_2)$ \ $F_3$) \\
+ & $|$ & (recur \ $args*$) \\
+ & $|$ & (let [$X$ ($(F_0)$)]  \\
  & $|$ & $T$ \\
  & $|$ & $X$ \\
  & & \\
@@ -28,6 +30,7 @@ $n$ & $\Coloneqq$ & $ Integer $ \\
 $b$ & $\Coloneqq$ & $ true \ \vert \ false $ \\
 $()$ & $\Coloneqq$ & $ List $ \\
 \end{tabular}
+\texttt{*} denotes multiple arity 
 
 \caption{Lispish grammar}
 \label{fig:lispish-grammar}

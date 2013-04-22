@@ -51,6 +51,11 @@ Forms (F):
 \inference[fn]{ {t_0 \ [x]} \ $$\Downarrow$$ \ v}
 {(fn \ {[x]}  \ (t_0) \ $$\Downarrow$$ \ v }
 \]
+\[
+\inference[recur]{ {args*} \ $$\Downarrow$$ \ v}
+{(recur \ {args*}) \ $$\Downarrow$$ \ v }
+\]
+Recur emits all of its arguemnts and provides it as arguments to JavaScript \texttt{arguments.callee(args*)} function.
 \caption{Lispish evaluation relations (Big-Step Semantics)}
 \label{fig:lispish-big-step}
 \end{figure}

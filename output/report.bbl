@@ -1,9 +1,31 @@
-\begin{thebibliography}{7}
+\begin{thebibliography}{11}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Jav({\natexlab{a}})]{JavaScriptVSPython3}
+Javascript v8 vs python 3.0 programs performance benchmark, {\natexlab{a}}.
+\newblock URL
+  \url{http://benchmarksgame.alioth.debian.org/u32/benchmark.php?test=all&lang=v8&lang2=python3&data=u32}.
+\newblock Accessed 22 April 2013.
+
+\bibitem[Jav({\natexlab{b}})]{JavaScriptVSRuby}
+Javascript v8 vs ruby 2.0 programs performance benchmark, {\natexlab{b}}.
+\newblock URL
+  \url{http://benchmarksgame.alioth.debian.org/u32/benchmark.php?test=all&lang=v8&lang2=yarv&data=u32}.
+\newblock Accessed 22 April 2013.
+
+\bibitem[jqu()]{jquery}
+jquery.
+\newblock URL \url{http://jquery.com/}.
+\newblock Accessed 22 April 2013.
+
+\bibitem[nod()]{nodejs.WindowsAzure}
+Javascript v8 vs python 3.0 programs performance benchmark.
+\newblock URL \url{http://www.windowsazure.com/en-us/develop/nodejs/}.
+\newblock Accessed 22 April 2013.
 
 \bibitem[LiS(2013)]{LiScript:2013:Site}
 Liscript, 2013.
