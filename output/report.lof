@@ -1,22 +1,23 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces JavaScript event listener function}}{12}
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Possible Lisp equivalent of event listener function}}{13}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Excerpt from Peter Norvig's Paradigms of Artificial Intelligence Programming: Case Studies in Common Lisp. Comparison of a Lisp and Java lambda function declaration.\cite {PAIP.Norvig}}}{10}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces JavaScript event listener function}}{13}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Possible Lisp equivalent of event listener function}}{14}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Lispish grammar}}{17}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Lispish evaluation relations (Big-Step Semantics)}}{19}
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Abstract compilation of Lispish to JavaScript.}}{20}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Lispish grammar}}{18}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Lispish evaluation relations (Big-Step Semantics)}}{21}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Abstract compilation of Lispish to JavaScript.}}{22}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Emit-defn function}}{23}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Flow chart of Lispish to JavaScript compilation.}}{24}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Top level function of the recursive expansion}}{25}
-\contentsline {figure}{\numberline {4.4}{\ignorespaces emit-cond source code}}{27}
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Reduction of a cond with multiple arguments}}{27}
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Emit simple arithmetics example}}{28}
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Lispish naive primality checking source file}}{29}
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Naive primality testing Lispish to JavaScript output}}{30}
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Compiled Lispish program for naive primality checking, being tested in Google Chrome JavaScript console and yielding right results.}}{30}
-\contentsline {figure}{\numberline {4.10}{\ignorespaces emit-call source code}}{34}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Emit-defn function}}{25}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Flow chart of Lispish to JavaScript compilation.}}{26}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Top level function of the recursive expansion}}{27}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces emit-cond source code}}{29}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Reduction of a cond with multiple arguments}}{29}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Emit simple arithmetics example}}{31}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Lispish naive primality checking source file}}{32}
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Naive primality testing Lispish to JavaScript output}}{33}
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Compiled Lispish program for naive primality checking, being tested in Google Chrome JavaScript console and yielding right results.}}{33}
+\contentsline {figure}{\numberline {4.10}{\ignorespaces emit-call source code}}{37}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

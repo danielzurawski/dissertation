@@ -8,7 +8,7 @@ At the end, we will look into automating the tests by means of using a Clojure t
 This section will describe the operations of the compiler and the fundamental concepts behind how the compiler translates the input Lispish code to JavaScript. 
 
 Lispish translator is implemented as a single pass compiler.
-This design decision comes from the fact that the compiler has been implemeneted in Clojure, which is a strictly functional language and in order to sustain the immutability property throughout the compiler and not violate common idioms, the compiler avoids using state at all costs. It was therefore difficult to perform multi-pass compilation over the same code, as it is done in other commercial compilers. 
+This design decision comes from the fact that the compiler has been implemented in Clojure, which is a strictly functional language and in order to sustain the immutability property throughout the compiler and not violate common idioms, the compiler avoids using state at all costs. It was therefore difficult to perform multi-pass compilation over the same code, as it is done in other commercial compilers. 
 As a consequence of this, the entire implementation is built around recursively invoking a set a functions, which at the end fold to yield a JavaScript string as a result. 
 
 \subsection{Abstract Structural Binding}
@@ -114,6 +114,21 @@ The reduce function then applies the anonymous function to the first value, whic
 
 Figure ~\ref{fig:emit-cond-expansion} illustrates a table of how each reduction step is performed in terms of the two arguments of the function passed to reduce. Variable \texttt{a} accumulates the overall result, whilst \texttt{b} is the current element of the \texttt{(cond )} that is being converted to JavaScript ternary expression.
 
+\subsection{Implementing (recur) with JavaScript arguments.callee}
+One of the peculiar implementation decisions was implement the \texttt{(recur )} form in terms of an \texttt{arguments.callee} invocation from within the JavaScript. 
+This implementation allows us to generate a JavaSript recursive invocation call whenever the \texttt{(recur )} form has been used. 
+It is true, however, that the \texttt{arguments.callee} is disallowed in JavaScript strict mode and the ECMAScript specifications as it impacts how much the JavaScript compiler can optimise the JavaScript code. When \texttt{arguments.callee} is used, the compiler cannot perform tail-recursive optimisations to reduce the overheads of normal recursive calls.  
+
+
+At the same time there are certain pros when deciding to use \texttt{arguments.callee} in case of Lispish. 
+Most importantly, invoking a recursive call to an anonymous function is not possible in JavaScript, unless the \texttt{arguments.callee} is used. When a function that needs to evaluate to a value needs to be recursively called, it needs to be named, however Lispish allows for a anonymous functions that can be invoked recursively.
+
+To implement \texttt{recur} otherwise, the higher level s-expression function name would have to be passed to the function responsible for emitting the \texttt{(recur)} form, or a multi pass compilation, which would in-line the function name wherever a recur is present, would have to be performed. In both cases, the translator implementation would increase in its complexity.
+
+Another argument for using the \texttt{arguments.callee} call, is that in the initial research conducted, it seems that in some older JavaScript versions, it was not possible to invoke a function by its name from within a ternary expression of the form \texttt{(3<x ? true : someFunction(x) )}. 
+
+Lispish allows for using either \texttt{(recur )} as a syntactic sugar for the straight \texttt{(someFunction )} function name invocation, therefore if the \texttt{arguments.callee} cannot be used due to performance reasons or wanting to comply with the ECMAScript standard for validations, a normal function invocation can be used.
+
 \section{Testing}
 The section above described the operations that are part of the compilation, but they did not provide any examples of an actual compilation. 
 In this section we will take a look at some examples of how our Lispsh to JavaScript compiler works. 
@@ -149,10 +164,10 @@ Provided the JavaScript output listed in ~\ref{fig:primality-checking-output}, t
 \input{Figures/primality-javascript-test}
 
 Figure ~\ref{fig:primality-javascript-test} illustrates testing of the naive primality test program as it is fed into the Google Chrome's JavaScript console. 
-At the moment of pasting the translator's output to the console, the console yields \texttt{undefined}, meaning that a function has been succesfully parsed and defined as \texttt{is\_prime(num)}. 
+At the moment of pasting the translator's output to the console, the console yields \texttt{undefined}, meaning that a function has been successfully parsed and defined as \texttt{is\_prime(num)}. 
 
 The \texttt{{is\_prime}} function is then tested for the first three natural numbers: $1, \ 2, \ 3 $. 1 evaluate to false, whereas the first two prime numbers, 2 and 3 evaluate to true. We then test the prime 997, which also correctly evaluates to true and 1024 which correctly evaluates to false. 
-As this paper does not intend to prove the correctnes of the results of the JavaScript programs that the users of the translator writes, we can therefore conclude this test by saying that the translator produced correct JavaScript code. 
+As this paper does not intend to prove the correctness of the results of the JavaScript programs that the users of the translator writes, we can therefore conclude this test by saying that the translator produced correct JavaScript code. 
 
 \subsection{Deploying and Using Lispish}
 The end goal of this project was to be able to compile a source Lispish program to an equivalent JavaScript program.
@@ -204,7 +219,7 @@ The compiler will print out all of the computation steps to the console, but the
 
 Figure ~\ref{fig:primality-checking-output} illustrates the content of the generated \texttt{test.js} file with the JavaScript equivalent of the previously shown Lispish, naive primality testing, program. 
 
-I have purposely ommited the recursive trace of the compilation, as the recursion is invoked multiple times and it produces a very long output. 
+I have purposely omitted the recursive trace of the compilation, as the recursion is invoked multiple times and it produces a very long output. 
 The recursive trace is attached to the appendix ~\ref{primality-trace-appendix}. It gives a very good idea how a more complex program gets translated by outputting each one of the forms as a string, also providing name of the function responsible for translating it. 
 
 As we can see, the Google Chrome web browsers console can evaluate the function and when executed with parameters, it yields the right result. 
@@ -240,7 +255,7 @@ When generated, it outputs JS of the form of \texttt{arguments.callee(x, y, z)},
 
 At first the emit-call might seem like a flaw, but it's a powerful feature, as it allows for invoking JavaScript functions responsible for interacting with the browser. 
 
-\section{Writing Lispish programs using jQuery functions to interact with the browser's Document Object Model (DOM)}
+\section{Writing Lispish programs using jQuery functions to interact with the browser's Document Object Model (DOM)}\label{DOM}
 The in-built JavaScript functions that provide an interface for manipulating content of the Document Object Model are inherently imperative.
 For example, modifying a content of a \texttt{<div id=\"content\">test</div>} element requires us to use an assignment operator that will modify the state of the DOM. 
 

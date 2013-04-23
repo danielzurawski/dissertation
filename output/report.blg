@@ -17,49 +17,51 @@ Warning--to sort, need author or key in JavaScriptVSRuby
 Warning--to sort, need author or key in JavaScriptVSPython3
 Warning--to sort, need author or key in nodejs.WindowsAzure
 Warning--to sort, need author or key in jquery
+Warning--to sort, need author or key in retrospective.norvig
 Warning--empty year in JavaScriptVSPython3
 Warning--empty year in JavaScriptVSRuby
 Warning--empty year in jquery
 Warning--empty year in nodejs.WindowsAzure
-You've used 11 entries,
+Warning--empty year in retrospective.norvig
+You've used 15 entries,
             2773 wiz_defined-function locations,
-            654 strings with 6446 characters,
-and the built_in function-call counts, 3127 in all, are:
-= -- 296
-> -- 60
-< -- 6
-+ -- 30
-- -- 18
-* -- 178
-:= -- 400
-add.period$ -- 39
-call.type$ -- 11
-change.case$ -- 39
-chr.to.int$ -- 10
-cite$ -- 36
-duplicate$ -- 165
-empty$ -- 368
-format.name$ -- 24
-if$ -- 705
-int.to.chr$ -- 2
+            672 strings with 7003 characters,
+and the built_in function-call counts, 4311 in all, are:
+= -- 405
+> -- 90
+< -- 9
++ -- 44
+- -- 27
+* -- 246
+:= -- 569
+add.period$ -- 55
+call.type$ -- 15
+change.case$ -- 53
+chr.to.int$ -- 13
+cite$ -- 47
+duplicate$ -- 230
+empty$ -- 499
+format.name$ -- 36
+if$ -- 965
+int.to.chr$ -- 3
 int.to.str$ -- 1
-missing$ -- 0
-newline$ -- 69
-num.names$ -- 24
-pop$ -- 151
+missing$ -- 2
+newline$ -- 93
+num.names$ -- 36
+pop$ -- 202
 preamble$ -- 1
-purify$ -- 28
+purify$ -- 39
 quote$ -- 0
-skip$ -- 129
+skip$ -- 174
 stack$ -- 0
-substring$ -- 27
-swap$ -- 13
+substring$ -- 36
+swap$ -- 19
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 121
-warning$ -- 9
-while$ -- 18
+type$ -- 160
+warning$ -- 11
+while$ -- 27
 width$ -- 0
-write$ -- 149
-(There were 9 warnings)
+write$ -- 204
+(There were 11 warnings)

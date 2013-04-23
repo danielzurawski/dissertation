@@ -1,0 +1,19 @@
+\begin{figure}[ht]
+
+\begin{quote}
+"... Java has anonymous classes, which serve some of the purposes of closures, although in a less versatile way with a more clumsy syntax. In Lisp, we can say \texttt{(lambda (x) (f (g x)))} where in Java we would have to say
+
+\begin{verbatim}
+
+new UnaryFunction() { 
+  public Object execute(Object x) {
+    return (Cast x).g().f();
+  }
+}
+\end{verbatim}
+where Cast is the real type of x. This would only work with classes that observe the UnaryFunction interface (which comes from JGL and is not built-in to Java). ..."
+\end{quote}
+
+\caption{Excerpt from Peter Norvig's Paradigms of Artificial Intelligence Programming: Case Studies in Common Lisp. Comparison of a Lisp and Java lambda function declaration.\cite{PAIP.Norvig}}
+\label{fig:norvig-lisp-comparison}
+\end{figure}

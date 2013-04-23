@@ -1,4 +1,4 @@
-\begin{thebibliography}{11}
+\begin{thebibliography}{15}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -27,6 +27,11 @@ Javascript v8 vs python 3.0 programs performance benchmark.
 \newblock URL \url{http://www.windowsazure.com/en-us/develop/nodejs/}.
 \newblock Accessed 22 April 2013.
 
+\bibitem[ret()]{retrospective.norvig}
+A retrospective on paradigms of ai programming.
+\newblock URL \url{http://norvig.com/Lisp-retro.html}.
+\newblock Accessed 23 April 2013.
+
 \bibitem[LiS(2013)]{LiScript:2013:Site}
 Liscript, 2013.
 \newblock URL \url{https://github.com/viclib/LiScript}.
@@ -39,10 +44,22 @@ Oleg Andreev.
   \url{http://blog.oleganza.com/post/106246432/recursive-descent-parser-in-javascript}.
 \newblock Accessed 17 April 2013.
 
-\bibitem[Hickey(2008)]{Clojure:2013:Site}
+\bibitem[Hickey(2008{\natexlab{a}})]{Clojure:2013:Site}
 Rich Hickey.
-\newblock Clojure, 2008.
+\newblock Clojure, 2008{\natexlab{a}}.
 \newblock URL \url{http://clojure.org/}.
+\newblock Accessed 17 April 2013.
+
+\bibitem[Hickey(2008{\natexlab{b}})]{clojure.reader}
+Rich Hickey.
+\newblock Clojure reader, 2008{\natexlab{b}}.
+\newblock URL \url{http://clojure.org/reader}.
+\newblock Accessed 17 April 2013.
+
+\bibitem[Hickey(2009)]{clojure-clr}
+Rich Hickey.
+\newblock clojure-clr, 2009.
+\newblock URL \url{https://github.com/clojure/clojure-clr}.
 \newblock Accessed 17 April 2013.
 
 \bibitem[Hickey(2011)]{ClojureScript:2013:Site}
@@ -62,6 +79,15 @@ James Long.
 \newblock Outlet, 2012.
 \newblock URL \url{https://github.com/jlongster}.
 \newblock Accessed 17 April 2013.
+
+\bibitem[Norvig(1991)]{PAIP.Norvig}
+Peter Norvig.
+\newblock \emph{Paradigms of Artificial Intelligence Programming: Case Studies
+  in Common Lisp}.
+\newblock Morgan Kaufmann, 1991.
+\newblock ISBN 1558601910.
+\newblock URL
+  \url{http://www.amazon.co.uk/Paradigms-Artificial-Intelligence-Programming-Studies/dp/1558601910/ref=sr_1_1?ie=UTF8&qid=1366716338&sr=8-1&keywords=paradigms+of+artificial+intelligence+programming}.
 
 \bibitem[Sierra(2011)]{clojure.test:2011:Site}
 Stuart Sierra.

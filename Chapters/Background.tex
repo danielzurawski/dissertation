@@ -16,10 +16,11 @@ When state is absolutely necessary in order to improve the performance of an app
 The property of immutability is also preserved for data structures, as each time a data structure is modified, a new copy of such structure is retained therefore leaving the old one in tact. This allows for much better parallelisation, as one part of the program may never modify the same data as the other part of the program, which would lead to inconsistent state.
 
 \section{Programming languages involved}
-In order to complete this project, it is necessary not only to understand the two different programming paradigms, but also the specific features of each of the languages involved - Clojure and JavaScript, as Lispish is a subset of Clojure and the compiler itself is also programmed in Clojure.
+In order to complete this project, it is necessary not only to understand the two different programming paradigms, but also the specific features of each of the languages involved - Clojure and JavaScript.
+We will use Clojure as an example of a functional language, as Lispish is a subset of Clojure and the compiler itself is also programmed in Clojure.
 
 \subsection{Clojure}
-Clojure\cite{Clojure:2013:Site} is a functiona language, which is implemented as a dialect of Lisp and primarily targets the Java Virtual Machine. It can also target Microsoft's Common Language Runtime, which is the virtual machine for the .NET Framework through Clojure's sub-project \textbf{clojure-clr} [REFERENCE HERE https://github.com/clojure/clojure-clr]. 
+Clojure\cite{Clojure:2013:Site} is a functional language, which is implemented as a dialect of Lisp and primarily targets the Java Virtual Machine. It can also target Microsoft's Common Language Runtime, which is the virtual machine for the .NET Framework through Clojure's sub-project \textbf{clojure-clr}\cite{clojure-clr}. 
 It also targets JavaScript by means of \texttt{ClojureScript}\cite{ClojureScript:2013:Site}, which is a subset of Clojure that compiles to JavaScript. 
 
 Clojure is a powerful abstraction over standard Java, which as of today does not provide lambdas and any of the functional constructs that Clojure does, including immutability and treating code as data.
@@ -31,21 +32,15 @@ Lisp languages differ from other programming languages in its few original conce
 
 The exact expansion of the Lisp acronym is List Processing, which has its practical reasons - Lisp source code is written as lists, formally - S-Expressions [reference here]
 
-To illustrate how a valid s-expression would look like compared to an equivalent C expression, here is an example:
+To illustrate how a valid s-expression would look like compared to an equivalent Java expression, figure ~\ref{fig:norvig-lisp-comparison} illustrates an excerpt from Peter Norvig's "A Retrospective on Paradigms of AI Programming"\cite{retrospective.norvig}. The figure illustrates the comparison of complexity in defining a lambda function in Lisp and in Java. 
+As we can see, Lisp is not only a lot clearer syntactically, but it is also shorter and accomplishes the same goal.  
 
-\begin{quote}
-\begin{verbatim}
-1 == (1 * 1)
-\end{verbatim}
-\end{quote}
-in C is equivalent to
+\input{Figures/norvig-lisp-comparison}
 
-\begin{quote}
-\begin{verbatim}
-(= 1 (* 1 1))
-\end{verbatim}
-\end{quote}
-in Lisp's s-expression based prefix notation.
+The article also shows an interesting view on the recent advancements of other languages compared to the ancient Lisp and it's a retrospective to the "Paradigms of Artificial Intelligence Programming: Case Studies in Common Lisp"\cite{PAIP.Norvig}, which is Peter Norvig's book about Aritficial Intelligence, where all of the examples have been programmed in Common Lisp.
+
+
+The simplicity and conciseness Lisp syntax has been the main motivating factor to choose Clojure (being a functional language of the Lisp dialect) as the basis for the Lispish language. 
 
 \subsubsection{Portability}
 Due to the fact that Clojure targets the JVM, programs written in this language can be executed in any environment where the JRE is installed by means of executing Clojure programs packaged as JAR files, given that they have been packaged to include Clojure itself.  
@@ -54,18 +49,16 @@ Clojure programs can co-operate with Java applications due to its great interope
 Clojure can also access all of the core Java static classes/methods, making it a very powerful abstraction over Java, not only because it's a very portable, functional language that works with immutable data structures, but also because it gives an access to the vast Java libraries and the entire JVM eco-system.
 
 \subsection{JavaScript}
-JavaScript is an interpreted, dynamically typed, object-oriented programming language that originated from the ECMAScript language in 1995 [REFERENCE HERE]. It was originally intended as a client side scripting language for web browser, but it has since evolved to an extent where well-known corporations such as Microsoft use it for their server side processing [REFERENCRE HERE] due to its rich support for multiple programming styles, including functional programming at its core.
+JavaScript is an interpreted, dynamically typed, object-oriented programming language that originated from the ECMAScript language in 1995. It was originally intended as a client side scripting language for web browser, but it has since evolved to an extent where well-known corporations such as Microsoft support it as a language of choice for deploying web applications  on their cloud-service offerings due to its rich support for multiple programming styles, including functional programming at its core. More on this below in JavaScript: Portability~\ref{portability}.  
 
 \subsubsection{JavaScript performance}
 The invention of the V8 Google JavaScript Engine made JavaScript stand out from other dynamic languages by making it significantly faster than for e.g. Python \cite{JavaScriptVSPython3} or Ruby \cite{JavaScriptVSRuby}.
 
 Due to the fact that Lispish compiles to JavaScript, the generated code can be treated with various optimisation techniques, including the Google Closure compiler that minimises and optimises the code, by compiling the readable, yet verbose version of the JavaScript code, to a less readable but highly optimised JS code.
 
-\subsubsection{Portability}
+\subsubsection{Portability}\label{portability}
 JavaScript interpreters are present on majority of consumer devices and are present in all of the modern web browsers. It is the basis of Rich Internet Applications and is now not only present on the front end of the web browser, but also servers as a language of choice for back ends.
-Most notable examples include Microsoft's adoption of \texttt{node.js} for their cloud platform Windows Azure \cite{nodejs.WindowsAzure}. It enables developers to write server-side applications that operate using JavaScript both on the front end and as well as the back end using a single language.
-
- making use of the Node.Js framework for producing highly concurrent web applications. [reference required]
+Most notable examples include Microsoft's adoption of \texttt{node.js} for their cloud platform Windows Azure \cite{nodejs.WindowsAzure}, as a basis for producing highly concurrent web applications. It enables developers to write server-side applications that operate using JavaScript both on the front end and as well as the back end using a single programming language.
 
 \subsection{Compiling Lispish using a dialect of Lisp}
 The decision to use Clojure to write a compiler for my Lisp language comes from the fact that there are large advantages of using Lisp to compile Lisp.
