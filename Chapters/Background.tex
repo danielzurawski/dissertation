@@ -31,7 +31,7 @@ Clojure is a powerful abstraction over standard Java, which as of today does not
 Lisp is amongst one of the worlds oldest family of programming languages, that has developed several dialects since the original Lisp was published in 1958-1960 by John McCarthy. [citation here]
 Lisp languages differ from other programming languages in its few original concepts, notably treating code as data, s-expressions, parenthesized Polish prefix notation and lambda expressions.
 
-The exact expansion of the Lisp acronym is List Processing, which has its practical reasons - Lisp source code is written as lists, formally - S-Expressions [reference here]
+The exact expansion of the Lisp acronym is List Processing, which has its practical reasons - Lisp source code is written as lists, formally known as S-expressions\cite{s-expression}\cite{s-expression-wiki}.
 
 To illustrate how a valid s-expression would look like compared to an equivalent Java expression, figure ~\ref{fig:norvig-lisp-comparison} illustrates an excerpt from Peter Norvig's "A Retrospective on Paradigms of AI Programming"\cite{retrospective.norvig}. The figure illustrates the comparison of complexity in defining a lambda function in Lisp and in Java. 
 As we can see, Lisp is not only a lot clearer syntactically, but it is also shorter and accomplishes the same goal.  
@@ -74,7 +74,7 @@ Modern dialects of Lisp, such as Clojure, target the Java Virtual Machine making
 Other Lisp languages are very often compiled to another target language, such as C or JavaScript that can be then run on a variety of machines.
 
 \section{JavaScript as a target language for the Lispish language}
-The rationale behind selecting JavaScript as the target language is the fact that JavaScript can be executed on almost all of the Internet enabled devices, as long as they have a web browser. Percentage of JS enabled devices as of date: [insert reference here].
+The rationale behind selecting JavaScript as the target language is the fact that JavaScript can be executed on almost all of the Internet enabled devices.
 
 Our small dialect of Lisp (Lispish) language will allow generating pluggable JavaScript code.
 From this follows the fact that applications written in Lispish can be executed in environments where the JVM or Clojure is not present, as the generated code will be a standard JavaScript.

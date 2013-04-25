@@ -1,4 +1,4 @@
-\begin{thebibliography}{15}
+\begin{thebibliography}{17}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -89,10 +89,22 @@ Peter Norvig.
 \newblock URL
   \url{http://www.amazon.co.uk/Paradigms-Artificial-Intelligence-Programming-Studies/dp/1558601910/ref=sr_1_1?ie=UTF8&qid=1366716338&sr=8-1&keywords=paradigms+of+artificial+intelligence+programming}.
 
+\bibitem[Rivest(1997)]{s-expression}
+Ronald~L. Rivest.
+\newblock S-expressions memo, mit, 1997.
+\newblock URL \url{http://people.csail.mit.edu/rivest/Sexp.txt}.
+\newblock Accessed 25 April 2013.
+
 \bibitem[Sierra(2011)]{clojure.test:2011:Site}
 Stuart Sierra.
 \newblock A unit testing framework - api for clojure.test., 2011.
 \newblock URL \url{http://richhickey.github.io/clojure/clojure.test-api.html}.
 \newblock Accessed 17 April 2013.
+
+\bibitem[Wikipedia()]{s-expression-wiki}
+Wikipedia.
+\newblock S-expressions.
+\newblock URL \url{http://en.wikipedia.org/wiki/S-expression}.
+\newblock Accessed 25 April 2013.
 
 \end{thebibliography}

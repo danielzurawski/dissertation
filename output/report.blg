@@ -4,7 +4,6 @@ The top-level auxiliary file: output/report.aux
 A level-1 auxiliary file: Chapters/Background.aux
 A level-1 auxiliary file: Chapters/DesignSpecification.aux
 A level-1 auxiliary file: Chapters/Implementation.aux
-A level-1 auxiliary file: Chapters/ProfessionalIssues.aux
 A level-1 auxiliary file: Chapters/Evaluation.aux
 A level-1 auxiliary file: Chapters/Conclusion.aux
 The style file: plainnat.bst
@@ -23,45 +22,46 @@ Warning--empty year in JavaScriptVSRuby
 Warning--empty year in jquery
 Warning--empty year in nodejs.WindowsAzure
 Warning--empty year in retrospective.norvig
-You've used 15 entries,
+Warning--empty year in s-expression-wiki
+You've used 17 entries,
             2773 wiz_defined-function locations,
-            672 strings with 7003 characters,
-and the built_in function-call counts, 4311 in all, are:
-= -- 405
-> -- 90
-< -- 9
-+ -- 44
-- -- 27
-* -- 246
-:= -- 569
-add.period$ -- 55
-call.type$ -- 15
-change.case$ -- 53
-chr.to.int$ -- 13
-cite$ -- 47
-duplicate$ -- 230
-empty$ -- 499
-format.name$ -- 36
-if$ -- 965
+            681 strings with 7173 characters,
+and the built_in function-call counts, 4922 in all, are:
+= -- 460
+> -- 110
+< -- 11
++ -- 52
+- -- 33
+* -- 276
+:= -- 662
+add.period$ -- 63
+call.type$ -- 17
+change.case$ -- 61
+chr.to.int$ -- 15
+cite$ -- 52
+duplicate$ -- 260
+empty$ -- 563
+format.name$ -- 44
+if$ -- 1096
 int.to.chr$ -- 3
 int.to.str$ -- 1
 missing$ -- 2
-newline$ -- 93
-num.names$ -- 36
-pop$ -- 202
+newline$ -- 105
+num.names$ -- 44
+pop$ -- 230
 preamble$ -- 1
-purify$ -- 39
+purify$ -- 45
 quote$ -- 0
-skip$ -- 174
+skip$ -- 197
 stack$ -- 0
-substring$ -- 36
-swap$ -- 19
+substring$ -- 40
+swap$ -- 21
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 160
-warning$ -- 11
-while$ -- 27
+type$ -- 182
+warning$ -- 12
+while$ -- 33
 width$ -- 0
-write$ -- 204
-(There were 11 warnings)
+write$ -- 231
+(There were 12 warnings)
