@@ -95,12 +95,14 @@ Similarly, the equivalent expressions written in Lisp could look like on figure 
 
 Both of the expressions make use of nested functions and thus take the advantage of the lambda calculus. This abstraction can be also one-to-one mapped when performing the compilation from a Lisp to JavaScript and thus simplifying the compiler.
 
-\section{Existing Lisp to JS compilers}
+\section{Existing Lisp to JS compilers}\label{existing-implementations}
 There already exists a number of similar projects, that each tries to solve the problem in a slightly different way, although there exists only one mature compiler that can actually generate an executable JavaScript code and it's called ClojureScript.
 
 \subsection{ClojureScript}
-ClojureScript is a Clojure to JavaScript compiler that can already generate code that can be executed in the browser and although there are examples of companies using ClojureScript for their production applications, it is difficult to operate as it requires to execute a chain of operations, including starting a JavaScript program before the Clojure code can be compiled.
-ClojureScript also takes the idea further and utilises Google Closure compiler to optimise the code to remove code that can be reduced, thus making it run faster, but this approach also suffers from the fact that the Closure optimising compiler very often breaks the JavaScript code that was compiled from Clojure.
+ClojureScript\cite{ClojureScript:2013:Site} is a Clojure to JavaScript compiler that can already generate code that can be executed in the browser and although there are examples of companies using ClojureScript for their production applications, it is difficult to operate as it requires to execute a chain of operations, including starting a JavaScript program before the Clojure code can be compiled.
+ClojureScript also takes the idea further and utilises Google Closure compiler to optimise the code to remove code that can be reduced, thus making it run faster, but this approach also suffers from the possibility in which the Closure optimising compiler could break the JavaScript code that was compiled from Clojure. However, the ClojureScript project page claims, that the JavaScript generated is compatible with the \texttt{advanced} mode of the Google Closure compiler.
+
+ClojureScript is a production ready project and has been deployed numerous times in production environment. It is also the official 
 
 \subsection{Outlet}
 Outlet\cite{Outlet:2013:Site} is a Lisp-like programming language that compiles to JavaScript. 

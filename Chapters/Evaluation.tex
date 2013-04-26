@@ -34,3 +34,18 @@ The compiler does not have any means of validating the JavaScript code. This cou
 
 The biggest issue with the compiler is that it does not actually parse the input string before the compilation is performed. This caveat removes the possibility of determining if the input source, that is Lispish, is actually valid. 
 Providing an invalid Lispish source code would still result in a JavaScript output, but the generated code would be malformed and would not execute in a browser. This is both true for semantical, as well as syntactical errors.
+
+\section{Evaluationg of Lispish against other Lisp to JavaScript implementations}\label{lispish-vs-rest}
+
+Lispish does not try to compete with other compilers such as ClojureScript, as they are community-driven, mature and production ready that not only provide a much larger language support, but also the very crucial optimisations that a toy implementation such as Lispish does not provide. 
+
+In its current version, ClojureScript does not define a subset of Clojure that it can compile, therefore it is understandable that it provides a full language coverage. Lispish in retrospect defines limited language constructs that can be used to build simple programs and therefore, it is nowhere as powerful as ClojureScript.
+
+In contrast with Outlet, Lispish takes an advantage of a popular Clojure language and proposes to translate a small subset of the language to JavaScript. Outlet on the other hand defines it's own original Lisp-like syntax that must be understood by a Clojure or any other Lisp programmer, before even a trivial program can be implemented.
+One of the advantages of Outlet is that it allows the programmer to extend the language using macro functions, whereas Lispish does not provide macros and thus has a much lower dynamism compared to Outlet. 
+
+
+
+
+
+

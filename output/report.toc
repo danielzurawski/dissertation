@@ -1,6 +1,6 @@
 \contentsline {chapter}{\numberline {1}Introduction}{3}
 \contentsline {section}{\numberline {1.1}Motivation}{3}
-\contentsline {subsection}{\numberline {1.1.1}Theoretical}{3}
+\contentsline {subsection}{\numberline {1.1.1}Theoretical}{4}
 \contentsline {subsection}{\numberline {1.1.2}Practical}{4}
 \contentsline {section}{\numberline {1.2}Report Structure}{4}
 \contentsline {chapter}{\numberline {2}Background}{7}
@@ -18,7 +18,7 @@
 \contentsline {subsection}{\numberline {2.3.1}Similarities}{13}
 \contentsline {section}{\numberline {2.4}Existing Lisp to JS compilers}{14}
 \contentsline {subsection}{\numberline {2.4.1}ClojureScript}{14}
-\contentsline {subsection}{\numberline {2.4.2}Outlet}{14}
+\contentsline {subsection}{\numberline {2.4.2}Outlet}{15}
 \contentsline {subsection}{\numberline {2.4.3}LiScript}{15}
 \contentsline {subsection}{\numberline {2.4.4}clojurejs}{15}
 \contentsline {section}{\numberline {2.5}Professional and ethical issues}{16}
@@ -48,6 +48,7 @@
 \contentsline {chapter}{\numberline {5}Evaluation}{39}
 \contentsline {section}{\numberline {5.1}Missing parts}{40}
 \contentsline {subsection}{\numberline {5.1.1}Error handling}{40}
+\contentsline {section}{\numberline {5.2}Evaluationg of Lispish against other Lisp to JavaScript implementations}{41}
 \contentsline {chapter}{\numberline {6}Conclusions and Future Work}{42}
 \contentsline {section}{\numberline {6.1}Future work}{43}
 \contentsline {subsection}{\numberline {6.1.1}Macros}{43}
