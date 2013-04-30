@@ -1,5 +1,6 @@
 \chapter{Background}
-This section provides a throughout background research of the domain of functional programming, Lisp and JavaScript that lead me to the rational behind Lispish design decisions. 
+This section provides throughout background research of the domain of functional programming, Lisp and JavaScript that lead me to the rational behind Lispish design decisions. 
+
 It also covers existing implementations of Lisp to JavaScript translators and covers the professional issues that need to be taken into consideration in this project. 
 
 \section{Bridging the gap between functional and imperative paradigm}
@@ -21,117 +22,123 @@ In order to complete this project, it is necessary not only to understand the tw
 We will use Clojure as an example of a functional language, as Lispish is a subset of Clojure and the compiler itself is also programmed in Clojure.
 
 \subsection{Clojure}
-Clojure\cite{Clojure:2013:Site} is a functional language, which is implemented as a dialect of Lisp and primarily targets the Java Virtual Machine. It can also target Microsoft's Common Language Runtime, which is the virtual machine for the .NET Framework through Clojure's sub-project \textbf{clojure-clr}\cite{clojure-clr}. 
-It also targets JavaScript by means of \texttt{ClojureScript}\cite{ClojureScript:2013:Site}, which is a subset of Clojure that compiles to JavaScript. 
+Clojure~\cite{Clojure:2013:Site} is a functional language, which is implemented as a dialect of Lisp and primarily targets the Java Virtual Machine. It can also target Microsoft's Common Language Runtime, which is the virtual machine for the .NET Framework through Clojure's sub-project \textbf{clojure-clr}~\cite{clojure-clr}. 
+It also targets JavaScript by means of \texttt{ClojureScript}~\cite{ClojureScript:2013:Site}, which is a subset of Clojure that compiles to JavaScript. 
 
 Clojure is a powerful abstraction over standard Java, which as of today does not provide lambdas and any of the functional constructs that Clojure does, including immutability and treating code as data.
 
 \subsubsection{Lisp}
 
 Lisp is amongst one of the worlds oldest family of programming languages, that has developed several dialects since the original Lisp was published in 1958-1960 by John McCarthy. [citation here]
-Lisp languages differ from other programming languages in its few original concepts, notably treating code as data, s-expressions, parenthesized Polish prefix notation and lambda expressions.
+Lisp languages differ from other programming languages 
+% TODO grammar 'in its'
+in its few original concepts, notably treating code as data, s-expressions, parenthesized Polish prefix notation and lambda expressions.
 
-The exact expansion of the Lisp acronym is List Processing, which has its practical reasons - Lisp source code is written as lists, formally known as S-expressions\cite{s-expression}\cite{s-expression-wiki}.
+The exact expansion of the Lisp acronym is List Processing, which has its practical reasons -- Lisp source code is written as lists, formally known as S-expressions~\cite{s-expression}\cite{s-expression-wiki}.
 
-To illustrate how a valid s-expression would look like compared to an equivalent Java expression, figure ~\ref{fig:norvig-lisp-comparison} illustrates an excerpt from Peter Norvig's "A Retrospective on Paradigms of AI Programming"\cite{retrospective.norvig}. The figure illustrates the comparison of complexity in defining a lambda function in Lisp and in Java. 
+To illustrate how a valid s-expression would look like compared to an equivalent Java expression, figure~\ref{fig:norvig-lisp-comparison} shows an excerpt from Peter Norvig's \textit{A Retrospective on Paradigms of AI Programming}~\cite{retrospective.norvig}. The figure illustrates the comparison of complexity in defining a lambda function in Lisp and in Java. 
 As we can see, Lisp is not only a lot clearer syntactically, but it is also shorter and accomplishes the same goal.  
 
 \input{Figures/norvig-lisp-comparison}
 
-The article also shows an interesting view on the recent advancements of other languages compared to the ancient Lisp and it's a retrospective to the "Paradigms of Artificial Intelligence Programming: Case Studies in Common Lisp"\cite{PAIP.Norvig}, which is Peter Norvig's book about Aritficial Intelligence, where all of the examples have been programmed in Common Lisp.
+The article also shows an interesting view on the recent advancements of other languages compared to the ancient Lisp and it's a retrospective to the \textit{Paradigms of Artificial Intelligence Programming: Case Studies in Common Lisp}~\cite{PAIP.Norvig}. This is Peter Norvig's book about Aritficial Intelligence where all of the examples have been programmed in Common Lisp.
 
-
-The simplicity and conciseness Lisp syntax has been the main motivating factor to choose Clojure (being a functional language of the Lisp dialect) as the basis for the Lispish language. 
+The simplicity and conciseness of Lisp syntax has been the main motivating factor to choose Clojure (being a functional language of the Lisp dialect) as the basis for the Lispish language. 
 
 \subsubsection{Portability}
-Due to the fact that Clojure targets the JVM, programs written in this language can be executed in any environment where the JRE is installed by means of executing Clojure programs packaged as JAR files, given that they have been packaged to include Clojure itself.  
+Due to the fact that Clojure targets the Java Virtual Machine, programs written in this language can be executed in any environment where the Java Runtime Environment is installed by means of executing Clojure programs packaged as JAR files, given that they have been packaged to include Clojure itself.  
 
 Clojure programs can co-operate with Java applications due to its great interoperability. They can be imported into Java programs as aforementioned JAR files.
-Clojure can also access all of the core Java static classes/methods, making it a very powerful abstraction over Java, not only because it's a very portable, functional language that works with immutable data structures, but also because it gives an access to the vast Java libraries and the entire JVM eco-system.
+
+Clojure can also access all of the core Java static classes/methods, making it a very powerful abstraction over Java. It is not only because it's a very portable functional language that works with immutable data structures, but also because it gives access to the wealth of Java libraries and the entire JVM eco-system.
 
 \subsection{JavaScript}
-JavaScript is an interpreted, dynamically typed, object-oriented programming language that originated from the ECMAScript language in 1995. It was originally intended as a client side scripting language for web browser, but it has since evolved to an extent where well-known corporations such as Microsoft support it as a language of choice for deploying web applications  on their cloud-service offerings due to its rich support for multiple programming styles, including functional programming at its core. More on this below in JavaScript: Portability~\ref{portability}.  
+JavaScript is an interpreted, dynamically typed, prototyped, functional programming language that originated from the ECMAScript language in 1995. It was originally intended as a client side scripting language for web browsers, but it has since evolved to an extent where well-known corporations such as Microsoft support it as a language of choice for deploying web applications on their cloud-service offerings \cite{nodejs.WindowsAzure}. This is due to its rich support for multiple programming styles, including functional programming. More on this below in section ~\ref{portability} (JavaScript: Portability).  
 
-\subsubsection{JavaScript performance}
-The invention of the V8 Google JavaScript Engine made JavaScript stand out from other dynamic languages by making it significantly faster than for e.g. Python \cite{JavaScriptVSPython3} or Ruby \cite{JavaScriptVSRuby}.
+\subsubsection{JavaScript Performance}
+The creation of the V8 Google JavaScript Engine made JavaScript stand out from other dynamic languages by making it significantly faster than for e.g. Python ~\cite{JavaScriptVSPython3} or Ruby ~\cite{JavaScriptVSRuby}.
 
-Due to the fact that Lispish compiles to JavaScript, the generated code can be treated with various optimisation techniques, including the Google Closure compiler that minimises and optimises the code, by compiling the readable, yet verbose version of the JavaScript code, to a less readable but highly optimised JS code.
+Due to the fact that Lispish compiles to JavaScript, the generated code can be treated with various optimisation techniques (such as the Google Closure compiler that minimises and optimises the code) by compiling the human-readable to unreadable but highly optimised JS code.
 
 \subsubsection{Portability}\label{portability}
-JavaScript interpreters are present on majority of consumer devices and are present in all of the modern web browsers. It is the basis of Rich Internet Applications and is now not only present on the front end of the web browser, but also servers as a language of choice for back ends.
-Most notable examples include Microsoft's adoption of \texttt{node.js} for their cloud platform Windows Azure \cite{nodejs.WindowsAzure}, as a basis for producing highly concurrent web applications. It enables developers to write server-side applications that operate using JavaScript both on the front end and as well as the back end using a single programming language.
+JavaScript interpreters are present on majority of consumer devices and are present in all of the modern web browsers. It is the basis of Rich Internet Applications and is now not only present on the front-end of the web browser, but also serves as a language of choice on the server-side.
 
-\subsection{Compiling Lispish using a dialect of Lisp}
-The decision to use Clojure to write a compiler for my Lisp language comes from the fact that there are large advantages of using Lisp to compile Lisp.
-The nature of Lisp and it's s-expressions allows us to build efficient recursive descent parsers that can take the advantage of the already present functions in our implementation language, Clojure.
+Most notable examples include Microsoft's adoption of \texttt{node.js} for their cloud platform Windows Azure ~\cite{nodejs.WindowsAzure}, as the basis for producing highly concurrent web applications. It enables developers to write server-side applications that operate using JavaScript both on the front-end and back-end using a single programming language.
 
-Some of the typical complexities that we would encounter when trying to implement a Lisp compiler using a non-lisp imperative language such as C include having to determine if a given expression is an s-expression (list) or a symbol and then breaking the input down into its atomic form of tokens to then building a Parse Tree (ST) or an Annotated Syntax Tree (AST).
-In our case, our input s-expressions with their prefix notations can be treated as a parse tree and thanks to the in-built functions, we can greatly simplify the compiler.
+\subsection{Compiling Lispish Using a Dialect of Lisp}
+The decision to use Clojure to write a compiler for my Lisp language comes from the fact that there are large advantages to using Lisp to compile Lisp.
+% TODO reference for above
+The nature of Lisp and its s-expressions allow us to build efficient recursive descent parsers that can take advantage of already present functions in our implementation language, Clojure.
 
-For example, any s-expression can be essentially type-checked using the inbuilt \texttt{(symbol? )} or \texttt{(list? )} to determine if the given s-expression yields to a symbol or a list of expressions. If an input is a list, that means we have come across another s-expression and each element in the list has to be separately evaluated.
+There is a number of complexities that we would encounter when trying to implement a Lisp compiler using a non-Lisp imperative language such as C.
+These include having to determine if a given expression is an s-expression (list) or a symbol, breaking the input down into its atomic form of tokens, building a Parse Tree (ST) or an Annotated Syntax Tree (AST).
+In our case, our input s-expressions in their prefix notations can be treated as a parse tree and thanks to the in-built functions we can greatly simplify the compiler.
+
+For example, any s-expression can be essentially type-checked using the in-built \texttt{(symbol? )} or \texttt{(list? )} to determine if the given s-expression yields a symbol or a list of expressions. If an input is a list, that means we have encountered another s-expression and each element in the list has to be separately evaluated.
 
 Modern dialects of Lisp, such as Clojure, target the Java Virtual Machine making them very portable and pluggable into an existing Java applications.
 Other Lisp languages are very often compiled to another target language, such as C or JavaScript that can be then run on a variety of machines.
+% TODO STALIN and CHICKEN
 
-\section{JavaScript as a target language for the Lispish language}
-The rationale behind selecting JavaScript as the target language is the fact that JavaScript can be executed on almost all of the Internet enabled devices.
+\section{JavaScript as the Target Language for the Lispish Language}
+The rationale behind selecting JavaScript as the target language is the fact that JavaScript can be executed on almost all Internet-enabled devices.
 
 Our small dialect of Lisp (Lispish) language will allow generating pluggable JavaScript code.
-From this follows the fact that applications written in Lispish can be executed in environments where the JVM or Clojure is not present, as the generated code will be a standard JavaScript.
-In theory our language could even be used as a Domain Specific Language (DSL) for JavaScript applications, as long as the code would be evaluated by our compiler in a Clojure JVM environment.
+From this follows that applications written in Lispish can be executed in environments where the JVM or Clojure is not present as the generated code will be standard JavaScript.
+In theory, our language could even be used as a Domain Specific Language (DSL) for JavaScript applications, as long as the code would be evaluated by our compiler in a Clojure JVM environment.
 
-JavaScript offers a great opportunity as a target language for any high-level programming language primarily due to two reasons - it's portability and performance.
+JavaScript offers a great opportunity as a target language for any high-level programming language primarily due to two reasons - its portability and performance.
 
 \subsection{Similarities}
-JavaScript is a prototype based, objected-oriented language that due to its great flexibility and full support for lambda expressions is also classified as a functional language.
+Similarly to other Lisp languages, JavaScript supports the functional paradigm and provides full support for lambda expressions. It also provides a great deal of flexibility with its support for prototype-based object-orientation which could be compared to Lisp macros used for extending the language.
 
 \input{Figures/js-attach-event-listener}
 
-Figure ~\ref{fig:js-attach-event-listener}  illustrates a stored function that takes a reference to a web browsers window as an argument and attaches an event listener to it. The listener then takes two arguments, a string describing the event - here "load" and the callback function - here an anonymous function that displays an alert "All done" that gets displayed after the desired event is triggered.
+Figure~\ref{fig:js-attach-event-listener} illustrates a stored function that takes a reference to a web browser's window as an argument and attaches an event listener to it. The listener then takes two arguments, a string describing the event (here "load") and the callback function (here an anonymous function that displays an alert "All done") that gets displayed when the desired event is triggered.
 
 \input{Figures/lispish-attach-event-listener}
 
-Similarly, the equivalent expressions written in Lisp could look like on figure ~\ref{fig:lispish-attach-event-listener}, which is arguably a lot more readable. Nonetheless both expressions look alike. 
+Similarly, the equivalent expressions written in Lisp could look like on figure ~\ref{fig:lispish-attach-event-listener}, which is arguably a lot more readable. Nonetheless, both expressions look alike. 
 
-Both of the expressions make use of nested functions and thus take the advantage of the lambda calculus. This abstraction can be also one-to-one mapped when performing the compilation from a Lisp to JavaScript and thus simplifying the compiler.
+Both expressions make use of nested functions and thus, take advantage of lambda calculus. 
 
-\section{Existing Lisp to JS compilers}\label{existing-implementations}
-There already exists a number of similar projects, that each tries to solve the problem in a slightly different way, although there exists only one mature compiler that can actually generate an executable JavaScript code and it's called ClojureScript.
+As lambda functions are inherent to programming applications in a functional language, the design and implementation of the translator will make an extensive use of lambda functions.
+
+\section{Existing Lisp to JS Compilers}\label{existing-implementations}
+% TODO
+There already exists a number of similar projects, each of which tries to solve the problem in a slightly different way. Nevertheless, there exists only one mature compiler that can actually generate an executable JavaScript code and it is called ClojureScript.
 
 \subsection{ClojureScript}
-ClojureScript\cite{ClojureScript:2013:Site} is a Clojure to JavaScript compiler that can already generate code that can be executed in the browser and although there are examples of companies using ClojureScript for their production applications, it is difficult to operate as it requires to execute a chain of operations, including starting a JavaScript program before the Clojure code can be compiled.
-ClojureScript also takes the idea further and utilises Google Closure compiler to optimise the code to remove code that can be reduced, thus making it run faster, but this approach also suffers from the possibility in which the Closure optimising compiler could break the JavaScript code that was compiled from Clojure. However, the ClojureScript project page claims, that the JavaScript generated is compatible with the \texttt{advanced} mode of the Google Closure compiler.
+ClojureScript~\cite{ClojureScript:2013:Site} is a Clojure to JavaScript compiler that generates code that can be executed in the browser. Although there are examples of companies using ClojureScript for their production applications, it is difficult to operate as it requires to execute a chain of operations, including starting a JavaScript program before the Clojure code can be compiled.
 
+ClojureScript also takes the idea further and utilises the Google Closure compiler to optimise the code but this approach suffers from the possibility of breaking the JavaScript code that was compiled from Clojure. However, the ClojureScript project page claims, that the JavaScript generated is compatible with the \texttt{advanced} mode of the Google Closure compiler.
+
+% TODO
 ClojureScript is a production ready project and has been deployed numerous times in production environment. It is also the official 
 
 \subsection{Outlet}
-Outlet\cite{Outlet:2013:Site} is a Lisp-like programming language that compiles to JavaScript. 
-It's compilation is interesting in that the compiler itself is written in Outlet, only after it is bootstrapped by a JavaScript interpreter.
-The bootstrapping interpreter is implemented using grammar rules similar to Backus-Naur Form context-free grammars \cite{RecursiveDescentParserJS:2013:Site} , thus ensuring that the initial interpretation of the main constructs is correct. 
-This approach provides a solid foundation for then implementing rest of the constructs of the Outlet language, in Outlet.
+Outlet~\cite{Outlet:2013:Site} is a Lisp-like programming language that compiles to JavaScript. Its compilation is interesting in that the compiler itself is written in Outlet, only after it is bootstrapped by a JavaScript interpreter.
+The bootstrapping interpreter is implemented using grammar rules similar to Backus-Naur Form context-free grammars ~\cite{RecursiveDescentParserJS:2013:Site}, thus ensuring that the initial interpretation of the main constructs is correct. This approach provides a solid foundation for then implementing rest of the constructs of the Outlet language, in Outlet.
 
 Outlet does not provide the ability to define macros, thus there is no way to dynamically extend the language without modifying the compilers source, which is a big feature of a Lisp language.
 
 \subsection{LiScript}
-LiScript\cite{LiScript:2013:Site} is again a Lisp language that compiles to JavaScript. It supports roughly 20 forms, out of which 13 forms replace the normal binary and arithmetic operations of \texttt{$>$}, \texttt{$<$} etc. and the remaining 7 are forms such as \texttt{if}, anonymous function \texttt{fn}, iterating constructs such as \texttt{iter} and \texttt{while}.
+LiScript~\cite{LiScript:2013:Site} is yet another Lisp language that compiles to JavaScript. It supports roughly 20 forms, 13 of which replace the regular binary and arithmetic operations of \texttt{$>$}, \texttt{$<$} etc. and the remaining 7 are forms such as \texttt{if}, anonymous function \texttt{fn} and iterating constructs such as \texttt{iter} and \texttt{while}.
 
-LiScript is implemented in JavaScript and it is surprisingly lightweight. The entire implementation is around 100 lines of code, but nonetheless it can generate a readable and most importantly executable JavaScript code. 
+LiScript is implemented in JavaScript and it is surprisingly lightweight. The entire implementation is around 100 lines of code. Nonetheless, it can generate a readable and, most importantly, executable JavaScript code. 
 
-LiScript allows defining new language constructs by means of macros, a special form \texttt{defmacro}. That enables for building new forms from arbitrary strings, as input to the defmacro form first modifies the code and only then evaluates it. 
+LiScript allows defining new language constructs by means of macros, a special form \texttt{defmacro}. This allows for building new forms from arbitrary strings, as input to the defmacro form first modifies the code and only then evaluates it. 
 
 \subsection{clojurejs}
-ClojureJS\cite{ClojureJS:2011:Site} is a small subset of Clojure to JavaScript compiler.
-ClojureJS takes on a different approach to the preceding implementations, as the compilers is written in Clojure. 
+ClojureJS~\cite{ClojureJS:2011:Site} is a small subset of Clojure to JavaScript compiler.
+ClojureJS takes on an approach different to the preceding implementations, as the compiler is written in Clojure. 
 It is a hand-written recursive descent parser that requires a running Clojure environment in order to evaluate input source code, which is of the form of a subset of Clojure.
 
-ClojureJS proposes the idea of Special Forms, which are JavaScript specific functionalities, as well as an informally-defined set of forms that is a subset of Clojure.
-
-ClojureJS is perhaps the second best implementation of Clojure to JavaScript compilation, with its support of macros and a lot larger subset of Clojure than for instance LiScript. 
-It is however, in my opinion, a non-extensible implementation of a trans-compiler and it does not provide any ease-of-use features, such as being able to generate an output .js file out of a given source input. 
+% TODO
+ClojureJS is perhaps the second best implementation of Clojure to JavaScript compilation, with its support for macros and a lot larger subset of Clojure than, for instance, LiScript. 
+It is, however, a non-extensible implementation of a trans-compiler and it does not provide any ease-of-use features, such as being able to generate an output \texttt{.js} file out of a given source input. 
 
 \section{Professional and ethical issues}
 Throughout the report, I will make sure that I am not violating the British Computer Society Code of Conduct and Code of Good Practice and that I have applied their principles throughout the project.
 
-This project, however, does not make any use of third party libraries and does not re-use any existing code base.
-
-I will make all the effort to properly state and reference, whenever I am communicating someone else's ideas.
+All possible efforts shall be made to properly state and reference communicating someone else's ideas.

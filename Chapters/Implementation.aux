@@ -1,19 +1,46 @@
 \relax 
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementation and Testing}{19}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementation and Testing}{23}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Building the compiler}{19}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Recursive Expansion}{19}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces yadayada}}{20}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Forms with multiple arity (Map and reduce fns?)}{21}}
-\@writefile{toc}{\contentsline {subsubsection}{Map}{21}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Reduce}{21}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Testing}{23}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Abstract Structural Binding}{24}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Deploying Lispish}{26}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Automating tests with clojure.test API}{30}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Building the compiler}{23}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Abstract Structural Binding}{24}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Emit-defn function}}{25}}
+\newlabel{fig:emit-defn}{{4.1}{25}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Recursive Expansion}{25}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Flow chart of Lispish to JavaScript compilation.}}{26}}
+\newlabel{fig:recursive_expansion_flowchart}{{4.2}{26}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Top level function of the recursive expansion}}{27}}
+\newlabel{fig:emit}{{4.3}{27}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Forms with multiple arity}{27}}
+\@writefile{toc}{\contentsline {subsubsection}{Map}{28}}
+\@writefile{toc}{\contentsline {subsubsection}{Reduce}{28}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces emit-cond source code}}{29}}
+\newlabel{fig:emit-cond-code}{{4.4}{29}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Reduction of a cond with multiple arguments}}{29}}
+\newlabel{fig:emit-cond-expansion}{{4.5}{29}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.4}Implementing (recur) with JavaScript arguments.callee}{30}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Testing}{31}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Emit simple arithmetics example}}{31}}
+\newlabel{fig:emit-simple-arithmetic}{{4.6}{31}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Lispish naive primality checking source file}}{32}}
+\newlabel{fig:primality-checking-input}{{4.7}{32}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Naive primality testing Lispish to JavaScript output}}{33}}
+\newlabel{fig:primality-checking-output}{{4.8}{33}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Compiled Lispish program for naive primality checking, being tested in Google Chrome JavaScript console and yielding right results.}}{33}}
+\newlabel{fig:primality-javascript-test}{{4.9}{33}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Deploying and Using Lispish}{34}}
+\@writefile{toc}{\contentsline {subsubsection}{Code as argument}{34}}
+\@writefile{toc}{\contentsline {subsubsection}{Source (Lispish) and destination (JavaScript) file as argument}{35}}
+\citation{clojure.test:2011:Site}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Automating tests with clojure.test API}{36}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Writing Lispish programs that interact with JavaScript functions}{36}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.10}{\ignorespaces emit-call source code}}{37}}
+\newlabel{fig:emit-call-code}{{4.10}{37}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Writing Lispish programs using jQuery functions to interact with the browser's Document Object Model (DOM)}{37}}
+\newlabel{DOM}{{4.3}{37}}
+\citation{jquery}
 \@setckpt{Chapters/Implementation}{
-\setcounter{page}{31}
+\setcounter{page}{39}
 \setcounter{equation}{0}
 \setcounter{enumi}{0}
 \setcounter{enumii}{0}
@@ -23,12 +50,12 @@
 \setcounter{mpfootnote}{0}
 \setcounter{part}{0}
 \setcounter{chapter}{4}
-\setcounter{section}{2}
-\setcounter{subsection}{3}
+\setcounter{section}{3}
+\setcounter{subsection}{0}
 \setcounter{subsubsection}{0}
 \setcounter{paragraph}{0}
 \setcounter{subparagraph}{0}
-\setcounter{figure}{1}
+\setcounter{figure}{10}
 \setcounter{table}{0}
 \setcounter{lstnumber}{1}
 \setcounter{parentequation}{0}

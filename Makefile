@@ -1,4 +1,4 @@
 all:
 	pdflatex --output-directory output report.tex 
-	#bibtex output/report
+	bibtex output/report
 	pdflatex --output-directory output report.tex

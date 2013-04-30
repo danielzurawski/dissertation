@@ -19,7 +19,7 @@
 \studentID{1015180}
 \supervisor{Christian Urban}
 
-\date{16th November 2012}
+\date{\today}
 
 \abstractFile{FrontMatter/abstract.tex}
 \ackFile{FrontMatter/acknowledgements.tex} %Remove line if you do not want acknowledgements
@@ -36,37 +36,58 @@
 % You can write each chapter directly here or in a separate .tex file and use the include command.
 
 \chapter{Introduction}
-Following the invention of high performance JavaScript compilers such as the Google V8 JavaScript Engine, raised the interest in creating programming language interpreters and compilers that target JavaScript. It enables applications written in other languages, very often higher level languages, to be run on any modern web browser. \\
+% FIXED grammar -- following
+Invention of high performance JavaScript compilers, such as the Google V8 JavaScript Engine, raised interest in creating programming language 
+% FIXED lack of sense -- interpreters
+compilers that target JavaScript. It enables applications written in other languages, very often higher level languages, to be run on any modern web browser.
  
  \section{Motivation}
-There are two categories of motivations behind this project. The first category is strictly theoretical, as it touches upon interesting topics in computer science, namely, paradigm shifts and compilation. The second is much more practical and covers the engineering aspects of the project, such as the design and implementation of a translator in a functional language and the different applications of using a higher level language to simplify program creation. In the sub sections below, I will introduce the two categories of aspects relevant to this project. 
+There are two categories of motivations behind this project. The first category is strictly theoretical, as it touches upon interesting topics in computer science, such as programming language design and the involved compilation. The second is much more practical and covers the engineering aspects of the project -- the design and implementation of a translator in a functional language and the different applications of using a higher level language to simplify program creation.  
+These two categories are outlined in the section below.
+
+%In the subsections below, I will introduce the two categories of aspects relevant to this project. 
+% FIXED These two categories are outlined in the section below.
 
 \subsection{Theoretical}
-This paper is going to investigate an implementation of a translator that allows for a programming paradigm shift. The translator is going to compile a functional language to an imperative language. 
+% TODO remove imperative
+This report is going to investigate an implementation of a translator that allows for a programming language shift.
 
-Preceding the implementation of the translator, I will have to design a small Lisp based language called Lispish and I will investigate how it can be translated to an executable JavaScript. Lispish is going to implement a subset of the Clojure programming language.
+Preceding the implementation of the translator, I will design a small Lisp-based language called Lispish and I will investigate how it can be translated to executable JavaScript. Lispish is going to implement a subset of the Clojure programming language.
 
 \subsection{Practical}
-From an engineering perspective, Lispish will provide a way to write programs in Lisp, that can execute in any modern web browser. Lispish could also allow for simple interaction with the DOM elements of web pages, as long as any arbitrary JavaScript function call can be invoked from within Lispish.
-Another practical aspect of this project will also involve investigating how a functional Lisp language can be used for compilation, as the implementation language that will be used to implement the compiler will be Clojure, which is a modern dialect of Lisp running on the JVM.  
+From an engineering perspective, Lispish will provide a way to write programs in Lisp that can execute in any modern web browser. Lispish could also allow for simple interaction with the DOM elements of web pages, as long as any arbitrary JavaScript function call can be invoked from within Lispish.
 
-This project offers a good opportunity to deepen understanding of functional programming using Lisp and JavaScript and how both can be used to solve complex problems in Computer Science. 
+Another practical aspect of this project will also involve exploring how a functional Lisp language can be used for compilation as the implementation language that will be used to implement the compiler will be Clojure -- a modern dialect of Lisp running on the JVM.  
 
-As there already exists a number of similar projects that target JavaScript, I will investigate the different implementations in the background section of the report~\ref{existing-implementations}.
+This project offers a good opportunity to deepen the understanding of functional programming using Lisp and JavaScript and how the later can enable the former to be portable across multiple devices.
+% FIXED which complex problems?
+% how do you solve them?
+
+As several somewhat similar projects already exist, I will investigate the different solutions and approaches in the background section of the report (section~\ref{existing-implementations}).
+
+% TODO ref
 I will also evaluate the complete Lispish translator implementation against the different implementations in the evaluation section of the report ~\ref{lispish-vs-rest}.
 
 \section{Report Structure}
-Chapter 2 will provide the background research and rationale behind this project. \
-Section 2.1 of chapter 2 aims to explain the differences between functional and imperative programming paradigms. 
-Section 2.2 goes into the details of the two main programming languages involved in the project, namely Clojure and JavaScript and tries to summarize the differences and similarities of each. 
+Chapter 2 will provide the background research and rationale behind this project.
+
+Section 2.1 aims to explain the differences between functional and imperative programming paradigms. 
+
+Section 2.2 goes into the details of the two main programming languages involved in the project (Clojure and JavaScript) and tries to summarize the differences and similarities between them. 
+
 Section 2.3 briefly explains the reasoning for choosing JavaScript as a target language for the \texttt{Lispish} language.
+
 Section 2.4 introduces the different existing implementations of Lisp to JavaScript compilers.
+
 Section 2.5 briefly describes the ethical and professional issues that need to be taken into account. 
 
 Chapter 3 defines the grammar of Lispish and the evaluation relations using Big-Step semantics. Section 3.3 described the compilation pipeline and the main concepts of the translator.
+
 Chapter 4 describes the test suite and showcases the functioning compiler using test cases as examples. Section 4.3 illustrates how Lispish can be used to write programs that manipulate content of a browser using native JavaScript functions and how Lispish can interact with JavaScript libraries, such as jQuery.
 
-Throughout the paper, I will refer to the program responsible for converting the Lispish source code to Javascript both as compiler and translator, as the word compiler is not very appropriate in the case of this particular implementation. 
+Throughout the paper, I will refer to the program responsible for converting the Lispish source code to Javascript both as compiler and translator, as the word 
+% TODO wording appropriate
+compiler is not very appropriate in the case of this particular implementation. 
 The reason for this is that the translator builds up on top of the already existing Clojure language and the tools it offers, especially the reader which takes care of parsing the input code to a typed symbols and expressions. 
 
 \listoffigures

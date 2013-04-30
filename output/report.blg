@@ -11,12 +11,12 @@ A level-1 auxiliary file: Appendices/appendix.aux
 A level-1 auxiliary file: Appendices/UserGuide.aux
 A level-1 auxiliary file: Appendices/SourceCode.aux
 Database file #1: references.bib
-Warning--to sort, need author or key in LiScript:2013:Site
-Warning--to sort, need author or key in JavaScriptVSRuby
-Warning--to sort, need author or key in JavaScriptVSPython3
-Warning--to sort, need author or key in nodejs.WindowsAzure
-Warning--to sort, need author or key in jquery
 Warning--to sort, need author or key in retrospective.norvig
+Warning--to sort, need author or key in JavaScriptVSPython3
+Warning--to sort, need author or key in JavaScriptVSRuby
+Warning--to sort, need author or key in nodejs.WindowsAzure
+Warning--to sort, need author or key in LiScript:2013:Site
+Warning--to sort, need author or key in jquery
 Warning--empty year in JavaScriptVSPython3
 Warning--empty year in JavaScriptVSRuby
 Warning--empty year in jquery
@@ -25,7 +25,7 @@ Warning--empty year in retrospective.norvig
 Warning--empty year in s-expression-wiki
 You've used 17 entries,
             2773 wiz_defined-function locations,
-            681 strings with 7173 characters,
+            682 strings with 7205 characters,
 and the built_in function-call counts, 4922 in all, are:
 = -- 460
 > -- 110

@@ -4,7 +4,7 @@ As previously described, the project aims to create an extensible Lispish to Jav
 In order to clearly define the possible constructs for writing programs in Lispish, we need to formalise our input language. 
 As Lispish defines a subset of an existing language, it is therefore even more important to be clear on what is possible and what is not. 
 
-\section{Designing the Lispish language}
+\section{Designing the Lispish language}\label{design-specification}
 
 Lispish is a dynamically typed, functional language that implements a call-by-value strategy just as its superset Clojure.
 
@@ -14,7 +14,7 @@ The formal description of Lispish behaviour will be described using transition s
 
 \input{Figures/lispish-grammar}
 
-Figure ~\ref{fig:lispish-grammar} illustrates the Lispish grammar. Grammar of the language formally defines the legal operators and operations that the language provides for writing programs in Lispish.
+Figure ~\ref{fig:lispish-grammar} contains the Lispish grammar. The grammar of the language formally defines the legal operators and operations that the language provides for writing programs in Lispish.
 
 \subsection{Evaluation relations (Big-Step Semantics)}
 
@@ -23,23 +23,26 @@ Figure ~\ref{fig:lispish-big-step} describes the evaluation relations of Lispish
 \input{Figures/lispish-big-step}
 
 \section{Development methodology}
-In order to streamline the process of development of the compiler, I have decided to use the Test Driven Development (TDD) methodology that emphasizes on building small units of functionalities that can be individually tested by unit tests. 
+In order to streamline the process of developing the compiler, I have decided to use the Test Driven Development (TDD) methodology that emphasizes building small units of functionalities that can be individually tested by unit tests. 
 
-Clojure allows developers to create programs using the REPL (Read Evaluation Print Loop), which is characteristic feature in modern dynamic programming languages. It allows you to write your functions, evaluate them and get an instant result from an interpreter that interacts with your code. This in essence reduces the amount of unit tests that have to be implemented for trivial functions in a TDD project. 
-REPL is a great resource for rapid development and prototyping of functions, but also ensuring that they yield the right result before the project as a whole is compiled.
+Clojure allows developers to create programs using the REPL (Read Evaluation Print Loop), which is a characteristic feature in modern dynamic programming languages. It allows you to write your functions, evaluate them and get an instant result from an interpreter that interacts with your code. This reduces the amount of unit tests that have to be implemented for trivial functions in a TDD project. 
+
+% TODO
+A REPL is a great resource not only for the rapid development and function prototyping, but also ensuring that they yield the correct results before the project as a whole is compiled.
 
 \section{Compiling Lispish to JavaScript}
 
-\subsection{Compilation pipeline}
+\subsection{Compilation Pipeline}
 
 \input{Figures/abstract-compilation}
 
-The compiler in its simplest form will perform a one to one translation in-line translation from Lispish to JavaScript. 
+The compiler in its simplest form will perform a one-to-one translation from Lispish to JavaScript. 
 
+% TODO
 The input source will be treated by the Clojure reader will prevent the code from being evaluated and it will pass it along down the pipeline to its respective emitters as illustrated on figure ~\ref{fig:abstract-compilation}. Code will be treated as data and I will use the prefix notation to my advantage, treating each expression as its respective node in a parse tree. 
 
-\subsection{Clojure homoiconicity and using clojure.reader as a parser}
-Clojure being a homoiconic language, meaning that the code itself is described in terms of data structures that the language understands (s-expression forms, lists and in-built data structures), comes bundled with a Clojure reader\cite{clojure.reader} that can parse the text source file into objects of specific Clojure type. Those objects are essentially Clojure data structures that then are treated by the Clojure compiler and similarly in case of Lispish will be treated by the translator program, to generate corresponding JavaScript code. 
+\subsection{Clojure Homoiconicity and Using clojure.reader as a Parser}
+Clojure is a homoiconic language, meaning that the code itself is described in terms of data structures that the language understands (s-expression forms, lists and in-built data structures). It comes bundled with a Clojure reader \cite{clojure.reader} that can parse the text source file into objects of specific Clojure type. Those objects are essentially Clojure data structures that then are treated by the Clojure compiler and similarly in case of Lispish will be treated by the translator program, to generate corresponding JavaScript code. 
 
 As pointed out in the referenced \cite{clojure.reader} section of the Clojure documentation, the Clojure reader is represented by the \texttt{(reader )} function, that takes text as an input and produces the object represented by that text. 
 This is also the entry point of our translator, as illustrated on ~\ref{fig:abstract-compilation} as the entry block in the flowchart. 

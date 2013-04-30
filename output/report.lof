@@ -1,6 +1,6 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Excerpt from Peter Norvig's Paradigms of Artificial Intelligence Programming: Case Studies in Common Lisp. Comparison of a Lisp and Java lambda function declaration.\cite {PAIP.Norvig}}}{10}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Excerpt from Peter Norvig's \textit {Paradigms of Artificial Intelligence Programming: Case Studies in Common Lisp}. Comparison of a Lisp and Java lambda function declaration.\cite {PAIP.Norvig}}}{10}
 \contentsline {figure}{\numberline {2.2}{\ignorespaces JavaScript event listener function}}{13}
 \contentsline {figure}{\numberline {2.3}{\ignorespaces Possible Lisp equivalent of event listener function}}{13}
 \addvspace {10\p@ }
