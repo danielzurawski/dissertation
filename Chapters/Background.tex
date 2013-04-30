@@ -77,8 +77,7 @@ In our case, our input s-expressions in their prefix notations can be treated as
 For example, any s-expression can be essentially type-checked using the in-built \texttt{(symbol? )} or \texttt{(list? )} to determine if the given s-expression yields a symbol or a list of expressions. If an input is a list, that means we have encountered another s-expression and each element in the list has to be separately evaluated.
 
 Modern dialects of Lisp, such as Clojure, target the Java Virtual Machine making them very portable and pluggable into an existing Java applications.
-Other Lisp languages are very often compiled to another target language, such as C or JavaScript that can be then run on a variety of machines.
-% TODO STALIN and CHICKEN
+Other Lisp languages are very often compiled to another target language, such as C or JavaScript that can be then run on a variety of machines. Notable examples of Lisp to C compilers include Stalin \cite{stalin} (STAtic Language ImplementatioN) and Chicken \cite{chicken}. 
 
 \section{JavaScript as the Target Language for the Lispish Language}
 The rationale behind selecting JavaScript as the target language is the fact that JavaScript can be executed on almost all Internet-enabled devices.

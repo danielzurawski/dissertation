@@ -1,13 +1,14 @@
 \chapter{Implementation and Testing}
-Following the formal definition of the Lispish language and briefly describing the operations of the compiler, we shall dive into the construction of it. Along the way, I will explain the concepts behind most of the mechanics of the compiler. 
+Following the formal definition of the Lispish language and briefly describing the operations of the compiler, we shall dive into its construction. Along the way, I will explain the concepts behind most of the mechanics of the compiler. 
 
 In the following sections, we will also test the implementation by means of examples of an actual compilation. 
-At the end, we will look into automating the tests by means of using a Clojure testing API.  
+At the end, we will look into automating the tests by using a Clojure testing API.  
 
 \section{Building the compiler}
 This section will describe the operations of the compiler and the fundamental concepts behind how the compiler translates the input Lispish code to JavaScript. 
 
-Lispish translator is implemented as a single pass compiler.
+% TODO
+The Lispish translator is implemented as a single pass compiler.
 This design decision comes from the fact that the compiler has been implemented in Clojure, which is a strictly functional language and in order to sustain the immutability property throughout the compiler and not violate common idioms, the compiler avoids using state at all costs. It was therefore difficult to perform multi-pass compilation over the same code, as it is done in other commercial compilers. 
 As a consequence of this, the entire implementation is built around recursively invoking a set a functions, which at the end fold to yield a JavaScript string as a result. 
 
@@ -31,39 +32,39 @@ Lispish uses de-structuring for generating all of its forms.
 Take for instance the signature of a \texttt{(emit-defn)} function responsible for expanding and generating the equivalent JavaScript named function code:
 $$ \texttt{(defn emit-defn [type [defn name [arg \& more] \& rest]] )} $$
 
-In order to split the provided input source code \texttt{(defn ))} form into its respective elements, the  performs a structural binding of the function arguments. The bindings are then used to generate the equivalent JavaScript code. 
+In order to split the provided input source code \texttt{(defn )} form into its respective elements, the  performs a structural binding of the function arguments. The bindings are then used to generate the equivalent JavaScript code. 
 
-as we can see, the function takes 4 arguments and 2 optional tail arguments that can be a list of an arbitrary length. The \texttt{type} argument is simply a convenience placeholder for the head of the whole expression.
+As we can see, the function takes 4 arguments and 2 optional tail arguments that can be a list of an arbitrary length. The \texttt{type} argument is simply a convenience placeholder for the head of the whole expression.
 The actual expression begins to bind from the [defn name [arg \& more] \& rest] arguments. 
 
 \input{Figures/emit-defn}
 
-Figure ~\ref{fig:emit-defn} illustrates the body of the \texttt{(emit-defn)} function and how the bindings acquired upon the function call are used to then generate the corresponding JavaScript quite. 
-At first, we are checking if the \texttt{name} binding is a \texttt{~} character, which is a special case meaning that the function is anonymous (we are passing it from the emit-fn with the rest of the expression, to decrease code count) and an empty string in place of the function name needs to be generated. The function then outputs the argument names. In case if there are multiple arguments, it will output an arguments string with the arguments separated by commas. 
+Figure ~\ref{fig:emit-defn} depicts the body of the \texttt{(emit-defn)} function and how the bindings acquired upon the function call are used to then generate the corresponding JavaScript quite. 
+At first, we are checking if the \texttt{name} binding is a \texttt{~} character, which is a special case meaning that the function is anonymous (we are passing it from the \texttt{emit-fn} with the rest of the expression, to decrease code count) and an empty string in place of the function name needs to be generated. The function then outputs the argument names. In the case when there are multiple arguments, it will output argument strings with the arguments separated by commas. 
 At the end it emits the body \texttt{(emit rest)} of the function.
 
-The optional \texttt{more} in the arguments list allows for an arbitrary length of the function arguments and the optional rest is for the expression that follows the named function.
+The optional \texttt{more} in the arguments list allows for an arbitrary length of the function arguments and the optional \texttt{rest} is for the expression that follows the named function.
 
 \subsection{Recursive Expansion}
 The main idea behind the Lispish compiler's implementation is recursive expansion.
 The compiler breaks down each s-expression that it comes across into its primitives until there is no more work to be done. It then builds up the result in layers as the recursion folds upwards. 
 
-Figure ~\ref{fig:recursive_expansion_flowchart} illustrates the flow chart of the compiler. It covers most of the operations of the compiler, except for the details on how multi-arity s-expressions are handled.  
+Figure ~\ref{fig:recursive_expansion_flowchart} presents a flow chart of the compiler's execution. It covers most of the operations of the compiler, except for the details on how multi-arity s-expressions are handled.  
 
 \input{Figures/implementation-flowchart}
 
-To illustrate how in practice the recursive expansion is performed, lets consider how a single form gets expanded and also how its equivalent JavaScript code is generated. 
+To illustrate how in practice the recursive expansion is performed, lets consider how a single form gets expanded and how its equivalent JavaScript code is generated. 
 
 \input{Figures/emit}
 
-Figure ~\ref{fig:emit} is the top level function of the recursive translator. It is responsible for determining s-expression's type. This is possible as whenever the translator gets executed and a source file is provided as its input, the Clojure Reader is used to read the input source and as a result, it outputs the code as data, more precisely, as lists. 
+Figure ~\ref{fig:emit} is the top level function of the recursive translator. It is responsible for determining the s-expression's type. This is possible as whenever the translator gets executed and a source file is provided as its input, the Clojure Reader is used to read the input source and as a result, it outputs the code as data, and more precisely, as lists. 
 These lists can be then checked for type, as the Clojure Reader is responsible for parsing and giving each symbol its corresponding type.
 
-As illustrated on the ~\ref{fig:recursive_expansion_flowchart} flowchart, there is indeed two cases for the emit function. The argument is either a list and it therefore needs to be expanded or it's one of the generic types, e.g. Integer or String and therefore needs to be outputted as a string already at this point. 
+As shown in the ~\ref{fig:recursive_expansion_flowchart} flowchart, there are indeed two cases for the emit function. The argument is either a list and it therefore needs to be expanded or it is one of the generic types, e.g. Integer or String and therefore needs to be outputted as a string already at this point. 
 
 \subsection{Forms with multiple arity}
 
-In order to solve the multiple arity problem, where for instance a \texttt{(cond )} form can take multiple condition/true-form expression tuples and each one of them has to be compiler to a JavaScript string, map and reduce constructs have been used. 
+In order to solve the multiple arity problem, where for instance a \texttt{(cond )} form can take multiple condition/true-form expression tuples and each one of them has to be compiled to a JavaScript string, map and reduce constructs have been used. 
 
 \subsubsection{Map}
 The idea behind the map operation is to apply a function that takes one argument, to all of the elements in a collection and return a new collection with results of each application of the aforementioned function. 
@@ -77,7 +78,7 @@ that yields
 \begin{verbatim}
 [1 2 3 4 5 6]
 \end{verbatim}
-as a result
+as a result.
 
 \subsubsection{Reduce}
 Reduce is a function that takes a function, an optional value (or an s-expression) and a collection as an argument. It reduces or in other words folds a given collection (and an optional value) through the application of a function to a collection, to a single result. 
@@ -112,61 +113,60 @@ The reduce function then applies the anonymous function to the first value, whic
 
 \input{Figures/emit-cond-expansion}
 
-Figure ~\ref{fig:emit-cond-expansion} illustrates a table of how each reduction step is performed in terms of the two arguments of the function passed to reduce. Variable \texttt{a} accumulates the overall result, whilst \texttt{b} is the current element of the \texttt{(cond )} that is being converted to JavaScript ternary expression.
+Figure ~\ref{fig:emit-cond-expansion} presents a table of how each reduction step is performed in terms of the two arguments of the function passed to reduce. Variable \texttt{a} accumulates the overall result, whilst \texttt{b} is the current element of the \texttt{(cond )} that is being converted to JavaScript ternary expression.
 
-\subsection{Implementing (recur) with JavaScript arguments.callee}
-One of the peculiar implementation decisions was implement the \texttt{(recur )} form in terms of an \texttt{arguments.callee} invocation from within the JavaScript. 
-This implementation allows us to generate a JavaSript recursive invocation call whenever the \texttt{(recur )} form has been used. 
+\subsection{Implementing (recur) with JavaScript's \texttt{arguments.callee}}
+One of the peculiar implementation decisions was to implement the \texttt{(recur )} form in terms of an \texttt{arguments.callee} invocation from within the JavaScript. 
+This implementation allows us to generate a JavaScript recursive invocation call whenever the \texttt{(recur )} form has been used. 
 It is true, however, that the \texttt{arguments.callee} is disallowed in JavaScript strict mode and the ECMAScript specifications as it impacts how much the JavaScript compiler can optimise the JavaScript code. When \texttt{arguments.callee} is used, the compiler cannot perform tail-recursive optimisations to reduce the overheads of normal recursive calls.  
 
+At the same time there are certain advantages when deciding to use \texttt{arguments.callee} in case of Lispish. 
+Most importantly, invoking a recursive call to an anonymous function is not possible in JavaScript, unless the \texttt{arguments.callee} is used. When a function that needs to evaluate to a value needs to be recursively called, it needs to be named. However, Lispish allows for anonymous functions that can be invoked recursively.
 
-At the same time there are certain pros when deciding to use \texttt{arguments.callee} in case of Lispish. 
-Most importantly, invoking a recursive call to an anonymous function is not possible in JavaScript, unless the \texttt{arguments.callee} is used. When a function that needs to evaluate to a value needs to be recursively called, it needs to be named, however Lispish allows for a anonymous functions that can be invoked recursively.
-
-To implement \texttt{recur} otherwise, the higher level s-expression function name would have to be passed to the function responsible for emitting the \texttt{(recur)} form, or a multi pass compilation, which would in-line the function name wherever a recur is present, would have to be performed. In both cases, the translator implementation would increase in its complexity.
+To implement \texttt{recur} otherwise, the higher level s-expression function name would have to be passed to the function responsible for emitting the \texttt{(recur)} form, or a multi-pass compilation, which would in-line the function name wherever a recur is present, would have to be performed. In both cases, the translator implementation would increase in its complexity.
 
 Another argument for using the \texttt{arguments.callee} call, is that in the initial research conducted, it seems that in some older JavaScript versions, it was not possible to invoke a function by its name from within a ternary expression of the form \texttt{(3<x ? true : someFunction(x) )}. 
 
-Lispish allows for using either \texttt{(recur )} as a syntactic sugar for the straight \texttt{(someFunction )} function name invocation, therefore if the \texttt{arguments.callee} cannot be used due to performance reasons or wanting to comply with the ECMAScript standard for validations, a normal function invocation can be used.
+Lispish allows for using either \texttt{(recur )} as syntactic sugar for the straight \texttt{(someFunction )} function name invocation, therefore if the \texttt{arguments.callee} cannot be used due to performance reasons or wanting to comply with the ECMAScript standard for validations, a normal function invocation can be used.
 
 \section{Testing}
-The section above described the operations that are part of the compilation, but they did not provide any examples of an actual compilation. 
+The previous section described the operations that are part of the compilation, but they did not provide any examples of an actual compilation. 
 In this section we will take a look at some examples of how our Lispsh to JavaScript compiler works. 
+
 To illustrate the compilation, I will demonstrate the output of the recursive expansion that the compiler performs on the given Lispish program string. 
 Each line of the compilation trace will correspond to a level in the recursion.The recursive folding will be done implicitly, therefore it does not appear in the compilation traces. 
 
 The examples are invoked from the interactive REPL, but later in this section I will illustrate how Lispish translator can be used as a standalone Java JAR file, that takes Lispish (.lispish) source file as an input and produces an equivalent JavaScript code in another file (.js).
 
-Let's begin our tests by a simple nested arithmetic expression, illustrated on figure ~\ref{fig:emit-simple-arithmetic}.
+Let's begin our tests by a simple nested arithmetic expression, illustrated in figure ~\ref{fig:emit-simple-arithmetic}.
 
 \input{Figures/emit-simple-arithmetic}
 
-As we can see from the recursive trace illustrated on figure ~\ref{fig:emit-simple-arithmetic}, our recursion begins with passing the Lispish source code to the initial \texttt{(emit)} form, which then begins the recursion.
-At first, our s-expression is of the form \texttt{(+ 2 (* 3 4))}, which is a a whole is a list (an s-expression). This means that the compiler has to expand the list and emit each individual expression within it. It begins by evaluating the head of the list, which happens to be an \texttt{op} operator, in this case the \texttt{$+$} sign. 
-It therefore passes the head of the previous s-expression (the \texttt{$+$} sign), as well as the remaining part of the expression \texttt{(2 (* 3 4))}  to emit-op. 
+As we can see from the recursive trace shown in figure ~\ref{fig:emit-simple-arithmetic}, our recursion begins with passing the Lispish source code to the initial \texttt{(emit)} form, which then begins the recursion.
+At first, our s-expression is of the form \texttt{(+ 2 (* 3 4))}, which as a whole is a list (an s-expression). This means the compiler has to expand the list and emit each individual expression within it. It begins by evaluating the head of the list, which happens to be an \texttt{op} operator, in this case the \texttt{$+$} sign. 
+Therefore, it passes the head of the previous s-expression (the \texttt{$+$} sign), as well as the remaining part of the expression \texttt{(2 (* 3 4))}  to emit-op. 
 Emit-op outputs the corresponding JavaScript by first mapping the top-level recursion emit function to each element inside of the tail list \texttt{(2 (* 3 4))} which reaches the bottom of the recursion in one step for the first \texttt{(2)} and in multiple steps for the second \texttt{(* 3 4)} as it again invokes the same recursive steps and reduces the second list to a string. It then reduces the result of both to a final string concatenated with the two operators as follows \texttt{"(2+(3*4))}, producing an equivalent JavaScript code. 
 
 The same procedure is repeated for all of the \texttt{op}, as well as \texttt{bop} type of expressions.
-
 
 In order to test the usability of the translator, we need to test it with more complex examples of programs that could be written in Lispish, given its grammar and the forms that it supports.
 
 \input{Figures/primality-checking-input}
 
-Program listed in figure ~\ref{fig:primality-checking-input} is an implementation of a naive primality checking written in Lispish. 
-
-
+The program listed in figure ~\ref{fig:primality-checking-input} is an implementation of a naive primality checking written in Lispish. 
 
 \input{Figures/primality-checking-output}
 
-Provided the JavaScript output listed in ~\ref{fig:primality-checking-output}, the code should be parsable by a JavaScript interpreter. To test this, we will use Google Chrome JavaScript console.
+The output code (presented in figure ~\ref{fig:primality-checking-output} should be parsable by a JavaScript interpreter (provided that the input Lispish code was valid). To test this, we will use the Google Chrome JavaScript console.
 
 \input{Figures/primality-javascript-test}
 
-Figure ~\ref{fig:primality-javascript-test} illustrates testing of the naive primality test program as it is fed into the Google Chrome's JavaScript console. 
+Figure ~\ref{fig:primality-javascript-test} shows the testing of the naive primality test program as it is fed into the Google Chrome's JavaScript console. 
 At the moment of pasting the translator's output to the console, the console yields \texttt{undefined}, meaning that a function has been successfully parsed and defined as \texttt{is\_prime(num)}. 
 
 The \texttt{{is\_prime}} function is then tested for the first three natural numbers: $1, \ 2, \ 3 $. 1 evaluate to false, whereas the first two prime numbers, 2 and 3 evaluate to true. We then test the prime 997, which also correctly evaluates to true and 1024 which correctly evaluates to false. 
+% the test was executed on several other examples and produced valid results
+% in each case. thus, we conclude that the test has been a success.
 As this paper does not intend to prove the correctness of the results of the JavaScript programs that the users of the translator writes, we can therefore conclude this test by saying that the translator produced correct JavaScript code. 
 
 \subsection{Deploying and Using Lispish}
@@ -179,10 +179,10 @@ There are three simple ways to compile a Lispish program to JavaScript.
 
 The first method is to execute the Lispish jar file and provide simple source code as a command line argument.
 
-\subsubsection{Code as argument}
+\subsubsection{Code as an Argument}
 
 \begin{verbatim}
-bash$ java -jar lispish-1.0.jar "(+ 2 2)"
+sh$ java -jar lispish-1.0.jar "(+ 2 2)"
 Emit Lispish:  (+ 2 2)
 Emit-list head:  + , tail:  (2 2)
 Emit-op, head:  + , tail:  (2 2)
@@ -191,12 +191,12 @@ Emit Lispish:  2
 (2+2)
 \end{verbatim}
 
-Given as an input a prefix s-expression of (+ 2 2), the program yields an expected result, which is an equivalent in-fix (2+2).
+Given as an input a prefix s-expression of \texttt{(+ 2 2)}, the program yields an expected result, which is an equivalent to the infix \texttt{(2+2)}.
 
-This approach is fine for trivial examples that do not span across multiple lines, it is however not optimal when we want to compile a Lispish program file to an equivalent JS. 
+This approach is fine for trivial examples that do not span across multiple lines. It is, however, not optimal when we want to compile a more complex Lispish program.
 It, therefore, only supports compiling programs made of a single s-expression like in the example above, meaning it will not compile two \texttt{defn} forms or two separate s-expressions that are not part of the same list. 
 
-\subsubsection{Source (Lispish) and destination (JavaScript) file as argument}
+\subsubsection{Source (Lispish) and Destination (JavaScript) File as Argument}
 
 In order to compile a Lispish source file to an equivalent JavaScript source file, our compiler accepts two command line options:
 
@@ -205,29 +205,30 @@ In order to compile a Lispish source file to an equivalent JavaScript source fil
 ["-out" "--output" "OPTIONAL: Path to JavaScript output file."]
 \end{verbatim}
 
-\texttt{-in} or equivalently \texttt{--input}, that should follow with a path to a Lispish source file, as well as an optional 
-\texttt{-out} or equivalently \texttt{--output}, that should follow with the name of the output source file. 
+\texttt{-in} or equivalently \texttt{--input}, that should be followed with a path to a Lispish source file, as well as an optional 
+\texttt{-out} or equivalently \texttt{--output}, that should be followed with the name of the output source file. 
 
-To demonstrate how compilation of one source file to another is performed, figure ~\ref{fig:primality-checking-input} illustrates the content of the \texttt{test.lispish} file containing the same example of naive primality checking program written in Lispish, used in the implementation section. 
+Performing compilation of one source file to another is presented in figure ~\ref{fig:primality-checking-input}. It shows the \texttt{test.lispish} file containing the same example of naive primality checking program written in Lispish, used in the implementation section. 
 
 We can then execute the compiler passing in the \texttt{--input} and \texttt{--output} arguments, as follows.
 
-$$  \texttt{bash\$ java -jar lispish-1.0.jar --input test.lispish --out test.js} $$
+$$ \texttt{sh\$ java -jar lispish-1.0.jar --input test.lispish --out test.js} $$
 
-The \texttt{--input} argument specifies path to the \texttt{test.lispish} file and \texttt{--output} argument is the path of the file to be generated.
+The \texttt{--input} argument specifies the path to the \texttt{test.lispish} file and the \texttt{--output} argument is the path of the file to be generated.
 The compiler will print out all of the computation steps to the console, but the final result, that is, the JavaScript output, will be written to the file specified in the \texttt{--output} path.
 
-Figure ~\ref{fig:primality-checking-output} illustrates the content of the generated \texttt{test.js} file with the JavaScript equivalent of the previously shown Lispish, naive primality testing, program. 
+Figure ~\ref{fig:primality-checking-output} presents the contents of the generated \texttt{test.js} file with the JavaScript equivalent of the previously shown Lispish, naive primality testing, program. 
 
 I have purposely omitted the recursive trace of the compilation, as the recursion is invoked multiple times and it produces a very long output. 
-The recursive trace is attached to the appendix ~\ref{primality-trace-appendix}. It gives a very good idea how a more complex program gets translated by outputting each one of the forms as a string, also providing name of the function responsible for translating it. 
+This recursive trace can be found in appendix ~\ref{primality-trace-appendix}. It gives a very good idea of how a more complex program gets translated by outputting each of the forms as a string, also providing the name of the function responsible for translating it. 
 
-As we can see, the Google Chrome web browsers console can evaluate the function and when executed with parameters, it yields the right result. 
+As we can see, the Google Chrome web browser's console can evaluate the function and when executed with appropriate parameters, it yields correct results. 
 
-\subsection{Automating tests with clojure.test API}
+\subsection{Automating Tests with the clojure.test API}
+% TODO
 In order to ensure that the compiler is naturally expanded and all of the of regression tests are performed whenever a new language construct is added, I have decided to use the Test Driven Development methodology to approach this project. 
-The tool to support me in the task of TDD I used was the clojure.test API.
-clojure.test API\cite{clojure.test:2011:Site} is a unit testing framework that provides a set of in-built forms, particularly the \texttt{(is )} macro that allows to perform boolean assertions on arbitrary expressions. 
+The tool I used to support me in the task of TDD was the clojure.test API.
+The clojure.test API\cite{clojure.test:2011:Site} is a unit testing framework that provides a set of in-built forms, particularly the \texttt{(is )} macro that allows to perform boolean assertions on arbitrary expressions. 
 
 \begin{quote}
 \begin{verbatim}
@@ -243,20 +244,20 @@ clojure.test API\cite{clojure.test:2011:Site} is a unit testing framework that p
 
 The above snippet is just one out of many tests included in appendix ~\ref{tests-appendix}. 
 
-\subsection{Writing Lispish programs that interact with JavaScript functions}
-As a consequence of Lispish design, the language allows for forms that begin with an arbitrary string as a function name. During the translation, the expression with an arbitrary string as a function name is translated to a JavaScript function call with the same name. This allows the user of the language to use JavaScript built-in function names in their Lispish source code. An example of this has been illustrated in the example show on figure ~\ref{fig:primality-checking-input}, where at some point of the computation, the Math.sqrt has been invoked. 
+\subsection{Writing Lispish that Interacts with JavaScript Functions}
+As a consequence of Lispish's design, the language allows for forms that begin with an arbitrary string as a function name. During the translation, the expression with an arbitrary string as a function name is translated to a JavaScript function call with the same name. This allows the user of the language to use JavaScript built-in function names in their Lispish source code. This has been illustrated in figure ~\ref{fig:primality-checking-input}, where at some point of the computation, the Math.sqrt has been invoked. 
 
 \input{Figures/emit-call-source}
 
-Figure ~\ref{fig:emit-cond-code} illustrates the \texttt{emit-call} function that is responsible for generating JavaScript code for recursive calls, as well as functions with arbitrary names, used for interacting with the browser and in-built JavaScript functions. 
+Figure ~\ref{fig:emit-cond-code} presents the \texttt{emit-call} function that is responsible for generating JavaScript code for recursive calls, as well as functions with arbitrary names, used for interacting with the browser and in-built JavaScript functions. 
 As with the function responsible for generating code for JavaScript functions, it concatenates the optional function name, used here for invoking in-built JavaScript functions, with the emitted arguments to that function.
-In case if a Lispish form begins with a recursive call, the JavaScript \texttt{arguments.callee} is passed as a function name to the above \texttt{emit-call}.
+In case if a Lispish form begins with a recursive form \texttt{(recur )}, the JavaScript \texttt{arguments.callee} is passed as a function name to the above \texttt{emit-call}.
 When generated, it outputs JS of the form of \texttt{arguments.callee(x, y, z)}, which tells the JS interpreter to recursively invoke the function with arguments \texttt{x, y, z}.
 
-At first the emit-call might seem like a flaw, but it's a powerful feature, as it allows for invoking JavaScript functions responsible for interacting with the browser. 
+At first, the emit-call might seem like a flaw, but it is a powerful feature, as it allows for invoking JavaScript functions responsible for interacting with the browser. 
 
-\section{Writing Lispish programs using jQuery functions to interact with the browser's Document Object Model (DOM)}\label{DOM}
-The in-built JavaScript functions that provide an interface for manipulating content of the Document Object Model are inherently imperative.
+\section{Writing Lispish Programs Using jQuery Functions to Interact with the Browser's Document Object Model (DOM)}\label{DOM}
+The in-built JavaScript constructs that provide an interface for manipulating content of the Document Object Model are inherently imperative.
 For example, modifying a content of a \texttt{<div id=\"content\">test</div>} element requires us to use an assignment operator that will modify the state of the DOM. 
 
 $$ \texttt{document.getElementById("test").innerHTML = "some text";} $$
@@ -270,10 +271,10 @@ example:
 \end{verbatim}
 
 
-This code would fail in JavaScript, as the \texttt{.innerHTML} is an object's property. Lispish being a non object-oriented, functional language, does not provide this functionality and therefore for it to work, \texttt{innerHTML} would have to be a function.
+This code would fail in JavaScript, as the \texttt{.innerHTML} is an object's property, and not a function. Lispish being a non object-oriented, functional language, does not provide this functionality and therefore for it to work, \texttt{innerHTML} would have to be a function.
 
-As a coincidence, there exist JavaScript libraries, that are in fact very popular and provide wrappers over the standard JavaScript functions.
-An example of such library is a very popular jQuery\cite{jquery}. 
+Conincidentally, there exist JavaScript libraries, that are in fact very popular and provide wrappers over the standard JavaScript constructs.
+An example of such library is the widely popular jQuery\cite{jquery}. 
 One of the many functionalities that jQuery provides, is the possibility to modify content of a DOM element by passing the new content to a function.
 Similarly to the standard JS \texttt{.innerHTML} property, we can use jQuery's \texttt{.html()} function, that takes the new content as an argument and performs the DOM update internally. 
 
@@ -289,12 +290,4 @@ The above code snippet has been generated from the following Lispish code:
 
 The JavaScript functions takes a jQuery \texttt{\$(".someDiv")} DOM node object and passes it as an argument to the preceding anonymous function.
 It then invokes the \texttt{.html()} function with the text \texttt{test} as an argument, which replaces the content of the DIV with the text.
-
-
-
-
-
-
-
-
 

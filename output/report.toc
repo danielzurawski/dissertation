@@ -14,9 +14,9 @@
 \contentsline {subsubsection}{JavaScript Performance}{11}
 \contentsline {subsubsection}{Portability}{11}
 \contentsline {subsection}{\numberline {2.2.3}Compiling Lispish Using a Dialect of Lisp}{12}
-\contentsline {section}{\numberline {2.3}JavaScript as a target language for the Lispish language}{12}
+\contentsline {section}{\numberline {2.3}JavaScript as the Target Language for the Lispish Language}{12}
 \contentsline {subsection}{\numberline {2.3.1}Similarities}{13}
-\contentsline {section}{\numberline {2.4}Existing Lisp to JS compilers}{14}
+\contentsline {section}{\numberline {2.4}Existing Lisp to JS Compilers}{14}
 \contentsline {subsection}{\numberline {2.4.1}ClojureScript}{14}
 \contentsline {subsection}{\numberline {2.4.2}Outlet}{15}
 \contentsline {subsection}{\numberline {2.4.3}LiScript}{15}
@@ -28,8 +28,8 @@
 \contentsline {subsection}{\numberline {3.1.2}Evaluation relations (Big-Step Semantics)}{18}
 \contentsline {section}{\numberline {3.2}Development methodology}{18}
 \contentsline {section}{\numberline {3.3}Compiling Lispish to JavaScript}{19}
-\contentsline {subsection}{\numberline {3.3.1}Compilation pipeline}{19}
-\contentsline {subsection}{\numberline {3.3.2}Clojure homoiconicity and using clojure.reader as a parser}{19}
+\contentsline {subsection}{\numberline {3.3.1}Compilation Pipeline}{19}
+\contentsline {subsection}{\numberline {3.3.2}Clojure Homoiconicity and Using clojure.reader as a Parser}{19}
 \contentsline {chapter}{\numberline {4}Implementation and Testing}{23}
 \contentsline {section}{\numberline {4.1}Building the compiler}{23}
 \contentsline {subsection}{\numberline {4.1.1}Abstract Structural Binding}{24}
@@ -37,7 +37,7 @@
 \contentsline {subsection}{\numberline {4.1.3}Forms with multiple arity}{27}
 \contentsline {subsubsection}{Map}{28}
 \contentsline {subsubsection}{Reduce}{28}
-\contentsline {subsection}{\numberline {4.1.4}Implementing (recur) with JavaScript arguments.callee}{30}
+\contentsline {subsection}{\numberline {4.1.4}Implementing (recur) with JavaScript's \texttt {arguments.callee}}{30}
 \contentsline {section}{\numberline {4.2}Testing}{31}
 \contentsline {subsection}{\numberline {4.2.1}Deploying and Using Lispish}{34}
 \contentsline {subsubsection}{Code as argument}{34}
