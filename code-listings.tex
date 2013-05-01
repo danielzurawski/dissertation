@@ -1,0 +1,27 @@
+\documentclass{article}
+\usepackage{verbatim}
+\usepackage[a4paper]{geometry}
+\title{Appendices}
+\author{Daniel Marian Zurawski}
+
+\begin{document}
+\maketitle
+\scriptsize
+
+I verify that I am the sole author of the programs contained in this folder, except where explicitly stated to the contrary. – Daniel Zurawski, 17 April 2013.
+
+\section{Appendix A -- Compilation trace of Lispish naive primality testing to JavaScript}
+\verbatiminput{Appendices/Appendix.txt}
+
+\section{Appendix B -- Source Code Listings}
+
+\subsection{project.clj -- Dependencies and project definition}
+\verbatiminput{source/project.clj}
+
+\subsection{core.clj -- Lispish Compilator}
+\verbatiminput{source/core.clj}
+
+\subsection{core.clj -- Test coverage of the naive Clojure recursive-descent-parser implementation}
+\verbatiminput{source/test/core.clj}
+
+\end{document}

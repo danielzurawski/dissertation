@@ -5,7 +5,7 @@ It also covers existing implementations of Lisp to JavaScript translators and co
 
 \section{Bridging the gap between functional and imperative paradigm}
 
-\subsection{Functional and imperative paradigms comparison}
+\subsection{A Comparison Between the Functional and Imperative Programming Paradigms}
 Functional programming is a programming paradigm that differs from imperative programming in a way that it focuses solely on evaluating functions, where one input always results in the same output for a given input (referential transparency). In imperative programming, this notion is not always true, as imperative programming focuses a lot more on modifying the state of the application as it runs. To make referential transparency, pure functional languages try to avoid using state and mutability, by ensuring that side effects that could introduce state changes are not possible.
 
 An example of state is preserving results in variables for later access by other parts of the program. A side effect may result from many different operations such as variable assignments, input or output operations and anything that allows two parts of the program to access the same resource at the same time.
@@ -29,10 +29,8 @@ Clojure is a powerful abstraction over standard Java, which as of today does not
 
 \subsubsection{Lisp}
 
-Lisp is amongst one of the worlds oldest family of programming languages, that has developed several dialects since the original Lisp was published in 1958-1960 by John McCarthy. [citation here]
-Lisp languages differ from other programming languages 
-% TODO grammar 'in its'
-in its few original concepts, notably treating code as data, s-expressions, parenthesized Polish prefix notation and lambda expressions.
+Lisp is amongst one of the worlds oldest family of programming languages, that has developed several dialects since the original Lisp was published in 1958-1960 by John McCarthy \cite{lisp-mccarthy}.
+Lisp languages differ from other programming languages by a few original concepts, notably treating code as data, s-expressions, parenthesized Polish prefix notation and lambda expressions.
 
 The exact expansion of the Lisp acronym is List Processing, which has its practical reasons -- Lisp source code is written as lists, formally known as S-expressions~\cite{s-expression}\cite{s-expression-wiki}.
 
@@ -104,16 +102,12 @@ Both expressions make use of nested functions and thus, take advantage of lambda
 As lambda functions are inherent to programming applications in a functional language, the design and implementation of the translator will make an extensive use of lambda functions.
 
 \section{Existing Lisp to JS Compilers}\label{existing-implementations}
-% TODO
-There already exists a number of similar projects, each of which tries to solve the problem in a slightly different way. Nevertheless, there exists only one mature compiler that can actually generate an executable JavaScript code and it is called ClojureScript.
+There exists a number of similar projects, each of which tries to solve the problem in a slightly different way. Nevertheless, there exists only one mature compiler that provides a complete support of all of its source language constructs, which is ClojureScript.
 
 \subsection{ClojureScript}
 ClojureScript~\cite{ClojureScript:2013:Site} is a Clojure to JavaScript compiler that generates code that can be executed in the browser. Although there are examples of companies using ClojureScript for their production applications, it is difficult to operate as it requires to execute a chain of operations, including starting a JavaScript program before the Clojure code can be compiled.
 
 ClojureScript also takes the idea further and utilises the Google Closure compiler to optimise the code but this approach suffers from the possibility of breaking the JavaScript code that was compiled from Clojure. However, the ClojureScript project page claims, that the JavaScript generated is compatible with the \texttt{advanced} mode of the Google Closure compiler.
-
-% TODO
-ClojureScript is a production ready project and has been deployed numerous times in production environment. It is also the official 
 
 \subsection{Outlet}
 Outlet~\cite{Outlet:2013:Site} is a Lisp-like programming language that compiles to JavaScript. Its compilation is interesting in that the compiler itself is written in Outlet, only after it is bootstrapped by a JavaScript interpreter.
@@ -131,11 +125,10 @@ LiScript allows defining new language constructs by means of macros, a special f
 \subsection{clojurejs}
 ClojureJS~\cite{ClojureJS:2011:Site} is a small subset of Clojure to JavaScript compiler.
 ClojureJS takes on an approach different to the preceding implementations, as the compiler is written in Clojure. 
-It is a hand-written recursive descent parser that requires a running Clojure environment in order to evaluate input source code, which is of the form of a subset of Clojure.
+It is a hand-written recursive descent parser that requires a running Clojure environment in order to evaluate the input source code.
 
-% TODO
 ClojureJS is perhaps the second best implementation of Clojure to JavaScript compilation, with its support for macros and a lot larger subset of Clojure than, for instance, LiScript. 
-It is, however, a non-extensible implementation of a trans-compiler and it does not provide any ease-of-use features, such as being able to generate an output \texttt{.js} file out of a given source input. 
+It is, arguably, a non extensible implementation of a translator due to its not strictly idiomatic code base. From usability perspective, it does not provide any ease-of-use features, such as being able to generate an output \texttt{.js} file out of a given source input. 
 
 \section{Professional and ethical issues}
 Throughout the report, I will make sure that I am not violating the British Computer Society Code of Conduct and Code of Good Practice and that I have applied their principles throughout the project.

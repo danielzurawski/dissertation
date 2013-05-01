@@ -1,4 +1,4 @@
-\begin{thebibliography}{17}
+\begin{thebibliography}{20}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -17,6 +17,11 @@ Javascript v8 vs ruby 2.0 programs performance benchmark, {\natexlab{b}}.
   \url{http://benchmarksgame.alioth.debian.org/u32/benchmark.php?test=all&lang=v8&lang2=yarv&data=u32}.
 \newblock Accessed 22 April 2013.
 
+\bibitem[chi()]{chicken}
+Chicken -- a compiler and interpreter for the scheme programming language.
+\newblock URL \url{http://www.call-cc.org/}.
+\newblock Accessed 23 April 2013.
+
 \bibitem[jqu()]{jquery}
 jquery.
 \newblock URL \url{http://jquery.com/}.
@@ -30,6 +35,11 @@ Microsoft azure's nodejs develop.
 \bibitem[ret()]{retrospective.norvig}
 A retrospective on paradigms of ai programming.
 \newblock URL \url{http://norvig.com/Lisp-retro.html}.
+\newblock Accessed 23 April 2013.
+
+\bibitem[sta()]{stalin}
+Stalin - a static language implementation.
+\newblock URL \url{https://engineering.purdue.edu/~qobi/software.html}.
 \newblock Accessed 23 April 2013.
 
 \bibitem[LiS(2013)]{LiScript:2013:Site}
@@ -79,6 +89,13 @@ James Long.
 \newblock Outlet, 2012.
 \newblock URL \url{https://github.com/jlongster}.
 \newblock Accessed 17 April 2013.
+
+\bibitem[McCarthy()]{lisp-mccarthy}
+John McCarthy.
+\newblock Recursive functions of symbolic expressions and their computation by
+  machine, part i.
+\newblock URL \url{http://www-formal.stanford.edu/jmc/recursive.pdf}.
+\newblock Accessed 23 April 2013.
 
 \bibitem[Norvig(1991)]{PAIP.Norvig}
 Peter Norvig.

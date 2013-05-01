@@ -1,16 +1,29 @@
 \chapter{Evaluation}
 The implementation of the Lispish to JavaScript translation was supposed to serve as an example of how a programming language translator can be implemented using a functional language.
 
-Due to its functional nature and immutability, it does not suffer from errors caused by inconsistent state, as there is no state. 
-% TODO nonsensical
-The compiler will always produce a result. The result however is not guaranteed to be correct, if an incorrect input has been provided.
-
 The parsing of the language is greatly simplified and inherently free of error, as the translator takes an advantage of the inherent feature of the Clojure language, which is its homoiconity and the Clojure reader that is responsible for parsing the input source files and producing the corresponding objects, as described in the design section of the report.
 
-Appendix~\ref{tests-appendix} provides a set of unit tests that include multiple real applications of our translator by translating small Lispish programs including Fibonacci sequences, factorial, Ackermann and naive primality checking to its equivalent JavaScript programs, as well as smaller tests that check the correctness of single forms.
+
+\section{Specification Requirements}
+
+Sections below summarise whether the goals of the projects outlined in section \ref{requirements} have been met:
+
+\subsection{Formal Definitions of the Lispish Grammar Rules and Evaluation Relations}
+Chapter 3 provided well-defined descriptions of the Lispish grammar and its evaluation relations. 
+The rest of the implementation remained true to these formal definitions of Lispish and it provided the facility to generate the equivalent JavaScript code.
+
+\subsection{Implementation of the Lispish to JavaScript Translator}
+As showcased throughout the Implementation chapter of the report, the translator has been completed with a great success, as it is capable of translating non-trivial Lispish programs into its equivalent JS code that successfully executed. 
+Partially by coincidence, it also allows for manipulating DOM documents, which makes for a great additional feature.
+
+\subsection{Test Coverage for Regression Testing}
+Appendix B provides a set of unit tests that include multiple real applications of our translator by translating small Lispish programs including Fibonacci sequences, factorial, Ackermann and naive primality checking to its equivalent JavaScript programs, as well as smaller tests that check the correctness of single forms.
 
 The unit tests included in the above mentioned appendix all successfully pass.
-The compiler also successfully compiles a given input file to an output file with name of our choice. 
+
+\subsection{Command Line Interface}
+The requirement of providing a CLI has been successfully met. 
+Implementation allows for feeding the input source files as a CLI argument or alternatively by providing the \texttt{--input} and \texttt{--output} paths to file. Deploying and using Lispish has been discussed in section \ref{deploying-lispish}.
 
 As a result of design decisions, Lispish is not strictly a subset of Clojure, as there is a small number of cases, where certain form inputs are not allowed.
 These exceptions include:
@@ -41,16 +54,28 @@ Providing an invalid Lispish source code would still result in a JavaScript outp
 
 \section{Evaluating Lispish against other Lisp-to-JavaScript Compilers}\label{lispish-vs-rest}
 
-Lispish does not try to compete with other compilers such as ClojureScript (as they are community-driven, mature and production ready) that not only provide a much larger language support, but also the very crucial optimisations that a toy implementation such as Lispish does not provide. In its current version, ClojureScript does not define a subset of Clojure that it can compile, therefore it is implied that it provides a full language coverage. In contrast, Lispish defines limited language constructs that can be used to build simple programs and therefore, it is nowhere as powerful as ClojureScript.
+\subsection{ClojureScript}
 
-In contrast with Outlet, Lispish takes advantage of the popular Clojure language and proposes translating a small subset of the language to JavaScript. Outlet defines it's own original Lisp-like syntax that must be understood by a Clojure or Lisp programmer, before even a trivial program can be implemented.
-One of the advantages of Outlet is that it allows the programmer to extend the language using macro functions, whereas Lispish does not provide macros and thus has a much lower flexibility compared to Outlet. 
+Lispish does not try to compete with other compilers such as ClojureScript (as they are community-driven, mature and production ready) that not only provide a much larger language support, but also the very crucial optimisations that a toy implementation such as Lispish does not provide. In its current version, 
 
-LiScript, similarily to Lispish, takes an advantage of JavaScripts functional nature and as quoted from its project page "it does not try to make it a completely different language - which is the root of many common problems such as messy generated code, overheads, painful compilation and hard debugging - all of which compensate for the theoricall benefits."\cite{LiScript:2013:Site}.
+ClojureScript does not define a subset of Clojure that it can compile, therefore it is implied that it provides a full language coverage. In contrast, Lispish defines limited language constructs that can be used to build simple programs and therefore, it is nowhere as powerful as ClojureScript.
+
+\subsection{Outlet}
 
 Outlet just like LiScript defines its own language that then gets translated to its equivalent JavaScript. However, it does not provide a formal definition of the allowed forms, nor the evaluation relations. Lispish provides both -- the big-step evaluation relations and grammar definition are in the design \& specification section~\ref{design-specification}.
 
+In contrast with Outlet, Lispish takes advantage of the popular Clojure language and proposes translating a small subset of the language to JavaScript.Outlet defines it's own original Lisp-like syntax that must be understood by a Clojure or Lisp programmer, before even a trivial program can be implemented.
+One of the advantages of Outlet is that it allows the programmer to extend the language using macro functions, whereas Lispish does not provide macros and thus has a much lower flexibility compared to Outlet.
+
+\subsection{LiScript}
+
+LiScript, similarly to Lispish, takes an advantage of JavaScripts functional nature and as quoted from its project page "\textit{it does not try to make it a completely different language - which is the root of many common problems such as messy generated code, overheads, painful compilation and hard debugging - all of which compensate for the theoretical benefits."} \cite{LiScript:2013:Site}.
+
+Similarily to Outlet it does not take an advantage of an existing Lisp language and instead, it defines its own Lisp-like language. 
+
+\subsection{ClojureJS}
+
 ClojureJS proposes an approach that differs from all of the above mentioned languages, except for the vaguely similar in its nature ClojureScript. Similarly to ClojureScript, the ClojureJS generates a more imperative JavaScript and provides a better layer of interaction over JavaScript, allowing for imperative constructs such as loops. 
-Due to its more imperative nature, all of ClojureJS forms have an implicit return, which as identified during the implementation of Lispish causes serious problems when defining programs with nested expressions. 
+Due to its more imperative nature, all of ClojureJS forms have an implicit return, which as identified during the implementation of Lispish causes serious problems when defining programs with nested expressions. \\
 
 In retrospect, Lispish has been designed to provide a solid, but restricted amount of functionalities, that have been all formally documented and it accomplishes its goal.

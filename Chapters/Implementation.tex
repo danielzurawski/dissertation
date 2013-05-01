@@ -4,13 +4,22 @@ Following the formal definition of the Lispish language and briefly describing t
 In the following sections, we will also test the implementation by means of examples of an actual compilation. 
 At the end, we will look into automating the tests by using a Clojure testing API.  
 
-\section{Building the compiler}
+\section{Building the Compiler}
 This section will describe the operations of the compiler and the fundamental concepts behind how the compiler translates the input Lispish code to JavaScript. 
 
-% TODO
-The Lispish translator is implemented as a single pass compiler.
-This design decision comes from the fact that the compiler has been implemented in Clojure, which is a strictly functional language and in order to sustain the immutability property throughout the compiler and not violate common idioms, the compiler avoids using state at all costs. It was therefore difficult to perform multi-pass compilation over the same code, as it is done in other commercial compilers. 
-As a consequence of this, the entire implementation is built around recursively invoking a set a functions, which at the end fold to yield a JavaScript string as a result. 
+\subsection{Compiler Architecture}
+A common issue with compiler design is deciding whether the compiler should be a single or multi-pass.
+
+Depending on the circumstances, both approaches can be appropriate 
+and a decision has to be made, as to which approach should be taken.
+The main advantage of the single pass solution is lower complexity, 
+as the code only goes through a single processing phase.
+However, there are certain language features which are almost impossible to implement in a single pass, as they require knowing the entire source in advance.
+
+Another reason for choosing a multi-pass approach is the fact that the functionalities relevant to the different aspects of the compilation process can be divided into separate phases, which makes the transformation more extensible. This is due to the fact that introducing new features (such as various optimisations) into the compiler boils down to creating a new phase and does not necessarily require changes to the existing pieces.
+
+After prototyping the initial implementation, the potential benefits of the multi-pass approach did not justify the additional complexity that would have to be introduced. This is because Lispish in its current form does not have features that would require several processing stages. 
+Notwithstanding that, it is reasonable to expect that a demand or need for new features, requiring multiple passes, would arise. Thus, the compiler was designed with this in mind and could easily serve in its current form as the final output-emitting phase even if preceding stages were to be introduced.
 
 \subsection{Abstract Structural Binding}
 Abstract Structural Binding allows for de-structuring any data structure to a corresponding argument in function parameters or a let form, creating locally scoped bindings.
@@ -115,7 +124,7 @@ The reduce function then applies the anonymous function to the first value, whic
 
 Figure ~\ref{fig:emit-cond-expansion} presents a table of how each reduction step is performed in terms of the two arguments of the function passed to reduce. Variable \texttt{a} accumulates the overall result, whilst \texttt{b} is the current element of the \texttt{(cond )} that is being converted to JavaScript ternary expression.
 
-\subsection{Implementing (recur) with JavaScript's \texttt{arguments.callee}}
+\subsection{Implementing (recur) with JavaScript's \texttt{arguments.callee}}\label{arguments.callee}
 One of the peculiar implementation decisions was to implement the \texttt{(recur )} form in terms of an \texttt{arguments.callee} invocation from within the JavaScript. 
 This implementation allows us to generate a JavaScript recursive invocation call whenever the \texttt{(recur )} form has been used. 
 It is true, however, that the \texttt{arguments.callee} is disallowed in JavaScript strict mode and the ECMAScript specifications as it impacts how much the JavaScript compiler can optimise the JavaScript code. When \texttt{arguments.callee} is used, the compiler cannot perform tail-recursive optimisations to reduce the overheads of normal recursive calls.  
@@ -169,7 +178,7 @@ The \texttt{{is\_prime}} function is then tested for the first three natural num
 % in each case. thus, we conclude that the test has been a success.
 As this paper does not intend to prove the correctness of the results of the JavaScript programs that the users of the translator writes, we can therefore conclude this test by saying that the translator produced correct JavaScript code. 
 
-\subsection{Deploying and Using Lispish}
+\subsection{Deploying and Using Lispish}\label{deploying-lispish}
 The end goal of this project was to be able to compile a source Lispish program to an equivalent JavaScript program.
 It is, however, not ideal to have to perform compilation in an interactive REPL, where Clojure environment is set up. 
 
@@ -220,13 +229,12 @@ The compiler will print out all of the computation steps to the console, but the
 Figure ~\ref{fig:primality-checking-output} presents the contents of the generated \texttt{test.js} file with the JavaScript equivalent of the previously shown Lispish, naive primality testing, program. 
 
 I have purposely omitted the recursive trace of the compilation, as the recursion is invoked multiple times and it produces a very long output. 
-This recursive trace can be found in appendix ~\ref{primality-trace-appendix}. It gives a very good idea of how a more complex program gets translated by outputting each of the forms as a string, also providing the name of the function responsible for translating it. 
+This recursive trace can be found in Appendix A. It gives a very good idea of how a more complex program gets translated by outputting each of the forms as a string, also providing the name of the function responsible for translating it. 
 
 As we can see, the Google Chrome web browser's console can evaluate the function and when executed with appropriate parameters, it yields correct results. 
 
 \subsection{Automating Tests with the clojure.test API}
-% TODO
-In order to ensure that the compiler is naturally expanded and all of the of regression tests are performed whenever a new language construct is added, I have decided to use the Test Driven Development methodology to approach this project. 
+In order to maintain the correctness of the compiler as it is expanded, regression tests are performed whenever a new language construct is added. 
 The tool I used to support me in the task of TDD was the clojure.test API.
 The clojure.test API\cite{clojure.test:2011:Site} is a unit testing framework that provides a set of in-built forms, particularly the \texttt{(is )} macro that allows to perform boolean assertions on arbitrary expressions. 
 
@@ -242,7 +250,7 @@ The clojure.test API\cite{clojure.test:2011:Site} is a unit testing framework th
 \end{verbatim}
 \end{quote}
 
-The above snippet is just one out of many tests included in appendix ~\ref{tests-appendix}. 
+The above snippet is just one out of many tests included in Appendix B. 
 
 \subsection{Writing Lispish that Interacts with JavaScript Functions}
 As a consequence of Lispish's design, the language allows for forms that begin with an arbitrary string as a function name. During the translation, the expression with an arbitrary string as a function name is translated to a JavaScript function call with the same name. This allows the user of the language to use JavaScript built-in function names in their Lispish source code. This has been illustrated in figure ~\ref{fig:primality-checking-input}, where at some point of the computation, the Math.sqrt has been invoked. 

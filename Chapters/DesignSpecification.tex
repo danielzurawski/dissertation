@@ -1,8 +1,27 @@
 \chapter{Design \& Specification}
 
 As previously described, the project aims to create an extensible Lispish to JavaScript compiler. 
+In the section below, I will briefly discuss the requirements that have been identified and set for the project. 
+
+
+\section{Requirements}\label{requirements}
+The main requirements of the project have been listed below: 
+
+\subsection{Formal definitions of the Lispish grammar rules and evaluation relations}
 In order to clearly define the possible constructs for writing programs in Lispish, we need to formalise our input language. 
 As Lispish defines a subset of an existing language, it is therefore even more important to be clear on what is possible and what is not. 
+Thus, we provide the formal definitions of the language by producing the grammar rules, as well as the big-step semantic evaluations. 
+
+\subsection{Implementation of the Lispish to JavaScript translator}
+For Lispish to be practically useful, we aim to translate it to a language that can be executed on most of the modern devices. Therefore, JavaScript has been selected as the target language for the compiler and a recursive descent translator will be implemented. 
+
+\subsection{Test Coverage for Regression Testing}
+As the compiler grows in size, is it crucial that regression testing is performed. Writing tests for the compiler as it is developed will ensure that adding support for new language constructs will not break existing features.
+
+\subsection{Command Line Interface}
+The compiler needs to provide means for entering Lispish source code in a user-friendly manner. These could include processing data from standard input, accepting data from command line arguments and reading files.
+
+Analogously, means of output need to be provided and could include writing to files or sending data to standard error (diagnostic messages) and output (code).
 
 \section{Designing the Lispish language}\label{design-specification}
 
@@ -20,7 +39,6 @@ Figure ~\ref{fig:lispish-grammar} contains the Lispish grammar. The grammar of t
 
 Figure ~\ref{fig:lispish-big-step} describes the evaluation relations of Lispish. These relations therefore describe the constructs that can be used when writing Lispish programs. They, however, do not relate to the evaluation relations of the generated JavaScript code. 
 
-% TODO figure layout
 \input{Figures/lispish-big-step}
 
 \section{Development methodology}
@@ -28,21 +46,20 @@ In order to streamline the process of developing the compiler, I have decided to
 
 Clojure allows developers to create programs using the REPL (Read Evaluation Print Loop), which is a characteristic feature in modern dynamic programming languages. It allows you to write your functions, evaluate them and get an instant result from an interpreter that interacts with your code. This reduces the amount of unit tests that have to be implemented for trivial functions in a TDD project. 
 
-% TODO
-A REPL is a great resource not only for the rapid development and function prototyping, but also ensuring that they yield the correct results before the project as a whole is compiled.
+A REPL is a great resource not only for the rapid development and function prototyping, but also ensuring that each functions evalutes to the correct result before it becomes part of the compiler.
 
 \section{Compiling Lispish to JavaScript}
 
 \subsection{Compilation Pipeline}
 
-\input{Figures/abstract-compilation}
-
 The compiler in its simplest form will perform a one-to-one translation from Lispish to JavaScript. 
 
-% TODO
-The input source will be treated by the Clojure reader will prevent the code from being evaluated and it will pass it along down the pipeline to its respective emitters as illustrated on figure ~\ref{fig:abstract-compilation}. Code will be treated as data and I will use the prefix notation to my advantage, treating each expression as its respective node in a parse tree. 
+The input text will be treated by the Clojure reader for the purpose of converting into a Clojure data structure. The compiler will then pass it down the pipeline to its respective emitters as illustrated in figure ~\ref{fig:abstract-compilation}. Code will be treated as data and each of the nested s-expressions shall be treated as a separate node in a parse tree.
 
-\subsection{Clojure Homoiconicity and Using clojure.reader as a Parser}
+\input{Figures/abstract-compilation}
+
+
+\subsection{Clojure Homoiconicity and clojure.reader as a Parser}
 Clojure is a homoiconic language, meaning that the code itself is described in terms of data structures that the language understands (s-expression forms, lists and in-built data structures). It comes bundled with a Clojure reader \cite{clojure.reader} that can parse the text source file into objects of specific Clojure type. Those objects are essentially Clojure data structures that then are treated by the Clojure compiler and similarly in case of Lispish will be treated by the translator program, to generate corresponding JavaScript code. 
 
 As pointed out in the referenced \cite{clojure.reader} section of the Clojure documentation, the Clojure reader is represented by the \texttt{(reader )} function, that takes text as an input and produces the object represented by that text. 

@@ -7,9 +7,6 @@ A level-1 auxiliary file: Chapters/Implementation.aux
 A level-1 auxiliary file: Chapters/Evaluation.aux
 A level-1 auxiliary file: Chapters/Conclusion.aux
 The style file: plainnat.bst
-A level-1 auxiliary file: Appendices/appendix.aux
-A level-1 auxiliary file: Appendices/UserGuide.aux
-A level-1 auxiliary file: Appendices/SourceCode.aux
 Database file #1: references.bib
 Warning--to sort, need author or key in retrospective.norvig
 Warning--to sort, need author or key in JavaScriptVSPython3
@@ -17,51 +14,58 @@ Warning--to sort, need author or key in JavaScriptVSRuby
 Warning--to sort, need author or key in nodejs.WindowsAzure
 Warning--to sort, need author or key in LiScript:2013:Site
 Warning--to sort, need author or key in jquery
+Warning--to sort, need author or key in stalin
+Warning--to sort, need author or key in chicken
 Warning--empty year in JavaScriptVSPython3
 Warning--empty year in JavaScriptVSRuby
+Warning--empty year in chicken
 Warning--empty year in jquery
 Warning--empty year in nodejs.WindowsAzure
 Warning--empty year in retrospective.norvig
+Warning--empty year in stalin
+Warning--empty journal in lisp-mccarthy
+Warning--empty year in lisp-mccarthy
+Warning--empty year in lisp-mccarthy
 Warning--empty year in s-expression-wiki
-You've used 17 entries,
+You've used 20 entries,
             2773 wiz_defined-function locations,
-            682 strings with 7205 characters,
-and the built_in function-call counts, 4922 in all, are:
-= -- 460
-> -- 110
-< -- 11
-+ -- 52
-- -- 33
-* -- 276
-:= -- 662
-add.period$ -- 63
-call.type$ -- 17
-change.case$ -- 61
-chr.to.int$ -- 15
-cite$ -- 52
-duplicate$ -- 260
-empty$ -- 563
-format.name$ -- 44
-if$ -- 1096
+            689 strings with 7492 characters,
+and the built_in function-call counts, 5739 in all, are:
+= -- 538
+> -- 120
+< -- 12
++ -- 58
+- -- 36
+* -- 329
+:= -- 755
+add.period$ -- 73
+call.type$ -- 20
+change.case$ -- 71
+chr.to.int$ -- 18
+cite$ -- 67
+duplicate$ -- 309
+empty$ -- 663
+format.name$ -- 48
+if$ -- 1282
 int.to.chr$ -- 3
 int.to.str$ -- 1
-missing$ -- 2
-newline$ -- 105
-num.names$ -- 44
-pop$ -- 230
+missing$ -- 3
+newline$ -- 121
+num.names$ -- 48
+pop$ -- 277
 preamble$ -- 1
-purify$ -- 45
+purify$ -- 52
 quote$ -- 0
-skip$ -- 197
+skip$ -- 227
 stack$ -- 0
-substring$ -- 40
-swap$ -- 21
+substring$ -- 48
+swap$ -- 23
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 182
-warning$ -- 12
-while$ -- 33
+type$ -- 215
+warning$ -- 19
+while$ -- 36
 width$ -- 0
-write$ -- 231
-(There were 12 warnings)
+write$ -- 266
+(There were 19 warnings)

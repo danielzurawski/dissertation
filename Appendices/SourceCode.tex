@@ -173,9 +173,11 @@ I verify that I am the sole author of the programs contained in this folder, exc
   (cond
     (:input opts) (if (:output opts)
                     (read-file (:input opts) (:output opts))
-                    (println "Please provide --output or -out, path where the output JavaScript file will be generated."))
+                    (println "Please provide --output or -out, path where the 
+                    output JavaScript file will be generated."))
     (seq args)    (println (lisp-to-js (first args)))
-    :else         (println "No path to input source code specified and no code given as argument.")))
+    :else         (println "No path to input source code specified and no code
+     given as argument.")))
 
 (defn -main [& args]
   (let [[opts args banner]

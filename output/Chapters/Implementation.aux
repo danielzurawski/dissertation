@@ -2,47 +2,50 @@
 \@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementation and Testing}{23}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Building the compiler}{23}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Abstract Structural Binding}{24}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Building the Compiler}{23}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Compiler Architecture}{23}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Abstract Structural Binding}{24}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Emit-defn function}}{25}}
 \newlabel{fig:emit-defn}{{4.1}{25}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Recursive Expansion}{25}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Flow chart of Lispish to JavaScript compilation.}}{26}}
-\newlabel{fig:recursive_expansion_flowchart}{{4.2}{26}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Top level function of the recursive expansion}}{27}}
-\newlabel{fig:emit}{{4.3}{27}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Forms with multiple arity}{27}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Recursive Expansion}{26}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.4}Forms with multiple arity}{26}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Flow chart of Lispish to JavaScript compilation.}}{27}}
+\newlabel{fig:recursive_expansion_flowchart}{{4.2}{27}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Top level function of the recursive expansion}}{28}}
+\newlabel{fig:emit}{{4.3}{28}}
 \@writefile{toc}{\contentsline {subsubsection}{Map}{28}}
 \@writefile{toc}{\contentsline {subsubsection}{Reduce}{28}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces emit-cond source code}}{29}}
 \newlabel{fig:emit-cond-code}{{4.4}{29}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Reduction of a cond with multiple arguments}}{29}}
-\newlabel{fig:emit-cond-expansion}{{4.5}{29}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.4}Implementing (recur) with JavaScript's \texttt  {arguments.callee}}{30}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Reduction of a cond with multiple arguments}}{30}}
+\newlabel{fig:emit-cond-expansion}{{4.5}{30}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.5}Implementing (recur) with JavaScript's \texttt  {arguments.callee}}{30}}
+\newlabel{arguments.callee}{{4.1.5}{30}}
 \@writefile{toc}{\contentsline {section}{\numberline {4.2}Testing}{31}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Emit simple arithmetics example}}{31}}
-\newlabel{fig:emit-simple-arithmetic}{{4.6}{31}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Lispish naive primality checking source file}}{32}}
-\newlabel{fig:primality-checking-input}{{4.7}{32}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Emit simple arithmetics example}}{32}}
+\newlabel{fig:emit-simple-arithmetic}{{4.6}{32}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Lispish naive primality checking source file}}{33}}
+\newlabel{fig:primality-checking-input}{{4.7}{33}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Naive primality testing Lispish to JavaScript output}}{33}}
 \newlabel{fig:primality-checking-output}{{4.8}{33}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Compiled Lispish program for naive primality checking, being tested in Google Chrome JavaScript console and yielding right results.}}{33}}
-\newlabel{fig:primality-javascript-test}{{4.9}{33}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Compiled Lispish program for naive primality checking, being tested in Google Chrome JavaScript console.}}{34}}
+\newlabel{fig:primality-javascript-test}{{4.9}{34}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Deploying and Using Lispish}{34}}
-\@writefile{toc}{\contentsline {subsubsection}{Code as argument}{34}}
-\@writefile{toc}{\contentsline {subsubsection}{Source (Lispish) and destination (JavaScript) file as argument}{35}}
+\newlabel{deploying-lispish}{{4.2.1}{34}}
+\@writefile{toc}{\contentsline {subsubsection}{Code as an Argument}{35}}
+\@writefile{toc}{\contentsline {subsubsection}{Source (Lispish) and Destination (JavaScript) File as Argument}{35}}
 \citation{clojure.test:2011:Site}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Automating tests with clojure.test API}{36}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Writing Lispish programs that interact with JavaScript functions}{36}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Automating Tests with the clojure.test API}{36}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Writing Lispish that Interacts with JavaScript Functions}{37}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.10}{\ignorespaces emit-call source code}}{37}}
 \newlabel{fig:emit-call-code}{{4.10}{37}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Writing Lispish programs using jQuery functions to interact with the browser's Document Object Model (DOM)}{37}}
-\newlabel{DOM}{{4.3}{37}}
 \citation{jquery}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Writing Lispish Programs Using jQuery Functions to Interact with the Browser's Document Object Model (DOM)}{38}}
+\newlabel{DOM}{{4.3}{38}}
 \@setckpt{Chapters/Implementation}{
-\setcounter{page}{39}
+\setcounter{page}{40}
 \setcounter{equation}{0}
-\setcounter{enumi}{0}
+\setcounter{enumi}{2}
 \setcounter{enumii}{0}
 \setcounter{enumiii}{0}
 \setcounter{enumiv}{0}
@@ -59,6 +62,7 @@
 \setcounter{table}{0}
 \setcounter{lstnumber}{1}
 \setcounter{parentequation}{0}
+\setcounter{float@type}{8}
 \setcounter{NAT@ctr}{0}
 \setcounter{@@conflict}{0}
 \setcounter{FancyVerbLine}{0}

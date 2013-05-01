@@ -17,8 +17,13 @@ Due to time constraints, I was unable to perform sufficient research into how to
 \subsection{Parser}
 In order for the Lispish translator to be a true compiler, it would need a parser that can decide whether the input string, that is the Lispish program, is in fact valid. As mentioned in the previous chapter, the current compiler does not provide any error detection facilities and this therefore, would be the first step to proper error handling. 
 
-% TODO possible rewrite
-%\subsection{JavaScript validator}
-%For Lispish to be truly useful, its translator would need to have JavaScript validation in place. The parser used for validation could flag, for example, at which point there is an error in the generated JavaScript code and therefore simplify the task of debugging the translated code. 
-%
-%JavaScript that is not syntactically correct due to the faulty input Lispish is only going to decrease the productivity of the developer, which goes against the core idea of building an abstraction over an imperative language.
+\subsection{Supporting a Greater Subset of Clojure}
+Lispish implements a fair subset of Clojure. Adding support for a bigger subset
+(if not the entirety of the language) is a reasonable next step should further development occur. This would be facilitated by the project's design which allows for extending the functionality in this respect.
+
+\subsection{Code Optimisation}
+One possible improvement, that was outside of the scope of this project, would be to optimise the input that the compiler receives before transforming it into JavaScript. Possible optimisations could include removing dead code and  computing the value of constant expressions.
+
+\subsection{JavaScript Strict Mode Compliance}
+Due to the use of the \texttt{arguments.callee} function used to facilitate the implementation of the \texttt{(recur )} form (see the relevant implementation section \ref{arguments.callee} on page \pageref{arguments.callee}), the compiler's output is not Strict mode compliant and thus, might not run should that be enabled.
+Creating an alternative solution that would bring the output code into compliance would be a worthwhile pursuit.
